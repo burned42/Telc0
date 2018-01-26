@@ -36,6 +36,19 @@ Map.prototype.getMap = function () {
     return this.map;
 };
 
+Map.prototype.getTowerCount = function () {
+    var count = 0;
+    for (var i = 0; i < this.height; i++) {
+        for (var j = 0; j < this.width; j++) {
+            if (this.map[i][j].isTower()) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+};
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
