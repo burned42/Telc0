@@ -36,9 +36,6 @@ Map.prototype.getMap = function () {
     return this.map;
 };
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
 
 function Cell() {
     this.tower = 'TOWER';
