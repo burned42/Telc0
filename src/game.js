@@ -40,6 +40,7 @@ function create() {
 
     //	Disables anti-aliasing when we draw sprites to the BitmapData
     game.bmd.smoothed = false;
+
     moneytext = game.add.text(30, 30, "$ " + money, { font: "17px Arial", fill: "#edff70"});
     lastrent = game.time.now;
 }
@@ -48,7 +49,7 @@ function update() {
     timenow = game.time.now;
     if (timenow - lastrent > maintenanceinterval) {
         lastrent = game.time.now;
-        update_money(maintenancecost)
+        update_money(maintenancecost * game.map.getTowerCount())
     }
     if (money < towercost) {
         // TODO End the game
