@@ -1,15 +1,15 @@
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
+let game = new Phaser.Game(800, 600, Phaser.CANVAS, '', {preload: preload, create: create, update: update});
 
-var moneytext;
-var lastrent;
-var timenow;
+let moneytext;
+let lastrent;
+let timenow;
 
 // TODO change values
-var money = 2000;
-var towercost = -1000;
-var revenue = 50 * 22;
-var maintenanceinterval = 10 * 1000;
-var maintenancecost = -100;
+let money = 2000;
+let towercost = -1000;
+let revenue = 50 * 22;
+let maintenanceinterval = 10 * 1000;
+let maintenancecost = -100;
 
 
 function preload() {
@@ -42,7 +42,7 @@ function create() {
     game.bmd.smoothed = false;
 
     //  Show the moneytext
-    var bar = game.add.graphics();
+    let bar = game.add.graphics();
     bar.beginFill(0x000000, 0.2);
     bar.drawRect(0, 20, 150, 40);
     moneytext = game.add.text(30, 30, "$ " + money, { font: "bold 19px Arial", fill: "#edff70"});
