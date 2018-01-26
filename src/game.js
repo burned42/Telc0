@@ -5,11 +5,11 @@ var lastrent;
 var timenow;
 
 // TODO change values
-var money = 5;
-var towercost = -5;
-var revenue = 10;
-var rentintervall = 60 * 1000;
-var rent = -2;
+var money = 2000;
+var towercost = -1000;
+var revenue = 50 * 22;
+var maintenanceinterval = 10 * 1000;
+var maintenancecost = -100;
 
 
 function preload() {
@@ -22,9 +22,9 @@ function create() {
 
 function update() {
     timenow = game.time.now;
-    if (timenow - lastrent > rentintervall) {
+    if (timenow - lastrent > maintenanceinterval) {
         lastrent = game.time.now;
-        update_money(rent)
+        update_money(maintenancecost)
     }
     if (money < towercost) {
         // TODO End the game
