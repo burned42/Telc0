@@ -19,8 +19,7 @@ function preload() {
 }
 
 function create() {
-    var map = new Map(32, 32, 120);
-    game.map = map;
+    game.map = new Map(32, 32, 120);
     house = game.make.sprite(0, 0, 'house_small');
     lake = game.make.sprite(0, 0, 'lake');
     green = game.make.sprite(0, 0, 'green');
