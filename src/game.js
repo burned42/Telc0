@@ -15,6 +15,7 @@ var maintenancecost = -100;
 function preload() {
     game.load.image('house_small', 'assets/images/house_small.png');
     game.load.image('lake', 'assets/images/lake.png');
+    game.load.image('green', 'assets/images/green.png');
 }
 
 function create() {
@@ -22,10 +23,17 @@ function create() {
     game.map = map;
     house = game.make.sprite(0, 0, 'house_small');
     lake = game.make.sprite(0, 0, 'lake');
-    house.anchor.set(0.5);
+    green = game.make.sprite(0, 0, 'green');
+
     lake.anchor.set(0.5);
     lake.scale.setTo(0.5, 0.5);
+
+    house.anchor.set(0.5);
     house.scale.setTo(0.5, 0.5);
+
+    green.anchor.set(0.5);
+    green.scale.setTo(0.5, 0.5);
+
     //	This is the BitmapData we're going to be drawing to
     game.bmd = game.add.bitmapData(game.width, game.height);
     game.bmd.addToWorld();
@@ -58,7 +66,7 @@ function renderMap() {
                 game.bmd.draw(house, i * house.width, j * house.height);
             }
             else {
-                game.bmd.draw(lake, i * lake.width, j * lake.height);
+                game.bmd.draw(green, i * green.width, j * green.height);
             }
         }
     }

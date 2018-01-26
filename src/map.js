@@ -49,10 +49,6 @@ Map.prototype.getTowerCount = function () {
     return count;
 };
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
 function Cell() {
     this.tower = 'TOWER';
     this.house = 'HOUSE';
