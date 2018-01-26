@@ -9,20 +9,20 @@ function Map(width, height, houseCount) {
 
 Map.prototype.generateMap = function () {
     // initialize empty map
-    for (var i = 0; i < this.height; i++) {
+    for (let i = 0; i < this.height; i++) {
         this.map[i] = [];
-        for (var j = 0; j < this.width; j++) {
+        for (let j = 0; j < this.width; j++) {
             this.map[i][j] = new EmptyCell();
         }
     }
 
     // spawn tower
-    var x = getRandomInt(0, this.width);
-    var y = getRandomInt(0, this.height);
+    let x = getRandomInt(0, this.width);
+    let y = getRandomInt(0, this.height);
     this.map[y][x] = new TowerCell();
 
     // spawn houses
-    for (var h = 0; h < this.houseCount; h++) {
+    for (let h = 0; h < this.houseCount; h++) {
         do {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
@@ -37,9 +37,9 @@ Map.prototype.getMap = function () {
 };
 
 Map.prototype.getTowerCount = function () {
-    var count = 0;
-    for (var i = 0; i < this.height; i++) {
-        for (var j = 0; j < this.width; j++) {
+    let count = 0;
+    for (let i = 0; i < this.height; i++) {
+        for (let j = 0; j < this.width; j++) {
             if (this.map[i][j].isTower()) {
                 count++;
             }
