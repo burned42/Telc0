@@ -1,7 +1,7 @@
 let game = new Phaser.Game(800, 600, Phaser.CANVAS, '', {preload: preload, create: create, update: update});
 
 let moneytext;
-let lastrent;
+let lastmaintenance;
 let timenow;
 
 // TODO change values
@@ -46,13 +46,13 @@ function create() {
     bar.drawRect(0, 20, 150, 40);
     moneytext = game.add.text(30, 30, "$ " + money, { font: "bold 19px Arial", fill: "#edff70"});
     
-    lastrent = game.time.now;
+    lastmaintenance = game.time.now;
 }
 
 function update() {
     timenow = game.time.now;
-    if (timenow - lastrent > maintenanceinterval) {
-        lastrent = game.time.now;
+    if (timenow - lastmaintenance > maintenanceinterval) {
+        lastmaintenance = game.time.now;
         update_money(maintenancecost * game.map.getTowerCount())
     }
     if (money < towercost) {
