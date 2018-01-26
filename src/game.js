@@ -54,7 +54,7 @@ function update() {
     timenow = game.time.now;
     if (timenow - lastrent > maintenanceinterval) {
         lastrent = game.time.now;
-        update_money(maintenancecost)
+        update_money(maintenancecost * game.map.getTowerCount())
     }
     if (money < towercost) {
         // TODO End the game
