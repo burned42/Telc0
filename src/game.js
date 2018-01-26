@@ -40,7 +40,13 @@ function create() {
 
     //	Disables anti-aliasing when we draw sprites to the BitmapData
     game.bmd.smoothed = false;
-    moneytext = game.add.text(30, 30, "$ " + money, { font: "17px Arial", fill: "#edff70"});
+
+    //  Show the moneytext
+    var bar = game.add.graphics();
+    bar.beginFill(0x000000, 0.2);
+    bar.drawRect(0, 20, 150, 40);
+    moneytext = game.add.text(30, 30, "$ " + money, { font: "bold 19px Arial", fill: "#edff70"});
+    
     lastrent = game.time.now;
 }
 
