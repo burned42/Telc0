@@ -60,6 +60,7 @@ function update() {
         // TODO End the game
     }
     game.input.onDown.addOnce(build_tower, this);
+    game.input.onTap.addOnce(build_tower, this);
     renderMap();
 }
 
