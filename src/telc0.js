@@ -26,6 +26,8 @@ let revenueHouse = 50;
 let maintenanceinterval = 10 * 1000; // secends * milliseconds
 let maintenancecost = -100;
 
+let countCoveredHouses = 0;
+
 //main game functions for each game step
 window.onload = function () {
     game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game', null, false, false, null);
@@ -36,4 +38,3 @@ window.onload = function () {
     game.state.add('gameOver', gameOver);
     game.state.start('boot');
 };
-

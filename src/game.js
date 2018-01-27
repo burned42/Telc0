@@ -295,7 +295,7 @@ runningGame.prototype = {
     },
 
     calculate_coverage: function () {
-        let countCoveredHouses = 0;
+        // rebuild with coveredHouses array (maybe)?
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
@@ -306,7 +306,6 @@ runningGame.prototype = {
         }
 
         if (countCoveredHouses === this.game.map.houses.length) {
-            //coverage % calculation here…
             this.game.state.start('gameOver');
         }
     }
