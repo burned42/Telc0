@@ -116,8 +116,13 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
 
         if (direction === 1) {
             y -= 1;
-            if (this.getCell(x-1, y).isStreet() || this.getCell(x+1, y).isStreet()) {
+            if (this.getCell(x-1, y).isStreet()) {
                 this.map[y][x] = new StreetCell(8);
+                this.map[y][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x+1, y).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y][x+1] = new StreetCell(8);
                 return;
             } else {
             	this.map[y][x] = new StreetCell(6);
@@ -125,8 +130,13 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         }
         if (direction === 2) {
             x += 1;
-            if (this.getCell(x, y-1).isStreet() || this.getCell(x, y+1).isStreet()) {
+            if (this.getCell(x, y-1).isStreet()) {
                 this.map[y][x] = new StreetCell(8);
+                this.map[y-1][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x, y+1).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y+1][x] = new StreetCell(8);
                 return;
             } else {
                 this.map[y][x] = new StreetCell(7);
@@ -134,8 +144,13 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         }
         if (direction === 3) {
             y += 1;
-            if (this.getCell(x-1, y).isStreet() || this.getCell(x+1, y).isStreet()) {
+           if (this.getCell(x-1, y).isStreet()) {
                 this.map[y][x] = new StreetCell(8);
+                this.map[y][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x+1, y).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y][x+1] = new StreetCell(8);
                 return;
             } else {
                 this.map[y][x] = new StreetCell(6);
@@ -143,8 +158,13 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         }
         if (direction === 4) {
             x -= 1;
-            if (this.getCell(x, y-1).isStreet() || this.getCell(x, y+1).isStreet()) {
+            if (this.getCell(x, y-1).isStreet()) {
                 this.map[y][x] = new StreetCell(8);
+                this.map[y-1][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x, y+1).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y+1][x] = new StreetCell(8);
                 return;
             } else {
                 this.map[y][x] = new StreetCell(7);
