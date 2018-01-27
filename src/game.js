@@ -170,7 +170,6 @@ runningGame.prototype = {
     findBaseTower: function () {
         for (let i = 0; i < this.game.map.towers.length; i++) {
             let tower = this.game.map.towers[i];
-            console.log(tower);
             let cell = this.game.map.getCell(tower.x, tower.y);
             if (cell.isBaseTower()) {
                 this.game.map.coverAt(tower.x, tower.y);
