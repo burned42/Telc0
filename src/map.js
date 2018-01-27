@@ -20,7 +20,7 @@ Map.prototype.generateMap = function () {
     // spawn tower
     let x = getRandomInt(0, this.width);
     let y = getRandomInt(0, this.height);
-    this.buildTower(x, y);
+    this.buildBaseTower(x, y);
 
     // spawn houses
     for (let i = 0; i < this.houseCount; i++) {
@@ -54,7 +54,6 @@ Map.prototype.generateMap = function () {
 
 };
 
-
 Map.prototype.getTowerCount = function () {
     let count = 0;
     for (let y = 0; y < this.height; y++) {
@@ -80,6 +79,10 @@ Map.prototype.buildTower = function (x, y) {
     this.map[y][x] = new TowerCell();
 };
 
+Map.prototype.buildBaseTower = function (x, y) {
+    this.map[y][x] = new BaseTowerCell();
+};
+
 Map.prototype.buildHouse = function (x, y) {
     this.map[y][x] = new HouseCell();
 };
@@ -88,10 +91,39 @@ Map.prototype.buildBlocked = function (x, y) {
     this.map[y][x] = new BlockCell();
 };
 
+Map.prototype.getMapAsCsv = function () {
+    let csv = "";
+    let line = "";
+    for (let y = 0; y < this.height; y++) {
+        line = "";
+        for (let x = 0; x < this.width; x++) {
+            let cell = this.getCell(x, y);
+            if (line === "") {
+                line = cell.getTilemapId();
+            }
+            else {
+                line = line + "," + cell.getTilemapId();
+            }
+        }
+        csv = csv + line + "\n";
+    }
+
+    return csv;
+};
+
+Map.prototype.coverAt = function (x, y) {
+    this.getCell(x, y).covered = true;
+    for (let i = x-1; i <= x+1; i++){
+        for (let j = y-1; j<=y+1; j++){
+            this.getCell(i, j).covered = true;
+        }
+    }
+};
+
 
 function Cell() {
     this.empty = [0, 4, 9];
-    this.tower = [1];
+    this.tower = [1, 10];
     this.house = [2];
     this.blocked = [3];
     this.covered = false;
@@ -122,6 +154,7 @@ function Cell() {
     }
 }
 
+<<<<<<< HEAD
 Map.prototype.getMapAsCsv = function () {
     let csv = "";
     let line = "";
@@ -189,6 +222,12 @@ function TowerCell() {
     Cell.call(this);
 
     this.type = this.tower[0];
+}
+
+function BaseTowerCell() {
+    TowerCell.call(this);
+
+    this.type = this.tower[1];
 }
 
 function BlockCell() {
