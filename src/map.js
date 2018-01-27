@@ -26,7 +26,7 @@ Map.prototype.generateMap = function () {
     this.buildBaseTower(x, y);
 
     // build streets (tiles 6 - 8)
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 51; i++) {
         x = getRandomInt(0, this.width);
         y = getRandomInt(0, this.height);
         this.buildStreet(x, y, 8);
@@ -101,10 +101,6 @@ Map.prototype.buildStreet = function (x, y, streettype) {
 
 Map.prototype.buildStreetLine = function (x, y, direction) {
     while (true) {
-        if (getRandomInt(0, 10) === 0) {
-            // End road
-            return;
-        }
         if (x >= this.width-1 || y >= this.height-1 || x <= 0 || y <= 0) {
             return;
         }
@@ -112,31 +108,71 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         if (getRandomInt(0, 10) > 6) {
             this.buildStreet(x, y, 8);
             let newdir = getRandomInt(1, 5);
-            while (newdir === direction) {
+            while (newdir === direction || newdir === direction + 2 || newdir === direction - 2) {
                 newdir = getRandomInt(1, 5);
             }
-            this.buildStreetLine(x, y, getRandomInt(1, 5));
+            this.buildStreetLine(x, y, newdir);
             return;
         }
 
         if (direction === 1) {
             y -= 1;
-            this.map[y][x] = new StreetCell(6);
+            if (this.getCell(x-1, y).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x+1, y).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y][x+1] = new StreetCell(8);
+                return;
+            } else {
+            	this.map[y][x] = new StreetCell(6);
+            }
         }
         if (direction === 2) {
             x += 1;
-            this.map[y][x] = new StreetCell(7);
+            if (this.getCell(x, y-1).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y-1][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x, y+1).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y+1][x] = new StreetCell(8);
+                return;
+            } else {
+                this.map[y][x] = new StreetCell(7);
+            }
         }
         if (direction === 3) {
             y += 1;
-            this.map[y][x] = new StreetCell(6);
+            if (this.getCell(x-1, y).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x+1, y).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y][x+1] = new StreetCell(8);
+                return;
+            } else {
+                this.map[y][x] = new StreetCell(6);
+            }
         }
         if (direction === 4) {
             x -= 1;
-            this.map[y][x] = new StreetCell(7);
+            if (this.getCell(x, y-1).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y-1][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x, y+1).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y+1][x] = new StreetCell(8);
+                return;
+            } else {
+                this.map[y][x] = new StreetCell(7);
+            }
         }
     }
-}
+};
 
 Map.prototype.buildHouse = function (x, y) {
     this.map[y][x] = new HouseCell();
@@ -199,17 +235,6 @@ Map.prototype.getMapAsCsv = function () {
     }
 
     return csv;
-};
-
-Map.prototype.getNeighbors = function(x, y) {
-    let coords = [];
-    for (let i = Math.max(0,x-1); i <= Math.min(this.width, x+1); i++){
-        for (let j = Math.max(0,y-1); j<=Math.min(this.height, y+1); j++){
-            coords.push({x, y})
-        }
-    }
-
-    return coords;
 };
 
 Map.prototype.isConnectedToNetwork = function (x, y) {
@@ -305,11 +330,6 @@ function BaseTowerCell() {
 function BlockCell() {
     Cell.call(this);
 
-    let blockTiles = this.blocked;
-    this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)];
-    // Don't build streets
-    while ([6, 7, 8].indexOf(this.type) != -1) {
-        this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)];
-    }
+    this.type = this.street[getRandomInt(0, this.street.length)];
 }
 
