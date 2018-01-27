@@ -28,6 +28,6 @@ gameOver.prototype = {
         }
     },
     playGame: function () {
-        this.game.state.start('gameMenu');
+        this.game.state.start('menu');
     }
 };
