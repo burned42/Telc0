@@ -84,8 +84,16 @@ runningGame.prototype = {
     },
 
     build_tower: function () {
-        this.update_money(towercost);
-        this.update_money(revenue)
+        let x = layer.getTileX(this.game.input.activePointer.worldX);
+        let y = layer.getTileY(this.game.input.activePointer.worldY);
+        let current_tile = this.game.map.getCell(x, y).type;
+
+        if (current_tile === 0) {
+            this.game.map.buildTower(x, y);
+            this.update_money(towercost);
+            // TODO calculate revenue
+            this.update_money(revenue);
+        }
     },
 
     findFirstTower: function () {
