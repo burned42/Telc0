@@ -55,7 +55,6 @@ runningGame.prototype = {
             let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird');
             aktbird.animations.add('fly');
             aktbird.animations.play('fly', 10, true);
->>>>>>> Let Birds turn around when hitting the corner
             this.game.birds.push(aktbird);
         }
 
