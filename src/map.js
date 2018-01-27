@@ -29,7 +29,7 @@ Map.prototype.generateMap = function () {
     for (let i = 0; i <= 4; i++) {
         x = getRandomInt(0, this.width);
         y = getRandomInt(0, this.height);
-        if (!this.getCell(x, y).isStreet() && !this.getCell(x, y).isBaseTower()) { 
+        if (this.getCell(x, y).isEmpty()) {
             this.buildStreet(x, y, 8);
         
             // Up
@@ -53,12 +53,11 @@ Map.prototype.generateMap = function () {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
             j++;
-        } while (
-            j < 1000
-            && (this.getCell(x, y).isHouse() || this.getCell(x, y).isTower() || this.getCell(x, y).isStreet())
-        );
+        } while (j < 1000 && this.getCell(x, y).isEmpty() === false);
 
-        this.buildHouse(x, y);
+        if (this.getCell(x, y).isEmpty()) {
+            this.buildHouse(x, y);
+        }
     }
 
     // spawn random blocked tiles
@@ -68,12 +67,11 @@ Map.prototype.generateMap = function () {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
             j++;
-        } while (
-            j < 1000
-            && (this.getCell(x, y).isBlocked() || this.getCell(x, y).isBlocked())
-        );
+        } while (j < 1000 && this.getCell(x, y).isEmpty());
 
-        this.buildBlocked(x, y);
+        if (this.getCell(x, y).isEmpty()) {
+            this.buildBlocked(x, y);
+        }
     }
 };
 
@@ -144,6 +142,11 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
                 streettype = 7;
             }
         }
+
+        if (this.getCell(x, y).isEmpty() === false && this.getCell(x, y).isStreet() === false) {
+            return;
+        }
+
         this.map[y][x] = new StreetCell(streettype);
 
         i++;
