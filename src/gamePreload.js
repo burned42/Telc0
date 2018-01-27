@@ -7,7 +7,7 @@ gamePreload.prototype = {
         loadingBar.anchor.setTo(0, 0);
         this.load.setPreloadSprite(loadingBar);
 
-        this.game.load.image('bird', 'assets/images/bird_flying.png');
+        this.game.load.spritesheet('bird', 'assets/images/bird_flying.png', 16, 16, 3);
         this.game.load.image('buttonCredits', 'assets/images/button_credits.png');
         this.game.load.image('buttonPlay', 'assets/images/button_play.png');
         this.game.load.image('crossroads', 'assets/images/crossroads.png');
