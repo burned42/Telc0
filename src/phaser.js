@@ -27889,7 +27889,7 @@ Phaser.Camera.prototype = {
         this.fx.clear();
 
         this.fx.beginFill(color, alpha);
-        this.fx.drawRect(0, 0, this.width, this.height);
+        this.fx.drawRect(0, 0, this.width);
         this.fx.endFill();
 
         this.fx.alpha = 1;
@@ -27936,7 +27936,7 @@ Phaser.Camera.prototype = {
         this.fx.clear();
 
         this.fx.beginFill(color, alpha);
-        this.fx.drawRect(0, 0, this.width, this.height);
+        this.fx.drawRect(0, 0, this.width);
         this.fx.endFill();
 
         this.fx.alpha = 0;
@@ -55653,10 +55653,9 @@ Phaser.Graphics.prototype.endFill = function () {
  * @param x {Number} The X coord of the top-left of the rectangle
  * @param y {Number} The Y coord of the top-left of the rectangle
  * @param width {Number} The width of the rectangle
- * @param height {Number} The height of the rectangle
  * @return {Graphics}
  */
-Phaser.Graphics.prototype.drawRect = function (x, y, width, height) {
+Phaser.Graphics.prototype.drawRect = function (x, y, width) {
 
     this.drawShape(new Phaser.Rectangle(x, y, width, height));
 
@@ -97482,7 +97481,7 @@ Object.assign(Phaser.Physics.P2.BodyDebug.prototype, {
 
         g.lineStyle(lineWidth, color, 1);
         g.beginFill(fillColor);
-        g.drawRect(x - w / 2, y - h / 2, w, h);
+        g.drawRect(x - w / 2, y - h / 2, w);
 
     },
 
