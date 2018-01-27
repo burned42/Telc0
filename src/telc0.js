@@ -11,7 +11,7 @@ let timenow;
 // TODO change values
 let money = 2000;
 let towercost = -1000;
-let revenue = 50 * 22;
+let revenueHouse = 50;
 let maintenanceinterval = 10 * 1000;
 let maintenancecost = -100;
 

@@ -86,7 +86,7 @@ runningGame.prototype = {
             this.game.map.buildTower(x, y);
             this.update_money(towercost, false);
             this.game.tilemap.putTile(1, x, y);
-            // TODO calculate revenue
+            let revenue = this.calculate_revenue();
             this.update_money(revenue);
         }
     },
@@ -101,6 +101,20 @@ runningGame.prototype = {
                 }
             }
         }
+    },
+
+    calculate_revenue: function() {
+        let revenue = 0;
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; x < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.isHouse() && cell.covered && ! cell.paidFor) {
+                    revenue += this.revenueHouse;
+                    cell.paidFor = true;
+                }
+            }
+        }
+        return revenue
     },
 
     update_money: function (value, playsound=true) {
