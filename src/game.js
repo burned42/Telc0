@@ -1,20 +1,17 @@
 let runningGame = function () {
-    // do something…
-
     this.cursors = null;
     this.cashGood = null;
     this.cashBad = null;
     this.graphics = null;
     this.blink = 0.3;
     this.texts = [];
-    this.color_build = 0x9FFA3B;
-    this.color_fail = 0xFF003B;
+    this.colorBuild = 0x9FFA3B;
+    this.colorFail = 0xFF003B;
 };
 
 
 runningGame.prototype = {
     preload: function () {
-
     },
 
     create: function () {
@@ -113,6 +110,11 @@ runningGame.prototype = {
         this.miniMap.update();
 
         this.animate_world();
+
+        if (money <= 0) {
+            money = startMoney;
+            this.game.state.start('gameOver');
+        }
     },
 
     render: function() {
@@ -140,7 +142,6 @@ runningGame.prototype = {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
-
 
         if (current_tile.isEmpty() && !current_tile.isBlocked()) {
             this.game.map.buildTower(x, y);
@@ -265,13 +266,13 @@ runningGame.prototype = {
     },
 
     flash_build_success: function () {
-        this.game.camera.flash(this.color_build, 200);
+        this.game.camera.flash(this.colorBuild, 200);
 
     },
 
 
     flash_build_fails: function () {
-        this.game.camera.flash(this.color_fail, 200);
+        this.game.camera.flash(this.colorFail, 200);
 
     },
 
