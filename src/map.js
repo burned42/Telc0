@@ -113,9 +113,13 @@ Map.prototype.getMapAsCsv = function () {
 
 Map.prototype.coverAt = function (x, y) {
     this.getCell(x, y).covered = true;
-    for (let i = x-1; i <= x+1; i++){
-        for (let j = y-1; j<=y+1; j++){
-            this.getCell(i, j).covered = true;
+    for (let i = x - 1; i <= x + 1; i++) {
+        if (i >= 0 && i < this.width) {
+            for (let j = y - 1; j <= y + 1; j++) {
+                if (j >= 0 && j < this.height) {
+                    this.getCell(i, j).covered = true;
+                }
+            }
         }
     }
 };
