@@ -18,7 +18,6 @@ gamePreload.prototype = {
         this.game.load.image('lake', 'assets/images/lake.png');
         this.game.load.image('lakeWithDuck', 'assets/images/lake_with_duck.png');
         this.game.load.image('lakeWithDuckSmall', 'assets/images/lake_with_duck_small.png');
-        this.game.load.image('play', 'assets/images/play.png');
         this.game.load.image('streetHorizontal', 'assets/images/street_horizontal.png');
         this.game.load.image('streetVertical', 'assets/images/street_vertical.png');
         this.game.load.image('telc0Logo', 'assets/images/telc0_logo.png');
