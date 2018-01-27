@@ -36,6 +36,8 @@ runningGame.prototype = {
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
+        this.escKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+
         let bar = this.game.add.graphics();
         bar.beginFill(0x000000, 0.2);
         moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
@@ -48,9 +50,17 @@ runningGame.prototype = {
         this.game.add.audio('backgroundTheme', 1, true).play();
 
         lastmaintenance = this.game.time.now;
+
+        this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
+        this.miniMap = this.game.make.bitmapData(150, 150);
+        this.miniMapContainer = this.game.make.sprite(this.game.width - 150, this.game.height - 150, this.miniMap);
+        this.game.stage.addChild(this.miniMapContainer);
     },
 
     update: function () {
+        if (this.escKey.isDown) {
+            location.reload();
+        }
         if (this.cursors.up.isDown) {
             this.game.camera.y -= 4;
         } else if (this.cursors.down.isDown) {
@@ -73,6 +83,13 @@ runningGame.prototype = {
         }
         this.game.input.onDown.addOnce(this.build_tower, this);
         // this.render();
+
+        let miniMapViewportX = this.game.camera.x * 150 / this.game.world.width;
+        let miniMapViewportY = this.game.camera.y * 150 / this.game.world.height;
+        this.stage.drawFull(this.game.world);
+        this.miniMap.rect(0, 0, this.miniMap.width, this.miniMap.height, '#000000');
+        this.miniMap.copy(this.stage, 0, 0, this.stage.width, this.stage.height, 2 + miniMapViewportX, 2 + miniMapViewportY, this.miniMap.width - 4, this.miniMap.height - 4);
+        this.miniMap.update();
     },
 
     render: function() {
@@ -104,7 +121,7 @@ runningGame.prototype = {
             this.game.map.buildTower(x, y);
             this.update_money(towercost, false);
             this.game.tilemap.putTile(1, x, y);
-            // TODO calculate revenue
+            let revenue = this.calculate_revenue();
             this.update_money(revenue);
         }
     },
@@ -119,6 +136,20 @@ runningGame.prototype = {
                 }
             }
         }
+    },
+
+    calculate_revenue: function() {
+        let revenue = 0;
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; x < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.isHouse() && cell.covered && ! cell.paidFor) {
+                    revenue += this.revenueHouse;
+                    cell.paidFor = true;
+                }
+            }
+        }
+        return revenue
     },
 
     update_money: function (value, playsound=true) {
