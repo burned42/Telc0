@@ -192,10 +192,15 @@ Map.prototype.getNeighbors = function(x, y) {
 
 
 Map.prototype.isConnectedToNetwork = function (x, y) {
-    let neighbours = this.getNeighbors(x, y);
-    for (neigh in neighbours) {
-        if (this.getCell(neigh.x, neigh.y).covered){
-            return true;
+    for (let i = x - 1; i <= x + 1; i++) {
+        if (i >= 0 && i < this.width) {
+            for (let j = y - 1; j <= y + 1; j++) {
+                if (j >= 0 && j < this.height) {
+                    if(this.getCell(i, j).covered){
+                        return true;
+                    }
+                }
+            }
         }
     }
 };
