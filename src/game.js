@@ -31,8 +31,8 @@ runningGame.prototype = {
         // graphics.lineStyle(2, 0xffd900, 1);
 
         let start = this.findFirstTower();
-        this.game.camera.x = start.x * 128;
-        this.game.camera.y = start.y * 128;
+        this.game.camera.x = start.x * 128 - this.game.width / 2;
+        this.game.camera.y = start.y * 128 - this.game.height / 2;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
