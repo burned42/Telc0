@@ -13,6 +13,8 @@ let mapWidth = Math.floor(maxWidth);
 let birdspeed = 2;
 let numofbirds = 6;
 
+let numofroads = 5;
+
 let moneytext;
 let bar;
 let lastmaintenance;
