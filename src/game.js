@@ -126,25 +126,26 @@ runningGame.prototype = {
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
 
-        if (this.game.map.isConnectedToNetwork(x, y)){
-            this.game.map.coverAt(x, y);
-        }
 
-        if (current_tile.isEmpty()) {
+        if (current_tile.isEmpty() && !current_tile.isBlocked()) {
             this.game.map.buildTower(x, y);
             this.update_money(towercost, false);
             this.game.tilemap.putTile(1, x, y);
             this.money_effect(x, y, towercost);
             let revenue = this.calculate_revenue();
             this.update_money(revenue);
-        }
+
+            if (this.game.map.isConnectedToNetwork(x, y)){
+                this.game.map.coverAt(x, y);
+            }
 
 
-        for (let x = 0; x < this.game.map.width; x++) {
-            for (let y = 0; y < this.game.map.height; y++) {
-                let cell = this.game.map.getCell(x, y);
-                if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y)) {
-                    this.game.map.coverAt(x, y);
+            for (let x = 0; x < this.game.map.width; x++) {
+                for (let y = 0; y < this.game.map.height; y++) {
+                    let cell = this.game.map.getCell(x, y);
+                    if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y)) {
+                        this.game.map.coverAt(x, y);
+                    }
                 }
             }
         }
