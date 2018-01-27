@@ -110,8 +110,9 @@ runningGame.prototype = {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
+
         if (this.game.map.isConnectedToNetwork(x, y)){
-            this.game.map.coverAt(x, y);
+            // this.game.map.coverAt(x, y);
         }
         if (current_tile.isConnectedToNetwork())
 
@@ -129,7 +130,7 @@ runningGame.prototype = {
             for (let j = 0; j < this.game.map.height; j++){
                 let cell = this.game.map.getCell(i, j);
                 if (cell.isTower() === true){
-                    this.game.map.coverAt(i, j);
+                    // this.game.map.coverAt(i, j);
                     return {x: i, y: j};
                 }
             }
