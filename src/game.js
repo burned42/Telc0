@@ -261,19 +261,12 @@ runningGame.prototype = {
             // color red
             fontconfig = {font: "bold 16pt Arial", fill: "#ff0000"};
         }
-<<<<<<< HEAD
         effectX = (x * cellSize) + (cellSize/2);
         effectY = (y * cellSize) + (cellSize/2);
         let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
         text.birth = this.game.time.now;
 
         this.texts.push(text);
-=======
-        let effectX = (x * cellSize) + (cellSize/2);
-        let effectY = (y * cellSize) + (cellSize/2);
-
-        let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
->>>>>>> 54ba5c443eec8d298b703a7505300d68d5cd32c1
 
         this.game.add.tween(text).to({alpha: 0.1}, 1000, Phaser.Easing.Default, true, 1000);
     }
