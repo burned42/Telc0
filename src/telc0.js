@@ -38,4 +38,3 @@ window.onload = function () {
     game.state.add('gameOver', gameOver);
     game.state.start('boot');
 };
-

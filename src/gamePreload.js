@@ -31,6 +31,7 @@ gamePreload.prototype = {
         this.game.load.audio('backgroundTheme', 'assets/sounds/pixelland.mp3');
 
     },
+
     create: function () {
         this.game.state.start('menu');
     }

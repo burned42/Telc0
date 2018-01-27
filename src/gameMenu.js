@@ -18,11 +18,13 @@ gameMenu.prototype = {
 
         this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
+
     update: function () {
         if (this.space.isDown) {
             this.playGame();
         }
     },
+
     playGame: function () {
         this.game.state.start('telc0');
     }
