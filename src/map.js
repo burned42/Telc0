@@ -308,9 +308,6 @@ function BaseTowerCell() {
 function BlockCell() {
     Cell.call(this);
 
-    let blockTiles = this.blocked;
-    do {
-        this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)];
-    } while (this.street.indexOf(this.type) !== -1);
+    this.type = this.street[getRandomInt(0, this.street.length)];
 }
 
