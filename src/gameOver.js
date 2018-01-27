@@ -4,6 +4,7 @@ let gameOver = function () {
 
 gameOver.prototype = {
     create: function() {
+        this.game.add.image(0, 0, 'startBg');
         let endGame = this.game.add.emitter(this.game.world.centerX, this.world.centerY, 10);
         endGame.makeParticles('$$$');
         endGame.setAlpha(1, 0, 5000);
@@ -32,6 +33,6 @@ gameOver.prototype = {
     },
 
     playGame: function () {
-        this.game.state.start('preload');
+        location.reload();
     }
 };

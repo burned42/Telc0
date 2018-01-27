@@ -3,7 +3,8 @@ let gamePreload = function () {
 
 gamePreload.prototype = {
     preload: function () {
-        let loadingBar = this.add.sprite((this.game.width - 512) / 2, 0, 'loading');
+        this.game.add.image(0, 0, 'startBg');
+        let loadingBar = this.add.sprite((this.game.width - 512) / 2, 420, 'loading');
         loadingBar.anchor.setTo(0, 0);
         this.load.setPreloadSprite(loadingBar);
 
@@ -26,7 +27,6 @@ gamePreload.prototype = {
         this.game.load.image('telc0Logo', 'assets/images/telc0_logo.png');
         this.game.load.image('tiles', 'assets/images/tilemap.png');
         this.game.load.image('tower', 'assets/images/tower.png');
-        this.game.load.image('startBg', 'assets/images/startpage_telc0_background800x600.png');
 
         this.game.load.audio('cashBad', 'assets/sounds/cashbad.mp3');
         this.game.load.audio('cashGood', 'assets/sounds/cashgood.mp3');
