@@ -95,6 +95,7 @@ runningGame.prototype = {
         for (let i =0; i < this.game.map.width; i++){
             for (let j = 0; j < this.game.map.height; j++){
                 let cell = this.game.map.getCell(i, j);
+                console.log(cell.covered);
                 if (cell.isTower() === true){
                     return {x: i, y: j};
                 }

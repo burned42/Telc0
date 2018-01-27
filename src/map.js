@@ -120,6 +120,27 @@ function Cell() {
     };
 }
 
+Map.prototype.getMapAsCsv = function () {
+    let csv = "";
+    let line = "";
+    for (let y = 0; y < this.height; y++) {
+        line = "";
+        for (let x = 0; x < this.width; x++) {
+            let cell = this.getCell(x, y);
+            if (line === "") {
+                line = cell.getTilemapId();
+            }
+            else {
+                line = line + "," + cell.getTilemapId();
+            }
+        }
+        csv = csv + line + "\n";
+    }
+
+    return csv;
+};
+
+
 function EmptyCell() {
     Cell.call(this);
 
