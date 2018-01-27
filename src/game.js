@@ -16,7 +16,7 @@ runningGame.prototype = {
     },
 
     create: function () {
-        // this.game.world.setBounds(0, /**/0);
+        this.game.world.setBounds(0, 0, mapRows * cellSize, mapCols * cellSize);
         this.game.camera.width = viewport.w;
         this.game.camera.height = viewport.h;
         let generatedMap = new Map(mapRows, mapCols, 100, 50);
