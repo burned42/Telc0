@@ -147,12 +147,12 @@ runningGame.prototype = {
             this.update_money(towercost, false);
             this.game.tilemap.putTile(1, x, y);
             this.money_effect(x, y, towercost);
-            let revenue = this.calculate_revenue();
-            this.update_money(revenue);
-
             if (this.game.map.isConnectedToNetwork(x, y)){
                 this.game.map.coverAt(x, y);
             }
+            let revenue = this.calculate_revenue();
+            this.update_money(revenue);
+
             this.flash_build_success();
 
 
