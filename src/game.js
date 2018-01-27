@@ -258,7 +258,7 @@ runningGame.prototype = {
             // color red
             fontconfig.fill = "#ff0000";
         }
-        effectX = (x * cellSize) + (cellSize/2);
+        effectX = (x * cellSize) + (cellSize/4);
         effectY = (y * cellSize) + (cellSize/2);
         let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
         text.birth = this.game.time.now;
