@@ -32,8 +32,24 @@ Map.prototype.generateMap = function () {
     }
 };
 
-Map.prototype.getMap = function () {
-    return this.map;
+Map.prototype.getMapAsCsv = function () {
+    let csv = "";
+    let line = "";
+    for (let i = 0; i < this.height; i++) {
+        line = "";
+        for (let j = 0; j < this.width; j++) {
+            let cell = this.getCell(j, i);
+            if (line === "") {
+                line = cell.getTilemapId();
+            }
+            else {
+                line = line + "," + cell.getTilemapId();
+            }
+        }
+        csv = csv + line + "\n";
+    }
+
+    return csv;
 };
 
 Map.prototype.getTowerCount = function () {
@@ -54,11 +70,15 @@ Map.prototype.getCell = function (x, y) {
 };
 
 function Cell() {
-    this.tower = 'TOWER';
-    this.house = 'HOUSE';
-    this.empty = 'EMPTY';
+    this.empty = 0;
+    this.tower = 1;
+    this.house = 2;
 
     this.type = null;
+
+    this.getTilemapId = function () {
+        return this.type;
+    };
 
     this.isEmpty = function () {
         return this.type === this.empty;
