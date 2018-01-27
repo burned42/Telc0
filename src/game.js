@@ -29,6 +29,13 @@ runningGame.prototype = {
 
         this.graphics = this.game.add.graphics(0, 0);
 
+        // The rabbits are no static tiles, they move and are in fact a spritesheet (tileid is 4)
+        let rabbits = this.game.add.group();
+        rabbits.enableBody = true;
+        this.game.tilemap.createFromObjects('generatedMap', 4, 'greenGrassRabbitMoving', 0, true, false, rabbits);
+        rabbits.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3], 10, true);
+        rabbits.callAll('animations.play', 'animations', 'spin');
+
         // graphics.lineStyle(2, 0xffd900, 1);
 
         let start = this.findBaseTower();
