@@ -140,15 +140,15 @@ function Cell() {
 function EmptyCell() {
     Cell.call(this);
 
-    let emptytiles = [0, 0, 0, 0, 4, 9];
-    this.type = emptytiles[Math.floor(Math.random() * emptytiles.length)]
+    let emptyTiles = [0, 0, 0, 0, 4, 9];
+    this.type = emptyTiles[Math.floor(Math.random() * emptyTiles.length)]
 }
 
 function HouseCell() {
     Cell.call(this);
 
-    let housetiles = [2, 5];
-    this.type = housetiles[Math.floor(Math.random() * housetiles.length)]
+    let houseTiles = [2, 5];
+    this.type = houseTiles[Math.floor(Math.random() * houseTiles.length)]
 }
 
 function TowerCell() {
@@ -160,7 +160,7 @@ function TowerCell() {
 function BlockCell() {
     Cell.call(this);
 
-    let blocktiles = [3];
-    this.type = blocktiles[Math.floor(Math.random() * blocktiles.length)]
+    let blockTiles = [3];
+    this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)]
 }
 
