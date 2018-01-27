@@ -6,6 +6,7 @@ function Map(width, height, houseCount, blockedCount) {
     this.map = [];
     this.towers = [];
     this.houses = [];
+    this.covered = [];
 
     this.generateMap();
 }
@@ -173,6 +174,7 @@ Map.prototype.coverAt = function (x, y) {
             for (let j = y - 1; j <= y + 1; j++) {
                 if (j >= 0 && j < this.height) {
                     this.getCell(i, j).covered = true;
+                    this.covered.push({x:i, y: j});
                 }
             }
         }
