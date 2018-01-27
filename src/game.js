@@ -6,6 +6,7 @@ let runningGame = function () {
     this.texts = [];
     this.colorBuild = 0x9FFA3B;
     this.colorFail = 0xFF003B;
+    this.rabbit = null;
 };
 
 
@@ -25,14 +26,13 @@ runningGame.prototype = {
         this.game.tilemap.addTilesetImage('Map', 'tiles');
         this.game.tilelayer = this.game.tilemap.createLayer(0);
 
-        this.graphics = this.game.add.graphics(0, 0);
 
         // The rabbits are no static tiles, they move and are in fact a spritesheet (tileid is 4)
-        let rabbits = this.game.add.group();
-        rabbits.enableBody = true;
-        this.game.tilemap.createFromObjects('generatedMap', 4, 'greenGrassRabbitMoving', 0, true, false, rabbits);
-        rabbits.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3], 10, true);
-        rabbits.callAll('animations.play', 'animations', 'spin');
+        // let rabbits = this.game.add.group();
+        // rabbits.enableBody = true;
+        // this.game.tilemap.createFromObjects('generatedMap', 4, 'greenGrassRabbitMoving', 0, true, false, rabbits);
+        // rabbits.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3], 10, true);
+        // rabbits.callAll('animations.play', 'animations', 'spin');
 
         // graphics.lineStyle(2, 0xffd900, 1);
 
@@ -67,12 +67,24 @@ runningGame.prototype = {
             aktbird.animations.play('fly', 10, true);
             this.game.birds.push(aktbird);
         }
+        // let rabbit1 = this.game.add.sprite(0, 0, 'rabbit');
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
+                if (this.game.map.getCell(x, y).isRabbit()){
+                    let rabbit = this.game.add.sprite(x*128, y*128, 'greenGrassRabbitMoving');
+                    rabbit.animations.add('hop');
+                    rabbit.animations.play('hop', 3, true);
+                }
+            }
+        }
+
 
         lastmaintenance = this.game.time.now;
 
         this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
         this.miniMap = this.game.make.bitmapData(150, 150);
         this.miniMapContainer = this.game.make.sprite(this.game.width - 150, this.game.height - 150, this.miniMap);
+        this.graphics = this.game.add.graphics(0, 0);
         this.game.stage.addChild(this.miniMapContainer);
     },
 
@@ -117,7 +129,9 @@ runningGame.prototype = {
     },
 
     render: function() {
+
         this.graphics.clear();
+        this.graphics.beginFill(0x000FF0, 0.2);
         let now = this.game.time.now;
         for (let t in this.texts) {
             if (t.birth - now <= 100){
@@ -130,11 +144,11 @@ runningGame.prototype = {
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
-                    this.graphics.beginFill(0x000FF0, 0.2);
                     this.graphics.drawRoundedRect(cellSize * x, cellSize * y, cellSize, cellSize, 0.4);
                 }
             }
         }
+        this.graphics.endFill();
     },
 
     build_tower: function () {

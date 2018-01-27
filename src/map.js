@@ -265,6 +265,10 @@ function Cell() {
     this.isStreet = function () {
         return this.street.includes(this.type);
     };
+
+    this.isRabbit = function () {
+       return this.type === 4;
+    }
 }
 
 function EmptyCell() {
