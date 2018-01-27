@@ -126,7 +126,7 @@ runningGame.prototype = {
             }
         }
 
-        this.graphics.beginFill(0x000000, this.blink);
+        this.graphics.beginFill(0x000000, 0.3);
         this.game.debug.cameraInfo(this.game.camera, 32, 32);
         for (let x = 0; x < this.game.map.width; x++){
             for (let y = 0; y < this.game.map.height; y++){
