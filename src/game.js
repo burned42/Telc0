@@ -213,7 +213,6 @@ runningGame.prototype = {
                    aktbird.rotation = 0;
                }
             }
-        }
     },
 
     money_effect: function (x, y, value) {
