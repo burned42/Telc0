@@ -9,10 +9,10 @@ function Map(width, height, houseCount) {
 
 Map.prototype.generateMap = function () {
     // initialize empty map
-    for (let y = 0; y < this.height; y++) {
-        this.map[y] = [];
-        for (let x = 0; x < this.width; x++) {
-            this.setEmpty(x, y);
+    for (let i = 0; i < this.height; i++) {
+        this.map[i] = [];
+        for (let j = 0; j < this.width; j++) {
+            this.setEmpty(j, i);
         }
     }
 
@@ -22,16 +22,11 @@ Map.prototype.generateMap = function () {
     this.buildTower(x, y);
 
     // spawn houses
-    for (let i = 0; i < this.houseCount; i++) {
-        let j = 0;
+    for (let h = 0; h < this.houseCount; h++) {
         do {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
-            j++;
-        } while (
-            j < 1000
-            && (this.getCell(x, y).isHouse() || this.getCell(x, y).isTower())
-        );
+        } while (this.map[y][x].isHouse() || this.map[y][x].isTower());
 
         this.buildHouse(x, y);
     }
@@ -40,10 +35,10 @@ Map.prototype.generateMap = function () {
 Map.prototype.getMapAsCsv = function () {
     let csv = "";
     let line = "";
-    for (let y = 0; y < this.height; y++) {
+    for (let i = 0; i < this.height; i++) {
         line = "";
-        for (let x = 0; x < this.width; x++) {
-            let cell = this.getCell(x, y);
+        for (let j = 0; j < this.width; j++) {
+            let cell = this.getCell(j, i);
             if (line === "") {
                 line = cell.getTilemapId();
             }
@@ -59,9 +54,9 @@ Map.prototype.getMapAsCsv = function () {
 
 Map.prototype.getTowerCount = function () {
     let count = 0;
-    for (let y = 0; y < this.height; y++) {
-        for (let x = 0; x < this.width; x++) {
-            if (this.getCell(x, y).isTower()) {
+    for (let i = 0; i < this.height; i++) {
+        for (let j = 0; j < this.width; j++) {
+            if (this.map[i][j].isTower()) {
                 count++;
             }
         }
