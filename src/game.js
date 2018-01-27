@@ -119,10 +119,10 @@ runningGame.prototype = {
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
 
-        if (this.game.map.isConnectedToNetwork(x, y)){
-            // this.game.map.coverAt(x, y);
-        }
-        if (current_tile.isConnectedToNetwork())
+        // if (this.game.map.isConnectedToNetwork(x, y)){
+        //     // this.game.map.coverAt(x, y);
+        // }
+        // if (current_tile.isConnectedToNetwork())
 
         if (current_tile.isEmpty()) {
             this.game.map.buildTower(x, y);
@@ -177,9 +177,26 @@ runningGame.prototype = {
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
             if (aktbird.rotation == 0) {
+                aktbird.y -= 5;
+            }	
+           if (aktbird.rotation == 90) {
+                aktbird.x += 5;
+            }
+           if (aktbird.rotation == 180) {
                 aktbird.y += 5;
+            }
+           if (aktbird.rotation == 270) {
+                aktbird.x -= 5;
+            }
+        
+            // Change rotation sometimes
+            if (Math.random() > 0.8) {
+               aktbird.rotation += 90;
+               
+               if (aktbird.rotation == 360) {
+                   aktbird.rotation = 0;
+               }
             }
         }
     }
-
 };
