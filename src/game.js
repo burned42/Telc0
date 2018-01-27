@@ -172,8 +172,6 @@ runningGame.prototype = {
             let tower = this.game.map.towers[i];
             let cell = this.game.map.getCell(tower.x, tower.y);
             if (cell.isBaseTower()) {
-                this.game.map.coverAt(tower.x, tower.y);
-
                 return {x: tower.x, y: tower.y};
             }
         }
