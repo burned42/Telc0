@@ -42,6 +42,7 @@ runningGame.prototype = {
         this.bar = this.game.add.graphics();
         this.bar.beginFill(0x0c0c0c, 0.2);
         moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
+        this.bar.drawRect(0, 20, 150, 40);
         this.bar.fixedToCamera = true;
         moneytext.fixedToCamera = true;
 
