@@ -1,27 +1,3 @@
-//-> telc0.js
-//let game = new Phaser.Game(800, 600, Phaser.CANVAS, '', {preload: preload, create: create, update: update});
-/*
-let moneytext;
-let lastmaintenance;
-let timenow;
-*/
-// TODO change values
-/*
-let money = 2000;
-let towercost = -1000;
-let revenue = 50 * 22;
-let maintenanceinterval = 10 * 1000;
-let maintenancecost = -100;
-*/
-
-/* -> gamePreload.js
-function preload() {
-    game.load.image('house_small', 'assets/images/house_small.png');
-    game.load.image('lake', 'assets/images/lake.png');
-    game.load.image('green', 'assets/images/green.png');
-}
-*/
-
 let runningGame = function () {
     // do something…
 };
