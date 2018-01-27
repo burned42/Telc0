@@ -103,9 +103,6 @@ runningGame.prototype = {
         for (let x = 0; x < this.game.map.width; x++){
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
-                if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y) ){
-                    this.game.map.coverAt(x, y);
-                }
                 if (cell.covered) {
                     this.graphics.drawRoundedRect(128 * x, 128 * y, 132, 132, 64);
                 }
@@ -129,6 +126,16 @@ runningGame.prototype = {
             this.money_effect(x, y, towercost);
             let revenue = this.calculate_revenue();
             this.update_money(revenue);
+        }
+
+
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y)) {
+                    this.game.map.coverAt(x, y);
+                }
+            }
         }
     },
 
