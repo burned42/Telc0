@@ -7,6 +7,7 @@ gamePreload.prototype = {
         loadingBar.anchor.setTo(0, 0);
         this.load.setPreloadSprite(loadingBar);
 
+        this.game.load.image('bird', 'assets/images/bird_flying.png');
         this.game.load.image('buttonCredits', 'assets/images/button_credits.png');
         this.game.load.image('buttonPlay', 'assets/images/button_play.png');
         this.game.load.image('crossroads', 'assets/images/crossroads.png');
@@ -23,7 +24,6 @@ gamePreload.prototype = {
         this.game.load.image('telc0Logo', 'assets/images/telc0_logo.png');
         this.game.load.image('tiles', 'assets/images/tilemap.png');
         this.game.load.image('tower', 'assets/images/tower.png');
-        this.game.load.image('bird', 'assets/images/bird.png');
 
         this.game.load.audio('cashBad', 'assets/sounds/cashbad.mp3');
         this.game.load.audio('cashGood', 'assets/sounds/cashgood.mp3');

@@ -177,9 +177,26 @@ runningGame.prototype = {
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
             if (aktbird.rotation == 0) {
+                aktbird.y -= 5;
+            }	
+           if (aktbird.rotation == 90) {
+                aktbird.x += 5;
+            }
+           if (aktbird.rotation == 180) {
                 aktbird.y += 5;
+            }
+           if (aktbird.rotation == 270) {
+                aktbird.x -= 5;
+            }
+        
+            // Change rotation sometimes
+            if (Math.random() > 0.8) {
+               aktbird.rotation += 90;
+               
+               if (aktbird.rotation == 360) {
+                   aktbird.rotation = 0;
+               }
             }
         }
     }
-
 };
