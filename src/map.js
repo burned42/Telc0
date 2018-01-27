@@ -20,7 +20,6 @@ Map.prototype.generateMap = function () {
     // spawn tower
     let x = getRandomInt(0, this.width);
     let y = getRandomInt(0, this.height);
-    this.coverAt(x, y);
     this.buildTower(x, y);
 
     // spawn houses

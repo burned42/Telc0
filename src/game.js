@@ -5,6 +5,7 @@ let runningGame = function () {
     this.cashGood = null;
     this.cashBad = null;
     this.graphics = null;
+    this.blink = 0.1;
 };
 
 
@@ -28,7 +29,6 @@ runningGame.prototype = {
         this.graphics = this.game.add.graphics(0, 0);
 
         // graphics.lineStyle(2, 0xffd900, 1);
-        this.graphics.beginFill(0xFF0000, 1);
 
         let start = this.findFirstTower();
         this.game.camera.x = start.x * 128;
@@ -38,7 +38,6 @@ runningGame.prototype = {
 
         let bar = this.game.add.graphics();
         bar.beginFill(0x000000, 0.2);
-        bar.drawRect(0, 20, 150);
         moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
         bar.fixedToCamera = true;
         moneytext.fixedToCamera = true;
@@ -73,24 +72,24 @@ runningGame.prototype = {
             // TODO End the this.game
         }
         this.game.input.onDown.addOnce(this.build_tower, this);
-        this.render();
+        // this.render();
     },
 
     render: function() {
-
+        this.graphics.clear();
+        if (this.game.time.now % 50 == 0) {
+            this.blink += 0.1;
+            if (this.blink >= 0.8){
+                this.blink = 0.1;
+            }
+        }
+        this.graphics.beginFill(0x000000, this.blink);
         // this.game.debug.cameraInfo(this.game.camera, 32, 32);
         for (let i =0; i < this.game.map.width; i++){
             for (let j = 0; j < this.game.map.height; j++){
                 let cell = this.game.map.getCell(i, j);
-
-                if (cell.covered){
-                    this.graphics.drawRect(i * 128, j * 128, 100);
-                }
-                if (cell.covered && this.game.time.now % 100 === 0){
-
-                    console.log(i, j);
-                    // tile.alpha = 255;
-                    // this.game.tilemap.setTile(i, j, tile); //?
+                if (cell.covered) {
+                    this.graphics.drawRoundedRect(128 * i, 128 * j, 132, 132, 64);
                 }
             }
         }
@@ -99,7 +98,6 @@ runningGame.prototype = {
     build_tower: function () {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
-        console.log(x, y);
         let current_tile = this.game.map.getCell(x, y);
 
         if (current_tile.isEmpty()) {
@@ -116,6 +114,7 @@ runningGame.prototype = {
             for (let j = 0; j < this.game.map.height; j++){
                 let cell = this.game.map.getCell(i, j);
                 if (cell.isTower() === true){
+                    this.game.map.coverAt(i, j);
                     return {x: i, y: j};
                 }
             }
