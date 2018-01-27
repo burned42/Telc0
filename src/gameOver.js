@@ -20,7 +20,7 @@ gameOver.prototype = {
         let score = 100 / this.game.map.houses.length * countCoveredHouses;
         this.game.add.text(this.game.width * 0.2, 200, 'Score: ' + score + '%', {font: '32px Arial', fill: '#ffffff'});
         //replace this with menu button
-        this.game.add.button(this.game.width * 0.1, this.game.height * 0.6, 'buttonPlay', this.playGame, this);
+        this.game.add.button(this.game.width * 0.1, this.game.height * 0.6, 'buttonMenu', this.playGame, this);
 
         this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
@@ -32,6 +32,6 @@ gameOver.prototype = {
     },
 
     playGame: function () {
-        this.game.state.start('menu');
+        this.game.state.start('preload');
     }
 };
