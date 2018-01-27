@@ -41,7 +41,6 @@ Map.prototype.generateMap = function () {
     // Left
     this.buildStreetLine(x, y, 4);
 
-
     // spawn houses
     for (let i = 0; i < this.houseCount; i++) {
         let j = 0;
@@ -293,4 +292,3 @@ function BlockCell() {
         this.type = this.blocked[getRandomInt(0, this.blocked.length)];
     } while (this.street.includes(this.type));
 }
-
