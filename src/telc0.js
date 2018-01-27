@@ -3,15 +3,17 @@ let game;
 let cellSize = 128;
 let mapRows = 32;
 let mapCols = 32;
-let viewport = {w: 800, h: 600};
+let maxHeight;
+let maxWidth;
+let mapHeight;
+let mapWidth;
+let viewport;
 
-let maxHeight = mapRows * cellSize; //document.getElementById('container').scrollHeight;
-let maxWidth = mapCols * cellSize; //document.getElementById('container').scrollWidth;
-let mapHeight = Math.floor(maxHeight);
-let mapWidth = Math.floor(maxWidth);
 
 let birdspeed = 2;
 let numofbirds = 6;
+
+let numofroads = 5;
 
 let moneytext;
 let bar;
@@ -30,7 +32,13 @@ let countCoveredHouses = 0;
 
 //main game functions for each game step
 window.onload = function () {
-    game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game', null, false, false, null);
+    maxHeight = document.getElementById('container').scrollHeight;
+    maxWidth = document.getElementById('container').scrollWidth;
+    mapHeight = Math.floor(maxHeight);
+    mapWidth = Math.floor(maxWidth);
+
+    viewport = {w: mapWidth, h: mapHeight};
+    game = new Phaser.Game(viewport.w, viewport.h, Phaser.CANVAS, 'game', null, false, false, null);
     game.state.add('boot', gameBoot);
     game.state.add('preload', gamePreload);
     game.state.add('menu', gameMenu);

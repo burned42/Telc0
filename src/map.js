@@ -21,15 +21,19 @@ Map.prototype.generateMap = function () {
     }
 
     // spawn tower
-    let x = getRandomInt(0, this.width);
-    let y = getRandomInt(0, this.height);
-    this.buildBaseTower(x, y);
+    let baseTowerX = getRandomInt(0, this.width);
+    let baseTowerY = getRandomInt(0, this.height);
+    this.buildBaseTower(baseTowerX, baseTowerY);
 
     // Four simple Streets
-    for (let i = 0; i <= 4; i++) {
-        x = getRandomInt(0, this.width);
-        y = getRandomInt(0, this.height);
-        if (!this.getCell(x, y).isStreet() && !this.getCell(x, y).isBaseTower()) { 
+    for (let i = 1; i <= numofroads; i++) {
+        let x = getRandomInt(0, this.width);
+        let y = getRandomInt(0, this.height);
+        if (this.getCell(x, y).isEmpty() &&
+            (x-1 >= 1 && !this.getCell(x-1, y).isStreet()) &&
+            (x+1 <= this.width-1 && !this.getCell(x+1, y).isStreet()) &&
+            (y-1 >= 1 && !this.getCell(x, y-1).isStreet()) &&
+            (y+1 <= this.height-1 && !this.getCell(x, y+1).isStreet())) {
             this.buildStreet(x, y, 8);
         
             // Up
@@ -43,6 +47,8 @@ Map.prototype.generateMap = function () {
 
             // Left
             this.buildStreetLine(x, y, 4);
+        } else { 
+            i--;
         }
      }
 
@@ -53,12 +59,11 @@ Map.prototype.generateMap = function () {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
             j++;
-        } while (
-            j < 1000
-            && (this.getCell(x, y).isHouse() || this.getCell(x, y).isTower() || this.getCell(x, y).isStreet())
-        );
+        } while (j < 1000 && this.getCell(x, y).isEmpty() === false);
 
-        this.buildHouse(x, y);
+        if (this.getCell(x, y).isEmpty()) {
+            this.buildHouse(x, y);
+        }
     }
 
     // spawn random blocked tiles
@@ -68,13 +73,14 @@ Map.prototype.generateMap = function () {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
             j++;
-        } while (
-            j < 1000
-            && (this.getCell(x, y).isBlocked() || this.getCell(x, y).isBlocked())
-        );
+        } while (j < 1000 && this.getCell(x, y).isEmpty());
 
-        this.buildBlocked(x, y);
+        if (this.getCell(x, y).isEmpty()) {
+            this.buildBlocked(x, y);
+        }
     }
+
+    this.coverAt(baseTowerX, baseTowerY);
 };
 
 Map.prototype.getTowerCount = function () {
@@ -144,6 +150,11 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
                 streettype = 7;
             }
         }
+
+        if (this.getCell(x, y).isEmpty() === false && this.getCell(x, y).isStreet() === false) {
+            return;
+        }
+
         this.map[y][x] = new StreetCell(streettype);
 
         i++;
