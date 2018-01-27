@@ -5,7 +5,7 @@ let runningGame = function () {
     this.cashGood = null;
     this.cashBad = null;
     this.graphics = null;
-    this.blink = 0.1;
+    this.blink = 0.3;
 };
 
 
@@ -30,7 +30,7 @@ runningGame.prototype = {
 
         // graphics.lineStyle(2, 0xffd900, 1);
 
-        let start = this.findFirstTower();
+        let start = this.findBaseTower();
         this.game.camera.x = start.x * 128 - this.game.width / 2;
         this.game.camera.y = start.y * 128 - this.game.height / 2;
 
@@ -51,8 +51,8 @@ runningGame.prototype = {
 
         let numofbirds = 6;
         this.game.birds = [];
-        for (let i = 0; i < numofbirds; i++) { 
-            this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird')); 
+        for (let i = 0; i < numofbirds; i++) {
+            this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird'));
         }
 
         lastmaintenance = this.game.time.now;
@@ -98,19 +98,13 @@ runningGame.prototype = {
 
     render: function() {
         this.graphics.clear();
-        if (this.game.time.now % 50 == 0) {
-            this.blink += 0.1;
-            if (this.blink >= 0.8){
-                this.blink = 0.1;
-            }
-        }
         this.graphics.beginFill(0x000000, this.blink);
         // this.game.debug.cameraInfo(this.game.camera, 32, 32);
-        for (let i =0; i < this.game.map.width; i++){
-            for (let j = 0; j < this.game.map.height; j++){
-                let cell = this.game.map.getCell(i, j);
+        for (let x = 0; x < this.game.map.width; x++){
+            for (let y = 0; y < this.game.map.height; y++){
+                let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
-                    this.graphics.drawRoundedRect(128 * i, 128 * j, 132, 132, 64);
+                    this.graphics.drawRoundedRect(128 * x, 128 * y, 132, 132, 64);
                 }
             }
         }
@@ -120,6 +114,11 @@ runningGame.prototype = {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
+
+        // if (this.game.map.isConnectedToNetwork(x, y)){
+        //     // this.game.map.coverAt(x, y);
+        // }
+        // if (current_tile.isConnectedToNetwork())
 
         if (current_tile.isEmpty()) {
             this.game.map.buildTower(x, y);
@@ -131,13 +130,14 @@ runningGame.prototype = {
         }
     },
 
-    findFirstTower: function () {
-        for (let i =0; i < this.game.map.width; i++){
-            for (let j = 0; j < this.game.map.height; j++){
-                let cell = this.game.map.getCell(i, j);
-                if (cell.isTower() === true){
-                    this.game.map.coverAt(i, j);
-                    return {x: i, y: j};
+    findBaseTower: function () {
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.isBaseTower() === true) {
+                    this.game.map.coverAt(x, y);
+
+                    return {x: x, y: y};
                 }
             }
         }
@@ -193,6 +193,26 @@ runningGame.prototype = {
             if (aktbird.rotation == 0) {
                 aktbird.y += 5;
             }
+                aktbird.y -= 5;
+            }	
+           if (aktbird.rotation == 90) {
+                aktbird.x += 5;
+            }
+           if (aktbird.rotation == 180) {
+                aktbird.y += 5;
+            }
+           if (aktbird.rotation == 270) {
+                aktbird.x -= 5;
+            }
+        
+            // Change rotation sometimes
+            if (Math.random() > 0.8) {
+               aktbird.rotation += 90;
+               
+               if (aktbird.rotation == 360) {
+                   aktbird.rotation = 0;
+               }
+            }
         }
     },
 
@@ -212,5 +232,4 @@ runningGame.prototype = {
 
         this.game.add.tween(text).to({alpha: 0}, 1000, Phaser.Easing.Default, true, 1000);
     }
-
 };

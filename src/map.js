@@ -146,6 +146,10 @@ function Cell() {
         return this.tower.includes(this.type); 
     };
 
+    this.isBaseTower = function () {
+        return this.type === 10;
+    };
+
     this.isHouse = function () {
         return this.house.includes(this.type);
     };
@@ -153,10 +157,49 @@ function Cell() {
     this.isBlocked = function () {
         return this.blocked.includes(this.type);
     };
-
-    this.getNeighbors = function () {
-    }
 }
+
+Map.prototype.getMapAsCsv = function () {
+    let csv = "";
+    let line = "";
+    for (let y = 0; y < this.height; y++) {
+        line = "";
+        for (let x = 0; x < this.width; x++) {
+            let cell = this.getCell(x, y);
+            if (line === "") {
+                line = cell.getTilemapId();
+            }
+            else {
+                line = line + "," + cell.getTilemapId();
+            }
+        }
+        csv = csv + line + "\n";
+    }
+
+    return csv;
+};
+
+Map.prototype.getNeighbors = function(x, y) {
+    let coords = [];
+    for (let i = Math.max(0,x-1); i <= Math.min(this.width, x+1); i++){
+        for (let j = Math.max(0,y-1); j<=Math.min(this.height, y+1); j++){
+            coords.push({x, y})
+        }
+    }
+
+    return coords;
+};
+
+
+Map.prototype.isConnectedToNetwork = function (x, y) {
+    let neighbours = this.getNeighbors(x, y);
+    for (neigh in neighbours) {
+        if (this.getCell(neigh.x, neigh.y).covered){
+            return true;
+        }
+    }
+};
+
 
 function EmptyCell() {
     Cell.call(this);
