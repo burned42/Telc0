@@ -2,6 +2,7 @@ let runningGame = function () {
     this.cursors = null;
     this.cashGood = null;
     this.cashBad = null;
+    this.gameAudio = null;
     this.graphics = null;
     this.blink = 0.3;
     this.texts = [];
@@ -59,7 +60,7 @@ runningGame.prototype = {
         this.cashGood = this.game.add.audio('cashGood');
         this.cashBad = this.game.add.audio('cashBad');
 
-        this.game.add.audio('backgroundTheme', 1, true).play();
+        this.gameAudio = this.game.add.audio('backgroundTheme', 1, true).play();
 
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
