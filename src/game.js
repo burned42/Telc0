@@ -5,7 +5,7 @@ let runningGame = function () {
     this.cashGood = null;
     this.cashBad = null;
     this.graphics = null;
-    this.blink = 0.1;
+    this.blink = 0.3;
 };
 
 
@@ -94,12 +94,6 @@ runningGame.prototype = {
 
     render: function() {
         this.graphics.clear();
-        if (this.game.time.now % 50 == 0) {
-            this.blink += 0.1;
-            if (this.blink >= 0.8){
-                this.blink = 0.1;
-            }
-        }
         this.graphics.beginFill(0x000000, this.blink);
         // this.game.debug.cameraInfo(this.game.camera, 32, 32);
         for (let i =0; i < this.game.map.width; i++){
@@ -116,6 +110,10 @@ runningGame.prototype = {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
+        if (this.game.map.isConnectedToNetwork(x, y)){
+            this.game.map.coverAt(x, y);
+        }
+        if (current_tile.isConnectedToNetwork())
 
         if (current_tile.isEmpty()) {
             this.game.map.buildTower(x, y);

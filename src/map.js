@@ -142,11 +142,29 @@ Map.prototype.getMapAsCsv = function () {
     return csv;
 };
 
-Map.prototype.coverAt = function (x, y) {
-    this.getCell(x, y).covered = true;
+Map.prototype.getNeighbors = function(x, y) {
+    let coords = [];
     for (let i = x-1; i <= x+1; i++){
         for (let j = y-1; j<=y+1; j++){
-            this.getCell(i, j).covered = true;
+            coords.push({x, y})
+        }
+    }
+    return coords;
+};
+
+Map.prototype.coverAt = function (x, y) {
+    this.getCell(x, y).covered = true;
+    let neighbours = this.getNeighbors(x, y);
+    for (neigh in neighbours) {
+        this.getCell(neigh.x, neigh.y).covered = true;
+    }
+};
+
+Map.prototype.isConnectedToNetwork = function (x, y) {
+    let neighbours = this.getNeighbors(x, y);
+    for (neigh in neighbours) {
+        if (this.getCell(neigh.x, neigh.y).covered){
+            return true;
         }
     }
 };
