@@ -18,13 +18,10 @@ let maintenancecost = -100;
 
 //main game functions for each game step
 window.onload = function () {
-    let creditsHeight = document.getElementById('credits').scrollHeight;
-    let containerHeight = document.getElementById('container').scrollHeight;
-
-    let maxHeight = containerHeight - creditsHeight;
+    let maxHeight = document.getElementById('container').scrollHeight;
     let maxWidth = document.getElementById('container').scrollWidth;
 
-    let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game', null, false, false, null);
+    let game = new Phaser.Game(maxWidth, maxHeight, Phaser.CANVAS, 'game', null, false, false, null);
     game.state.add('boot', gameBoot);
     game.state.add('preload', gamePreload);
     game.state.add('menu', gameMenu);
