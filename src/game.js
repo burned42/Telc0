@@ -31,6 +31,8 @@ runningGame.prototype = {
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
+        this.escKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+
         let bar = this.game.add.graphics();
         bar.beginFill(0x000000, 0.2);
         bar.drawRect(0, 20, 150, 40);
@@ -52,6 +54,9 @@ runningGame.prototype = {
     },
 
     update: function () {
+        if (this.escKey.isDown) {
+            location.reload();
+        }
         if (this.cursors.up.isDown) {
             this.game.camera.y -= 4;
         } else if (this.cursors.down.isDown) {
