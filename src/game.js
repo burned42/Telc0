@@ -16,14 +16,14 @@ runningGame.prototype = {
     },
 
     create: function () {
-        this.game.world.setBounds(0, 0, 32 * 128, 32 * 128);
+        this.game.world.setBounds(0, 0, mapRows * cellSize, mapCols * cellSize);
         this.game.camera.width = 800;
         this.game.camera.height = 600;
-        let generatedMap = new Map(32, 32, 100, 50);
+        let generatedMap = new Map(mapRows, mapCols, 100, 50);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
-        this.game.tilemap = this.game.add.tilemap('generatedMap', 128, 128, generatedMap.width, generatedMap.height);
+        this.game.tilemap = this.game.add.tilemap('generatedMap', cellSize, cellSize, generatedMap.width, generatedMap.height);
         this.game.tilemap.addTilesetImage('Map', 'tiles');
         this.game.tilelayer = this.game.tilemap.createLayer(0);
 
@@ -32,8 +32,8 @@ runningGame.prototype = {
         // graphics.lineStyle(2, 0xffd900, 1);
 
         let start = this.findBaseTower();
-        this.game.camera.x = start.x * 128 - this.game.width / 2;
-        this.game.camera.y = start.y * 128 - this.game.height / 2;
+        this.game.camera.x = start.x * cellSize - this.game.width / 2;
+        this.game.camera.y = start.y * cellSize - this.game.height / 2;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
@@ -69,7 +69,7 @@ runningGame.prototype = {
 
     update: function () {
         if (this.escKey.isDown) {
-            location.reload();
+            this.game.state.start('menu');
         }
         if (this.cursors.up.isDown) {
             this.game.camera.y -= 4;
@@ -116,7 +116,7 @@ runningGame.prototype = {
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
-                    this.graphics.drawRoundedRect(128 * x, 128 * y, 132, 132, 64);
+                    this.graphics.drawRoundedRect(cellSize * x, cellSize * y, 132, 132, 64);
                 }
             }
         }

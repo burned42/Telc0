@@ -1,8 +1,8 @@
 //global game settings (letiables)
 let game;
 let cellSize = 128;
-let mapRows = 32;
-let mapCols = 32;
+let mapRows = 16;
+let mapCols = 16;
 
 let moneytext;
 let bar;
@@ -20,7 +20,8 @@ let maintenancecost = -100;
 window.onload = function () {
     let maxHeight = document.getElementById('container').scrollHeight;
     let maxWidth = document.getElementById('container').scrollWidth;
-
+    let mapHeight = Math.floor(maxHeight / mapCols);
+    let mapWidth = Math.floor(maxWidth / mapRows);
     let game = new Phaser.Game(maxWidth, maxHeight, Phaser.CANVAS, 'game', null, false, false, null);
     game.state.add('boot', gameBoot);
     game.state.add('preload', gamePreload);
