@@ -67,7 +67,7 @@ runningGame.prototype = {
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
             let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.world.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.world.height + 1), 'bird');
-            let fly = aktbird.animations.add('fly');
+            aktbird.animations.add('fly');
             aktbird.animations.play('fly', 10, true);
             this.game.birds.push(aktbird);
         }
@@ -118,7 +118,7 @@ runningGame.prototype = {
     render: function() {
         this.graphics.clear();
         let now = this.game.time.now;
-        for (t in this.texts) {
+        for (let t in this.texts) {
             if (t.birth - now <= 100){
                 this.game.text.remove(t);
             }
@@ -155,7 +155,7 @@ runningGame.prototype = {
 
             this.flash_build_success();
             let towers = this.game.map.towers;
-            for (t in towers) {
+            for (let t in towers) {
                 if(this.game.map.isConnectedToNetwork(t.x, t.y)){
                     this.game.map.coverAt(x, y);
                 }
@@ -284,8 +284,8 @@ runningGame.prototype = {
             // color red
             fontconfig.fill = "#ff0000";
         }
-        effectX = (x * cellSize) + (cellSize/4);
-        effectY = (y * cellSize) + (cellSize/2);
+        let effectX = (x * cellSize) + (cellSize/4);
+        let effectY = (y * cellSize) + (cellSize/2);
         let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
         text.birth = this.game.time.now;
 
@@ -295,15 +295,17 @@ runningGame.prototype = {
     },
 
     calculate_coverage: function () {
+        let countCoveredHouses = 0;
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
                 if (cell.paidFor) {
-                   this.countCoveredHouses++;
+                   countCoveredHouses++;
                 }
             }
         }
-        if (this.countCoveredHouses == this.housesInMap) {
+
+        if (countCoveredHouses === this.game.map.houses.length) {
             //coverage % calculation here…
             this.game.state.start('gameOver');
         }
