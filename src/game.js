@@ -1,9 +1,17 @@
-let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'telc0', {preload: preload, create: create, update: update, render: render});
+let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'telc0', {
+    preload: preload,
+    create: create,
+    update: update,
+    render: render
+});
 
 let moneytext;
 let lastmaintenance;
 let timenow;
 var cursors;
+
+let cashgood;
+let cashbad;
 
 // TODO change values
 let money = 2000;
@@ -18,6 +26,8 @@ function preload() {
     game.load.image('house_small', 'assets/images/house_small.png');
     game.load.image('lake', 'assets/images/lake.png');
     game.load.image('green', 'assets/images/green.png');
+    game.load.audio('cashBad', 'assets/sounds/cashbad.mp3');
+    game.load.audio('cashGood', 'assets/sounds/cashgood.mp3');
 }
 
 function create() {
@@ -45,9 +55,12 @@ function create() {
     let bar = game.add.graphics();
     bar.beginFill(0x000000, 0.2);
     bar.drawRect(0, 20, 150, 40);
-    moneytext = game.add.text(30, 30, "$ " + money, { font: "bold 19px Arial", fill: "#edff70"});
-    
+    moneytext = game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
+
     lastmaintenance = game.time.now;
+
+    cashgood = game.add.audio('cashGood');
+    cashbad = game.add.audio('cashBad');
 }
 
 function update() {
@@ -101,11 +114,19 @@ function findFirstTower() {
             }
         }
     }
-
-    
 }
 
-function update_money(value) {
+    
+
+
+function update_money(value, playsound=true) {
+    if (playsound) {
+        if (value >= 0) {
+            cashgood.play();
+        } else {
+            cashbad.play();
+        }
+    }
     money += value;
     moneytext.setText("$ " + money);
 }
