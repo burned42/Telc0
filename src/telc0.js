@@ -1,6 +1,6 @@
 //global game settings (letiables)
 let game;
-let cellSize = 128;
+let cellSize = 64;
 let mapRows = 32;
 let mapCols = 32;
 
@@ -23,7 +23,7 @@ window.onload = function () {
     let maxHeight = containerHeight - creditsHeight;
     let maxWidth = document.getElementById('container').scrollWidth;
 
-    let game = new Phaser.Game(mapCols * cellSize, mapRows * cellSize, Phaser.CANVAS, 'game');
+    let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
     game.state.add('boot', gameBoot);
     game.state.add('preload', gamePreload);
     game.state.add('menu', gameMenu);
