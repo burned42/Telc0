@@ -23,7 +23,7 @@ window.onload = function () {
     let maxHeight = containerHeight - creditsHeight;
     let maxWidth = document.getElementById('container').scrollWidth;
 
-    let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
+    let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game', null, false, false, null);
     game.state.add('boot', gameBoot);
     game.state.add('preload', gamePreload);
     game.state.add('menu', gameMenu);
