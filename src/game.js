@@ -49,7 +49,6 @@ runningGame.prototype = {
         this.miniMap = this.game.make.bitmapData(150, 150);
         this.miniMapContainer = this.game.make.sprite(this.game.width - 150, this.game.height - 150, this.miniMap);
         this.game.stage.addChild(this.miniMapContainer);
-    },
 
     update: function () {
         if (this.cursors.up.isDown) {
