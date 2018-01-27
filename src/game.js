@@ -4,6 +4,9 @@ let moneytext;
 let lastmaintenance;
 let timenow;
 
+let cashgood;
+let cashbad;
+
 // TODO change values
 let money = 2000;
 let towercost = -1000;
@@ -16,6 +19,8 @@ function preload() {
     game.load.image('house_small', 'assets/images/house_small.png');
     game.load.image('lake', 'assets/images/lake.png');
     game.load.image('green', 'assets/images/green.png');
+    game.load.audio('cashBad', 'assets/sounds/cashbad.mp3');
+    game.load.audio('cashGood', 'assets/sounds/cashgood.mp3');
 }
 
 function create() {
@@ -48,6 +53,9 @@ function create() {
     moneytext = game.add.text(30, 30, "$ " + money, { font: "bold 19px Arial", fill: "#edff70"});
     
     lastmaintenance = game.time.now;
+
+    cashgood = game.add.audio('cashGood');
+    cashbad = game.add.audio('cashBad');
 }
 
 function update() {
@@ -85,11 +93,19 @@ function renderMap() {
     }
 }
 function build_tower() {
-    update_money(towercost);
-    update_money(revenue)
+    update_money(towercost, false);
+    update_money(revenue);
+
 }
 
-function update_money(value) {
+function update_money(value, playsound=true) {
+    if (playsound) {
+        if (value >= 0) {
+            cashgood.play();
+        } else {
+            cashbad.play();
+        }
+    }
     money += value;
     moneytext.setText("$ " + money);
 }
