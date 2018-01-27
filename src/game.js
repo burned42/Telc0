@@ -202,15 +202,16 @@ runningGame.prototype = {
             if (aktbird.rotation === 270) {
                 aktbird.x -= 5;
             }
-        
+
             // Change rotation sometimes
             if (Math.random() > 0.8) {
-               aktbird.rotation += 90;
-               
-               if (aktbird.rotation === 360) {
-                   aktbird.rotation = 0;
-               }
+                aktbird.rotation += 90;
+
+                if (aktbird.rotation === 360) {
+                    aktbird.rotation = 0;
+                }
             }
+        }
     },
 
     money_effect: function (x, y, value) {
