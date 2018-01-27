@@ -22,6 +22,8 @@ gamePreload.prototype = {
 
         this.game.load.audio('cashBad', 'assets/sounds/cashbad.mp3');
         this.game.load.audio('cashGood', 'assets/sounds/cashgood.mp3');
+
+        this.game.load.audio('backgroundTheme', 'assets/sounds/pixelland.mp3');
     },
     create: function () {
         this.game.state.start('menu');

@@ -72,11 +72,19 @@ function renderMap() {
 }
 
 function build_tower() {
-    update_money(towercost);
-    update_money(revenue)
+    update_money(towercost, false);
+    update_money(revenue);
+
 }
 
-function update_money(value) {
+function update_money(value, playsound=true) {
+    if (playsound) {
+        if (value >= 0) {
+            cashgood.play();
+        } else {
+            cashbad.play();
+        }
+    }
     money += value;
     moneytext.setText("$ " + money);
 }
