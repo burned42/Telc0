@@ -265,6 +265,6 @@ runningGame.prototype = {
 
         this.texts.push(text);
 
-        this.game.add.tween(text).to({alpha: 0.1}, 1000, Phaser.Easing.Default, true, 1000);
+        this.game.add.tween(text).to({alpha: 0}, 1000, Phaser.Easing.Default, true, 1000);
     }
 };
