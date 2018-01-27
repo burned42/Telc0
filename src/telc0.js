@@ -4,6 +4,21 @@ let cellSize = 124;
 let mapRows;
 let mapCols;
 
+<<<<<<< HEAD
+=======
+let moneytext;
+let lastmaintenance;
+let timenow;
+let cursors;
+
+// TODO change values
+let money = 2000;
+let towercost = -1000;
+let revenue = 50 * 22;
+let maintenanceinterval = 10 * 1000;
+let maintenancecost = -100;
+
+>>>>>>> 65b69e8... ARCH + TILEMAP = BERND NERVT
 //main game functions for each game step
 window.onload = function ()
 {
