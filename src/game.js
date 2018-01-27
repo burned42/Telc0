@@ -45,6 +45,10 @@ runningGame.prototype = {
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
         this.escKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        this.keyW = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
+        this.keyA = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
+        this.keyS = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
+        this.keyD = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 
         this.bar = this.game.add.graphics();
         this.bar.beginFill(0x0c0c0c, 0.2);
@@ -79,16 +83,16 @@ runningGame.prototype = {
             this.game.state.start('menu');
         }
 
-        if (this.cursors.up.isDown) {
-            this.game.camera.y -= 4;
-        } else if (this.cursors.down.isDown) {
-            this.game.camera.y += 4;
+        if (this.cursors.up.isDown || this.keyW.isDown) {
+            this.game.camera.y -= 15;
+        } else if (this.cursors.down.isDown || this.keyS.isDown) {
+            this.game.camera.y += 15;
         }
 
-        if (this.cursors.left.isDown) {
-            this.game.camera.x -= 4;
-        } else if (this.cursors.right.isDown) {
-            this.game.camera.x += 4;
+        if (this.cursors.left.isDown || this.keyA.isDown) {
+            this.game.camera.x -= 15;
+        } else if (this.cursors.right.isDown || this.keyD.isDown) {
+            this.game.camera.x += 15;
         }
 
         this.calculate_maintenance();
