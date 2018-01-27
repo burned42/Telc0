@@ -144,7 +144,7 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         }
         if (direction === 3) {
             y += 1;
-           if (this.getCell(x-1, y).isStreet()) {
+            if (this.getCell(x-1, y).isStreet()) {
                 this.map[y][x] = new StreetCell(8);
                 this.map[y][x-1] = new StreetCell(8);
                 return;
