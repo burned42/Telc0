@@ -51,6 +51,22 @@ function create() {
 }
 
 function update() {
+    if ( game.input.activePointer.middleButton.isDown)
+    {
+        if (game.camera.x < game.input.mousePointer.x){
+            game.camera.x += 1;
+        }
+        if (game.camera.x > game.input.mousePointer.x){
+            game.camera.x -= 1;
+        }
+        if (game.camera.y < game.input.mousePointer.y){
+            game.camera.y += 1;
+        }
+        if (game.camera.x > game.input.mousePointer.y) {
+            game.camera.y -= 1;
+        }
+    }
+
     timenow = game.time.now;
     if (timenow - lastmaintenance > maintenanceinterval) {
         lastmaintenance = game.time.now;
