@@ -1,117 +1,101 @@
-let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'telc0', {
-    preload: preload,
-    create: create,
-    update: update,
-    render: render
-});
-
+//-> telc0.js
+//let game = new Phaser.Game(800, 600, Phaser.CANVAS, '', {preload: preload, create: create, update: update});
+/*
 let moneytext;
 let lastmaintenance;
 let timenow;
-
-let cashgood;
-let cashbad;
-
+*/
 // TODO change values
+/*
 let money = 2000;
 let towercost = -1000;
 let revenue = 50 * 22;
 let maintenanceinterval = 10 * 1000;
 let maintenancecost = -100;
+*/
 
-
+/* -> gamePreload.js
 function preload() {
     game.load.image('house_small', 'assets/images/house_small.png');
     game.load.image('lake', 'assets/images/lake.png');
     game.load.image('green', 'assets/images/green.png');
-    game.load.audio('cashBad', 'assets/sounds/cashbad.mp3');
-    game.load.audio('cashGood', 'assets/sounds/cashgood.mp3');
 }
+*/
 
-function create() {
-    game.world.setBounds(0, 0, 1920, 1200);
-    game.map = new Map(32, 32, 120);
-    house = game.make.sprite(0, 0, 'house_small');
-    lake = game.make.sprite(0, 0, 'lake');
-    green = game.make.sprite(0, 0, 'green');
+let runningGame = function (){
+    // do something…
+};
 
-    lake.anchor.set(0.5);
-    lake.scale.setTo(0.5, 0.5);
+runningGame.prototype
+{
+    create: function () {
+        game.map = new Map(32, 32, 120);
+        house = game.make.sprite(0, 0, 'house_small');
+        lake = game.make.sprite(0, 0, 'lake');
+        green = game.make.sprite(0, 0, 'green');
 
-    house.anchor.set(0.5);
-    house.scale.setTo(0.5, 0.5);
+        lake.anchor.set(0.5);
+        lake.scale.setTo(0.5, 0.5);
 
-    green.anchor.set(0.5);
-    green.scale.setTo(0.5, 0.5);
+        house.anchor.set(0.5);
+        house.scale.setTo(0.5, 0.5);
 
-    //	This is the BitmapData we're going to be drawing to
-    game.bmd = game.add.bitmapData(game.width, game.height);
-    game.bmd.addToWorld();
+        green.anchor.set(0.5);
+        green.scale.setTo(0.5, 0.5);
 
-    //	Disables anti-aliasing when we draw sprites to the BitmapData
-    game.bmd.smoothed = false;
+        //	This is the BitmapData we're going to be drawing to
+        game.bmd = game.add.bitmapData(game.width, game.height);
+        game.bmd.addToWorld();
 
-    //  Show the moneytext
-    let bar = game.add.graphics();
-    bar.beginFill(0x000000, 0.2);
-    bar.drawRect(0, 20, 150, 40);
-    moneytext = game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
+        //	Disables anti-aliasing when we draw sprites to the BitmapData
+        game.bmd.smoothed = false;
 
-    lastmaintenance = game.time.now;
+        //  Show the moneytext
+        let bar = game.add.graphics();
+        bar.beginFill(0x000000, 0.2);
+        bar.drawRect(0, 20, 150, 40);
+        moneytext = game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
 
-    cashgood = game.add.audio('cashGood');
-    cashbad = game.add.audio('cashBad');
-}
-
-function update() {
-    timenow = game.time.now;
-    if (timenow - lastmaintenance > maintenanceinterval) {
         lastmaintenance = game.time.now;
-        update_money(maintenancecost * game.map.getTowerCount())
     }
-    if (money < towercost) {
-        // TODO End the game
-    }
-    game.input.onDown.addOnce(build_tower, this);
-    /* TC, TODO
-    game.input.onTap.addOnce(build_tower, this);
-    */
-}
 
-function render() {
-    renderMap();
-    game.debug.cameraInfo(game.camera, 32, 32);
+    update: function () {
+        timenow = game.time.now;
+        if (timenow - lastmaintenance > maintenanceinterval) {
+            lastmaintenance = game.time.now;
+            update_money(maintenancecost * game.map.getTowerCount())
+        }
+        if (money < towercost) {
+            // TODO End the game
+        }
+        game.input.onDown.addOnce(build_tower, this);
+        /* TC, TODO
+        game.input.onTap.addOnce(build_tower, this);
+        */
+        renderMap();
+    }
 }
 
 function renderMap() {
-    // game.bmd.clear();
-    for (let x = 0; x < game.map.width; x++) {
-        for (let y = 0; y < game.map.height; y++) {
-            let cell = game.map.getCell(x, y);
-            if (cell.isHouse()) {
-                game.bmd.draw(house, x * house.width, y * house.height);
+    game.bmd.clear();
+    for (let i = 0; i < game.map.width; i++){
+        for (let j =0; j < game.map.height; j++){
+            let cell = game.map.getMap()[i][j];
+            if (cell.isHouse()){
+                game.bmd.draw(house, i * house.width, j * house.height);
             }
             else {
-                game.bmd.draw(green, x * green.width, y * green.height);
+                game.bmd.draw(green, i * green.width, j * green.height);
             }
         }
     }
 }
-
 function build_tower() {
-    update_money(towercost, false);
-    update_money(revenue);
-
+    update_money(towercost);
+    update_money(revenue)
 }
 
-function update_money(value, playsound=true) {
-    if (playsound) {
-        if (value >= 0) {
-            cashgood.play();
-        } else {
-            cashbad.play();
-        }
-    }
+function update_money(value) {
     money += value;
     moneytext.setText("$ " + money);
 }
