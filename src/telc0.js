@@ -7,7 +7,6 @@ let mapCols;
 let moneytext;
 let lastmaintenance;
 let timenow;
-let cursors;
 
 // TODO change values
 let money = 2000;
