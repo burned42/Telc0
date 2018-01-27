@@ -328,6 +328,8 @@ function BaseTowerCell() {
 function BlockCell() {
     Cell.call(this);
 
-    this.type = this.street[getRandomInt(0, this.street.length)];
+    do {
+        this.type = this.blocked[getRandomInt(0, this.blocked.length)];
+    } while (this.street.includes(this.type));
 }
 
