@@ -6,6 +6,7 @@ function Map(width, height, houseCount, blockedCount) {
     this.map = [];
 
     this.generateMap();
+    // this.coverAtSource();
 }
 
 Map.prototype.generateMap = function () {
@@ -54,25 +55,6 @@ Map.prototype.generateMap = function () {
 
 };
 
-Map.prototype.getMapAsCsv = function () {
-    let csv = "";
-    let line = "";
-    for (let y = 0; y < this.height; y++) {
-        line = "";
-        for (let x = 0; x < this.width; x++) {
-            let cell = this.getCell(x, y);
-            if (line === "") {
-                line = cell.getTilemapId();
-            }
-            else {
-                line = line + "," + cell.getTilemapId();
-            }
-        }
-        csv = csv + line + "\n";
-    }
-
-    return csv;
-};
 
 Map.prototype.getTowerCount = function () {
     let count = 0;
@@ -113,6 +95,7 @@ function Cell() {
     this.tower = [1];
     this.house = [2];
     this.blocked = [3];
+    this.covered = false;
 
     this.type = null;
 
@@ -148,7 +131,8 @@ function HouseCell() {
     Cell.call(this);
 
     let houseTiles = [2, 5];
-    this.type = houseTiles[Math.floor(Math.random() * houseTiles.length)]
+    this.type = houseTiles[Math.floor(Math.random() * houseTiles.length)];
+    this.paidFor = false;
 }
 
 function TowerCell() {
