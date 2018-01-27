@@ -225,7 +225,7 @@ runningGame.prototype = {
             }
 
             // Change rotation sometimes
-            if (Math.random() > 0.95) {
+            if (Math.random() > 0.97) {
                 aktbird.rotation += 90;
 
                 if (aktbird.rotation === 360) {
@@ -240,10 +240,10 @@ runningGame.prototype = {
             if (aktbird.y < 0) {
                 aktbird.rotation = 180;
             }
-            if (aktbird.x > this.game.camera.width) {
+            if (aktbird.x > this.game.world.width) {
                 aktbird.rotation = 270;
             }
-            if (aktbird.y > this.game.camera.height) {
+            if (aktbird.y > this.game.world.height) {
                 aktbird.rotation = 0;
             }
         }
