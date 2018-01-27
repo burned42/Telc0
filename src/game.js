@@ -1,5 +1,9 @@
 let runningGame = function () {
     // do something…
+
+    this.cursors = null;
+    this.cashGood = null;
+    this.cashBad = null;
 };
 
 
@@ -12,7 +16,7 @@ runningGame.prototype = {
         this.game.world.setBounds(0, 0, 32 * 128, 32 * 128);
         this.game.camera.width = 800;
         this.game.camera.height = 600;
-        generatedMap = new Map(32, 32, 100, 50);
+        let generatedMap = new Map(32, 32, 100, 50);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
@@ -25,7 +29,7 @@ runningGame.prototype = {
         this.game.camera.x = start.x * 128;
         this.game.camera.y = start.y * 128;
 
-        cursors = this.game.input.keyboard.createCursorKeys();
+        this.cursors = this.game.input.keyboard.createCursorKeys();
 
         let bar = this.game.add.graphics();
         bar.beginFill(0x000000, 0.2);
@@ -34,31 +38,24 @@ runningGame.prototype = {
         bar.fixedToCamera = true;
         moneytext.fixedToCamera = true;
 
-        cashgood = this.game.add.audio('cashGood');
-        cashbad = this.game.add.audio('cashBad');
+        this.cashGood = this.game.add.audio('cashGood');
+        this.cashBad = this.game.add.audio('cashBad');
 
-        theme = this.game.add.audio('backgroundTheme', 1, true);
-        theme.play();
+        this.game.add.audio('backgroundTheme', 1, true).play();
 
         lastmaintenance = this.game.time.now;
     },
 
     update: function () {
-        if (cursors.up.isDown)
-        {
+        if (this.cursors.up.isDown) {
             this.game.camera.y -= 4;
-        }
-        else if (cursors.down.isDown)
-        {
+        } else if (this.cursors.down.isDown) {
             this.game.camera.y += 4;
         }
 
-        if (cursors.left.isDown)
-        {
+        if (this.cursors.left.isDown) {
             this.game.camera.x -= 4;
-        }
-        else if (cursors.right.isDown)
-        {
+        } else if (this.cursors.right.isDown) {
             this.game.camera.x += 4;
         }
 
@@ -108,16 +105,13 @@ runningGame.prototype = {
     update_money: function (value, playsound=true) {
         if (playsound) {
             if (value >= 0) {
-                cashgood.play();
+                this.cashGood.play();
             } else {
-                cashbad.play();
+                this.cashBad.play();
             }
         }
         money += value;
         moneytext.setText("$ " + money);
-        {
-
-        }
     }
 
 };
