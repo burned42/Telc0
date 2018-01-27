@@ -124,41 +124,6 @@ Map.prototype.coverAt = function (x, y) {
     }
 };
 
-
-function Cell() {
-    this.empty = [0, 4, 9];
-    this.tower = [1, 10];
-    this.house = [2, 5];
-    this.blocked = [3];
-    this.covered = false;
-
-    this.type = null;
-
-    this.getTilemapId = function () {
-        return this.type;
-    };
-
-    this.isEmpty = function () {
-        return this.empty.includes(this.type);
-    };
-
-    this.isTower = function () {
-        return this.tower.includes(this.type); 
-    };
-
-    this.isBaseTower = function () {
-        return this.type === 10;
-    };
-
-    this.isHouse = function () {
-        return this.house.includes(this.type);
-    };
-
-    this.isBlocked = function () {
-        return this.blocked.includes(this.type);
-    };
-}
-
 Map.prototype.getMapAsCsv = function () {
     let csv = "";
     let line = "";
@@ -205,6 +170,40 @@ Map.prototype.isConnectedToNetwork = function (x, y) {
     }
 };
 
+
+function Cell() {
+    this.empty = [0, 4, 9];
+    this.tower = [1, 10];
+    this.house = [2, 5];
+    this.blocked = [3];
+    this.covered = false;
+
+    this.type = null;
+
+    this.getTilemapId = function () {
+        return this.type;
+    };
+
+    this.isEmpty = function () {
+        return this.empty.includes(this.type);
+    };
+
+    this.isTower = function () {
+        return this.tower.includes(this.type);
+    };
+
+    this.isBaseTower = function () {
+        return this.type === 10;
+    };
+
+    this.isHouse = function () {
+        return this.house.includes(this.type);
+    };
+
+    this.isBlocked = function () {
+        return this.blocked.includes(this.type);
+    };
+}
 
 function EmptyCell() {
     Cell.call(this);
