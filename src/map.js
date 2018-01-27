@@ -157,9 +157,6 @@ function Cell() {
     this.isBlocked = function () {
         return this.blocked.includes(this.type);
     };
-
-    this.getNeighbors = function () {
-    }
 }
 
 Map.prototype.getMapAsCsv = function () {
@@ -189,6 +186,7 @@ Map.prototype.getNeighbors = function(x, y) {
             coords.push({x, y})
         }
     }
+
     return coords;
 };
 

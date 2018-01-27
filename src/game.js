@@ -104,11 +104,11 @@ runningGame.prototype = {
         this.graphics.clear();
         this.graphics.beginFill(0x000000, this.blink);
         // this.game.debug.cameraInfo(this.game.camera, 32, 32);
-        for (let i =0; i < this.game.map.width; i++){
-            for (let j = 0; j < this.game.map.height; j++){
-                let cell = this.game.map.getCell(i, j);
+        for (let x = 0; x < this.game.map.width; x++){
+            for (let y = 0; y < this.game.map.height; y++){
+                let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
-                    this.graphics.drawRoundedRect(128 * i, 128 * j, 132, 132, 64);
+                    this.graphics.drawRoundedRect(128 * x, 128 * y, 132, 132, 64);
                 }
             }
         }
