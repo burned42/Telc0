@@ -23,6 +23,12 @@ Map.prototype.generateMap = function () {
     let y = getRandomInt(0, this.height);
     this.buildBaseTower(x, y);
 
+    // build streets (tiles 6 - 8)
+    x = getRandomInt(0, this.width);
+    y = getRandomInt(0, this.height);
+    this.buildStreet(x, y, 8);
+    this.buildStreetLine(x, y, 4);
+
     // spawn houses
     for (let i = 0; i < this.houseCount; i++) {
         let j = 0;
@@ -32,13 +38,13 @@ Map.prototype.generateMap = function () {
             j++;
         } while (
             j < 1000
-            && (this.getCell(x, y).isHouse() || this.getCell(x, y).isTower())
+            && (this.getCell(x, y).isHouse() || this.getCell(x, y).isTower() || this.getCell(x, y).isStreet())
         );
 
         this.buildHouse(x, y);
     }
 
-    // spwan random blocked tiles
+    // spawn random blocked tiles
     for (let i = 0; i < this.blockedCount; i++) {
         let j = 0;
         do {
@@ -52,7 +58,6 @@ Map.prototype.generateMap = function () {
 
         this.buildBlocked(x, y);
     }
-
 };
 
 Map.prototype.getTowerCount = function () {
@@ -85,6 +90,41 @@ Map.prototype.buildBaseTower = function (x, y) {
     this.map[y][x] = new BaseTowerCell();
     this.towers.push({x:x, y:y})
 };
+
+Map.prototype.buildStreet = function (x, y, streettype) {
+    this.map[y][x] = new StreetCell(streettype);
+};
+
+Map.prototype.buildStreetLine = function (x, y, direction) {
+    while (true) {
+        if (direction === 1) {
+            y -= 1;
+            this.map[y][x] = new StreetCell(6);
+        }
+        if (direction === 2) {
+            x += 1;
+            this.map[y][x] = new StreetCell(7);
+        }
+        if (direction === 3) {
+            y += 1;
+            this.map[y][x] = new StreetCell(6);
+        }
+        if (direction === 4) {
+            x -= 1;
+            if (Math.random() > 0.5) {
+                this.map[y][x] = new StreetCell(8);
+
+//                return this.buildStreetLine(x, y, getRandomInt(1, 2));
+            } else {
+                this.map[y][x] = new StreetCell(7);
+            }
+        }
+
+        if (x > this.width || y > this.height || x < 0 || y < 0) {
+            break;
+        }
+    }
+}
 
 Map.prototype.buildHouse = function (x, y) {
     this.map[y][x] = new HouseCell();
@@ -177,7 +217,8 @@ function Cell() {
     this.empty = [0, 4, 9];
     this.tower = [1, 10];
     this.house = [2, 5];
-    this.blocked = [3, 11];
+    this.blocked = [3, 6, 7, 8, 11];
+    this.street = [6, 7, 8];
     this.covered = false;
 
     this.type = null;
@@ -205,6 +246,10 @@ function Cell() {
     this.isBlocked = function () {
         return this.blocked.includes(this.type);
     };
+
+    this.isStreet = function () {
+        return this.street.includes(this.type);
+    };
 }
 
 function EmptyCell() {
@@ -231,6 +276,12 @@ function TowerCell() {
     this.type = 1;
 }
 
+function StreetCell(streettype) {
+    Cell.call(this);
+
+    this.type = streettype;
+}
+
 function BaseTowerCell() {
     TowerCell.call(this);
 
@@ -241,6 +292,10 @@ function BlockCell() {
     Cell.call(this);
 
     let blockTiles = this.blocked;
-    this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)]
+    this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)];
+    // Don't build streets
+    while ([6, 7, 8].indexOf(this.type) != -1) {
+        this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)];
+    }
 }
 
