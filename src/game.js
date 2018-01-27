@@ -190,18 +190,16 @@ runningGame.prototype = {
         // Let the Birds fly
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
-            if (aktbird.rotation == 0) {
-                aktbird.y += 5;
-            }
+            if (aktbird.rotation === 0) {
                 aktbird.y -= 5;
-            }	
-           if (aktbird.rotation == 90) {
+            }
+            if (aktbird.rotation === 90) {
                 aktbird.x += 5;
             }
-           if (aktbird.rotation == 180) {
+            if (aktbird.rotation === 180) {
                 aktbird.y += 5;
             }
-           if (aktbird.rotation == 270) {
+            if (aktbird.rotation === 270) {
                 aktbird.x -= 5;
             }
         
@@ -209,7 +207,7 @@ runningGame.prototype = {
             if (Math.random() > 0.8) {
                aktbird.rotation += 90;
                
-               if (aktbird.rotation == 360) {
+               if (aktbird.rotation === 360) {
                    aktbird.rotation = 0;
                }
             }
