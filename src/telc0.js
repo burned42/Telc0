@@ -1,8 +1,8 @@
 //global game settings (letiables)
 let game;
 let cellSize = 128;
-let mapRows = 16;
-let mapCols = 16;
+let mapRows = 32;
+let mapCols = 32;
 let viewport = {w: 800, h: 600};
 
 let maxHeight = mapRows * cellSize; //document.getElementById('container').scrollHeight;

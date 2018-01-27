@@ -7,6 +7,8 @@ let runningGame = function () {
     this.graphics = null;
     this.blink = 0.3;
     this.texts = [];
+    this.color_build = 0x9FFA3B;
+    this.color_fail = 0xFF003B;
 };
 
 
@@ -45,6 +47,10 @@ runningGame.prototype = {
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
         this.escKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        this.keyW = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
+        this.keyA = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
+        this.keyS = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
+        this.keyD = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 
         this.bar = this.game.add.graphics();
         this.bar.beginFill(0x0c0c0c, 0.2);
@@ -79,16 +85,16 @@ runningGame.prototype = {
             this.game.state.start('menu');
         }
 
-        if (this.cursors.up.isDown) {
-            this.game.camera.y -= 4;
-        } else if (this.cursors.down.isDown) {
-            this.game.camera.y += 4;
+        if (this.cursors.up.isDown || this.keyW.isDown) {
+            this.game.camera.y -= 15;
+        } else if (this.cursors.down.isDown || this.keyS.isDown) {
+            this.game.camera.y += 15;
         }
 
-        if (this.cursors.left.isDown) {
-            this.game.camera.x -= 4;
-        } else if (this.cursors.right.isDown) {
-            this.game.camera.x += 4;
+        if (this.cursors.left.isDown || this.keyA.isDown) {
+            this.game.camera.x -= 15;
+        } else if (this.cursors.right.isDown || this.keyD.isDown) {
+            this.game.camera.x += 15;
         }
 
         this.calculate_maintenance();
@@ -141,22 +147,22 @@ runningGame.prototype = {
             this.update_money(towercost, false);
             this.game.tilemap.putTile(1, x, y);
             this.money_effect(x, y, towercost);
-            let revenue = this.calculate_revenue();
-            this.update_money(revenue);
-
             if (this.game.map.isConnectedToNetwork(x, y)){
                 this.game.map.coverAt(x, y);
             }
+            let revenue = this.calculate_revenue();
+            this.update_money(revenue);
 
-
-            for (let x = 0; x < this.game.map.width; x++) {
-                for (let y = 0; y < this.game.map.height; y++) {
-                    let cell = this.game.map.getCell(x, y);
-                    if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y)) {
-                        this.game.map.coverAt(x, y);
-                    }
+            this.flash_build_success();
+            let towers = this.game.map.towers;
+            for (t in towers) {
+                if(this.game.map.isConnectedToNetwork(t.x, t.y)){
+                    this.game.map.coverAt(x, y);
                 }
             }
+        }
+        else  {
+            this.flash_build_fails();
         }
     },
 
@@ -256,6 +262,17 @@ runningGame.prototype = {
                 aktbird.rotation = 0;
             }
         }
+    },
+
+    flash_build_success: function () {
+        this.game.camera.flash(this.color_build, 200);
+
+    },
+
+
+    flash_build_fails: function () {
+        this.game.camera.flash(this.color_fail, 200);
+
     },
 
     money_effect: function (x, y, value) {
