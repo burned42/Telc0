@@ -24,6 +24,7 @@ gamePreload.prototype = {
         this.game.load.audio('cashGood', 'assets/sounds/cashgood.mp3');
 
         this.game.load.audio('backgroundTheme', 'assets/sounds/pixelland.mp3');
+        this.game.load.image('tiles', 'assets/images/tilemap.png');
     },
     create: function () {
         this.game.state.start('menu');

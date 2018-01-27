@@ -3,10 +3,10 @@ let gameMenu = function (game) {
 
 gameMenu.prototype = {
     create: function () {
-        this.game.add.button((this.game.width - 64) / 2, 200, 'play', this.playGame, this);
-        this.game.add.image((this.game.width - 128) / 2, 30, 'telc0Logo');
-        let creditsText = this.game.add.text(this.game.width / 2, 300, 'Credits', {font: '42px Arial', fill: '#ffffff'});
-        creditsText.anchor.setTo(0.5, 0);
+        this.game.add.button(this.game.width * 0.1, this.game.height * 0.6, 'play', this.playGame, this);
+        // game title
+        this.game.add.text(this.game.width * 0.1, this.game.height * 0.2, 'Telc0', {font: '42px Arial', fill: '#ffffff'});
+
         space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
     update: function () {
