@@ -19,6 +19,7 @@ gamePreload.prototype = {
         this.game.load.image('streetVertical', 'assets/images/street_vertical.png');
         this.game.load.image('tower', 'assets/images/tower.png');
         this.game.load.image('play', 'assets/images/play.png');
+        this.game.load.image('telc0Logo', 'assets/images/telc0_logo.png');
         this.game.load.image('tiles', 'assets/images/tilemap.png');
 
         this.game.load.audio('cashBad', 'assets/sounds/cashbad.mp3');
