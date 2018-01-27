@@ -20,7 +20,7 @@ Map.prototype.generateMap = function () {
     // spawn tower
     let x = getRandomInt(0, this.width);
     let y = getRandomInt(0, this.height);
-    this.buildTower(x, y);
+    this.buildBaseTower(x, y);
 
     // spawn houses
     for (let i = 0; i < this.houseCount; i++) {
@@ -54,7 +54,6 @@ Map.prototype.generateMap = function () {
 
 };
 
-
 Map.prototype.getTowerCount = function () {
     let count = 0;
     for (let y = 0; y < this.height; y++) {
@@ -80,6 +79,10 @@ Map.prototype.buildTower = function (x, y) {
     this.map[y][x] = new TowerCell();
 };
 
+Map.prototype.buildBaseTower = function (x, y) {
+    this.map[y][x] = new BaseTowerCell();
+};
+
 Map.prototype.buildHouse = function (x, y) {
     this.map[y][x] = new HouseCell();
 };
@@ -87,40 +90,6 @@ Map.prototype.buildHouse = function (x, y) {
 Map.prototype.buildBlocked = function (x, y) {
     this.map[y][x] = new BlockCell();
 };
-
-
-function Cell() {
-    this.empty = [0, 4, 9];
-    this.tower = [1];
-    this.house = [2];
-    this.blocked = [3];
-    this.covered = false;
-
-    this.type = null;
-
-    this.getTilemapId = function () {
-        return this.type;
-    };
-
-    this.isEmpty = function () {
-        return this.empty.includes(this.type);
-    };
-
-    this.isTower = function () {
-        return this.tower.includes(this.type); 
-    };
-
-    this.isHouse = function () {
-        return this.house.includes(this.type);
-    };
-
-    this.isBlocked = function () {
-        return this.blocked.includes(this.type);
-    };
-
-    this.getNeighbors = function () {
-    }
-}
 
 Map.prototype.getMapAsCsv = function () {
     let csv = "";
@@ -152,6 +121,39 @@ Map.prototype.coverAt = function (x, y) {
 };
 
 
+function Cell() {
+    this.empty = [0, 4, 9];
+    this.tower = [1, 10];
+    this.house = [2];
+    this.blocked = [3];
+    this.covered = false;
+
+    this.type = null;
+
+    this.getTilemapId = function () {
+        return this.type;
+    };
+
+    this.isEmpty = function () {
+        return this.empty.includes(this.type);
+    };
+
+    this.isTower = function () {
+        return this.tower.includes(this.type); 
+    };
+
+    this.isHouse = function () {
+        return this.house.includes(this.type);
+    };
+
+    this.isBlocked = function () {
+        return this.blocked.includes(this.type);
+    };
+
+    this.getNeighbors = function () {
+    }
+}
+
 function EmptyCell() {
     Cell.call(this);
 
@@ -171,6 +173,12 @@ function TowerCell() {
     Cell.call(this);
 
     this.type = this.tower[0];
+}
+
+function BaseTowerCell() {
+    TowerCell.call(this);
+
+    this.type = this.tower[1];
 }
 
 function BlockCell() {
