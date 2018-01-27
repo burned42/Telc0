@@ -116,7 +116,7 @@ runningGame.prototype = {
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
-                    this.graphics.drawRoundedRect(cellSize * x, cellSize * y, 132, 132, 64);
+                    this.graphics.drawRoundedRect(cellSize * x, cellSize * y, cellSize, cellSize, 4);
                 }
             }
         }
