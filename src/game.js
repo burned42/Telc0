@@ -30,7 +30,7 @@ runningGame.prototype = {
 
         // graphics.lineStyle(2, 0xffd900, 1);
 
-        let start = this.findFirstTower();
+        let start = this.findBaseTower();
         this.game.camera.x = start.x * 128 - this.game.width / 2;
         this.game.camera.y = start.y * 128 - this.game.height / 2;
 
@@ -126,13 +126,14 @@ runningGame.prototype = {
         }
     },
 
-    findFirstTower: function () {
-        for (let i =0; i < this.game.map.width; i++){
-            for (let j = 0; j < this.game.map.height; j++){
-                let cell = this.game.map.getCell(i, j);
-                if (cell.isTower() === true){
-                    this.game.map.coverAt(i, j);
-                    return {x: i, y: j};
+    findBaseTower: function () {
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.isBaseTower() === true) {
+                    this.game.map.coverAt(x, y);
+
+                    return {x: x, y: y};
                 }
             }
         }
