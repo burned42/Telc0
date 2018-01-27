@@ -39,10 +39,10 @@ runningGame.prototype = {
 
         this.escKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 
-        let bar = this.game.add.graphics();
-        bar.beginFill(0x000000, 0.2);
+        this.bar = this.game.add.graphics();
+        this.bar.beginFill(0x0c0c0c, 0.2);
         moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
-        bar.fixedToCamera = true;
+        this.bar.fixedToCamera = true;
         moneytext.fixedToCamera = true;
 
         this.cashGood = this.game.add.audio('cashGood');
@@ -258,7 +258,7 @@ runningGame.prototype = {
             // color red
             fontconfig.fill = "#ff0000";
         }
-        effectX = (x * cellSize) + (cellSize/2);
+        effectX = (x * cellSize) + (cellSize/4);
         effectY = (y * cellSize) + (cellSize/2);
         let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
         text.birth = this.game.time.now;

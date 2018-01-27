@@ -5,12 +5,13 @@ let mapRows = 32;
 let mapCols = 32;
 
 let moneytext;
+let bar;
 let lastmaintenance;
 let timenow;
 
 // TODO change values
-let money = 2000;
-let towercost = -1000;
+let money = 1000;
+let towercost = -200;
 let revenueHouse = 50;
 let maintenanceinterval = 10 * 1000;
 let maintenancecost = -100;
