@@ -5,7 +5,7 @@ let runningGame = function () {
     this.cashGood = null;
     this.cashBad = null;
     this.graphics = null;
-    this.blink = 0.1;
+    this.blink = 0.3;
 };
 
 
@@ -49,6 +49,12 @@ runningGame.prototype = {
 
         this.game.add.audio('backgroundTheme', 1, true).play();
 
+        let numofbirds = 6;
+        this.game.birds = [];
+        for (let i = 0; i < numofbirds; i++) {
+            this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird'));
+        }
+
         lastmaintenance = this.game.time.now;
 
         this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
@@ -90,16 +96,12 @@ runningGame.prototype = {
         this.miniMap.rect(0, 0, this.miniMap.width, this.miniMap.height, '#000000');
         this.miniMap.copy(this.stage, 0, 0, this.stage.width, this.stage.height, 2 + miniMapViewportX, 2 + miniMapViewportY, this.miniMap.width - 4, this.miniMap.height - 4);
         this.miniMap.update();
+
+        this.animate_world();
     },
 
     render: function() {
         this.graphics.clear();
-        if (this.game.time.now % 50 == 0) {
-            this.blink += 0.1;
-            if (this.blink >= 0.8){
-                this.blink = 0.1;
-            }
-        }
         this.graphics.beginFill(0x000000, this.blink);
         // this.game.debug.cameraInfo(this.game.camera, 32, 32);
         for (let i =0; i < this.game.map.width; i++){
@@ -117,6 +119,11 @@ runningGame.prototype = {
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
 
+        if (this.game.map.isConnectedToNetwork(x, y)){
+            // this.game.map.coverAt(x, y);
+        }
+        if (current_tile.isConnectedToNetwork())
+
         if (current_tile.isEmpty()) {
             this.game.map.buildTower(x, y);
             this.update_money(towercost, false);
@@ -131,7 +138,7 @@ runningGame.prototype = {
             for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
                 if (cell.isBaseTower() === true) {
-                    this.game.map.coverAt(x, y);
+                    // this.game.map.coverAt(x, y);
 
                     return {x: x, y: y};
                 }
@@ -163,6 +170,16 @@ runningGame.prototype = {
         }
         money += value;
         moneytext.setText("$ " + money);
+    },
+
+    animate_world: function() {
+        // Let the Birds fly
+        for (let i = 0; i < this.game.birds.length; i++) {
+            let aktbird = this.game.birds[i];
+            if (aktbird.rotation == 0) {
+                aktbird.y += 5;
+            }
+        }
     }
 
 };
