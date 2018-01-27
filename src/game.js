@@ -79,11 +79,7 @@ runningGame.prototype = {
             this.game.camera.x += 4;
         }
 
-        timenow = this.game.time.now;
-        if (timenow - lastmaintenance > maintenanceinterval) {
-            lastmaintenance = this.game.time.now;
-            this.update_money(maintenancecost * this.game.map.getTowerCount())
-        }
+        this.calculate_maintenance();
         if (money < towercost) {
             // TODO End the this.game
         }
@@ -129,6 +125,7 @@ runningGame.prototype = {
             this.game.map.buildTower(x, y);
             this.update_money(towercost, false);
             this.game.tilemap.putTile(1, x, y);
+            this.money_effect(x, y, towercost);
             let revenue = this.calculate_revenue();
             this.update_money(revenue);
         }
@@ -146,18 +143,35 @@ runningGame.prototype = {
         }
     },
 
+    calculate_maintenance: function() {
+        timenow = this.game.time.now;
+        if (timenow - lastmaintenance > maintenanceinterval) {
+            lastmaintenance = this.game.time.now;
+            this.update_money(maintenancecost * this.game.map.getTowerCount());
+        }
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.isTower()) {
+                    this.money_effect(x, y, maintenancecost);
+                }
+            }
+        }
+    },
+
     calculate_revenue: function() {
         let revenue = 0;
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
                 if (cell.isHouse() && cell.covered && ! cell.paidFor) {
-                    revenue += this.revenueHouse;
+                    revenue += revenueHouse;
                     cell.paidFor = true;
+                    this.money_effect(x, y, revenueHouse);
                 }
             }
         }
-        return revenue
+        return revenue;
     },
 
     update_money: function (value, playsound=true) {
@@ -178,8 +192,25 @@ runningGame.prototype = {
             let aktbird = this.game.birds[i];
             if (aktbird.rotation == 0) {
                 aktbird.y += 5;
-            }	
+            }
         }
+    },
+
+    money_effect: function (x, y, value) {
+        let fontconfig;
+        if (value >= 0) {
+            // color green
+            fontconfig = {font: "bold 16pt Arial", fill: "#edff70"};
+        } else {
+            // color red
+            fontconfig = {font: "bold 16pt Arial", fill: "#ff0000"};
+        }
+        effectX = (x * cellSize) + (cellSize/2);
+        effectY = (y * cellSize) + (cellSize/2);
+
+        text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
+
+        this.game.add.tween(text).to({alpha: 0}, 1000, Phaser.Easing.Default, true, 1000);
     }
 
 };
