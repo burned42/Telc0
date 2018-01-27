@@ -24,6 +24,7 @@ Map.prototype.generateMap = function () {
     let y = getRandomInt(0, this.height);
     this.buildBaseTower(x, y);
 
+    /*
     // build streets (tiles 6 - 8)
     for (let i = 0; i < 51; i++) {
         x = getRandomInt(0, this.width);
@@ -31,6 +32,7 @@ Map.prototype.generateMap = function () {
         this.buildStreet(x, y, 8);
         this.buildStreetLine(x, y, getRandomInt(1, 5));
     }
+    */
 
     // spawn houses
     for (let i = 0; i < this.houseCount; i++) {
@@ -328,6 +330,8 @@ function BaseTowerCell() {
 function BlockCell() {
     Cell.call(this);
 
-    this.type = this.street[getRandomInt(0, this.street.length)];
+    do {
+        this.type = this.blocked[getRandomInt(0, this.blocked.length)];
+    } while (this.street.includes(this.type));
 }
 
