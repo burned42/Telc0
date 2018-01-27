@@ -160,15 +160,6 @@ runningGame.prototype = {
                     this.game.map.coverAt(x, y);
                 }
             }
-
-
-            // for (let x = 0; x < this.game.map.width; x++) {
-            //     for (let y = 0; y < this.game.map.height; y++) {
-            //         let cell = this.game.map.getCell(x, y);
-            //         if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y)) {
-            //         }
-            //     }
-            // }
         }
         else  {
             this.flash_build_fails();
