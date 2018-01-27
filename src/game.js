@@ -23,7 +23,7 @@ runningGame.prototype = {
         this.game.world.setBounds(32, 32, 31 * 128, 31 * 128);
         this.game.camera.width = 800;
         this.game.camera.height = 600;
-        generatedMap = new Map(32, 32, 100);
+        generatedMap = new Map(0, 0, 100);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
