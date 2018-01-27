@@ -39,6 +39,8 @@ runningGame.prototype = {
 
         theme = this.game.add.audio('backgroundTheme', 1, true);
         theme.play();
+
+        lastmaintenance = this.game.time.now;
     },
 
     update: function () {
@@ -63,11 +65,6 @@ runningGame.prototype = {
         timenow = this.game.time.now;
         if (timenow - lastmaintenance > maintenanceinterval) {
             lastmaintenance = this.game.time.now;
-        }
-
-        timenow = this.game.time.now;
-        if (timenow - lastmaintenance > maintenanceinterval) {
-            lastmaintenance = this.game.time.now;
             this.update_money(maintenancecost * this.game.map.getTowerCount())
         }
         if (money < towercost) {
@@ -84,8 +81,16 @@ runningGame.prototype = {
     },
 
     build_tower: function () {
-        this.update_money(towercost);
-        this.update_money(revenue)
+        let x = layer.getTileX(this.game.input.activePointer.worldX);
+        let y = layer.getTileY(this.game.input.activePointer.worldY);
+        let current_tile = this.game.map.getCell(x, y).type;
+
+        if (current_tile === 0) {
+            this.game.map.buildTower(x, y);
+            this.update_money(towercost);
+            // TODO calculate revenue
+            this.update_money(revenue);
+        }
     },
 
     findFirstTower: function () {
