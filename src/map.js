@@ -4,6 +4,7 @@ function Map(width, height, houseCount, blockedCount) {
     this.houseCount = houseCount;
     this.blockedCount = blockedCount;
     this.map = [];
+    this.towers = [];
 
     this.generateMap();
 }
@@ -77,10 +78,12 @@ Map.prototype.setEmpty = function (x, y) {
 
 Map.prototype.buildTower = function (x, y) {
     this.map[y][x] = new TowerCell();
+    this.towers.push({x:x, y:y})
 };
 
 Map.prototype.buildBaseTower = function (x, y) {
     this.map[y][x] = new BaseTowerCell();
+    this.towers.push({x:x, y:y})
 };
 
 Map.prototype.buildHouse = function (x, y) {
