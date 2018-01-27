@@ -5,6 +5,7 @@ function Map(width, height, houseCount, blockedCount) {
     this.blockedCount = blockedCount;
     this.map = [];
     this.towers = [];
+    this.houses = [];
 
     this.generateMap();
 }
@@ -138,6 +139,7 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
 
 Map.prototype.buildHouse = function (x, y) {
     this.map[y][x] = new HouseCell();
+    this.houses.push({x: x, y: y});
 };
 
 Map.prototype.buildBlocked = function (x, y) {
