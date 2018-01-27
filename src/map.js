@@ -9,38 +9,59 @@ function Map(width, height, houseCount) {
 
 Map.prototype.generateMap = function () {
     // initialize empty map
-    for (let i = 0; i < this.height; i++) {
-        this.map[i] = [];
-        for (let j = 0; j < this.width; j++) {
-            this.map[i][j] = new EmptyCell();
+    for (let y = 0; y < this.height; y++) {
+        this.map[y] = [];
+        for (let x = 0; x < this.width; x++) {
+            this.setEmpty(x, y);
         }
     }
 
     // spawn tower
     let x = getRandomInt(0, this.width);
     let y = getRandomInt(0, this.height);
-    this.map[y][x] = new TowerCell();
+    this.buildTower(x, y);
 
     // spawn houses
-    for (let h = 0; h < this.houseCount; h++) {
+    for (let i = 0; i < this.houseCount; i++) {
+        let j = 0;
         do {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
-        } while (this.map[y][x].isHouse() || this.map[y][x].isTower());
+            j++;
+        } while (
+            j < 1000
+            && (this.getCell(x, y).isHouse() || this.getCell(x, y).isTower())
+        );
 
-        this.map[y][x] = new HouseCell();
+        this.buildHouse(x, y);
     }
 };
 
-Map.prototype.getMap = function () {
-    return this.map;
+Map.prototype.getMapAsCsv = function () {
+    let csv = "";
+    let line = "";
+    for (let y = 0; y < this.height; y++) {
+        line = "";
+        for (let x = 0; x < this.width; x++) {
+            let cell = this.getCell(x, y);
+            if (line === "") {
+                line = cell.getTilemapId();
+            }
+            else {
+                line = line + "," + cell.getTilemapId();
+            }
+        }
+        csv = csv + line + "\n";
+    }
+
+    return csv;
 };
 
 Map.prototype.getTowerCount = function () {
     let count = 0;
-    for (let i = 0; i < this.height; i++) {
-        for (let j = 0; j < this.width; j++) {
-            if (this.map[i][j].isTower()) {
+    for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.width; x++) {
+            if (this.getCell(x, y).isTower()) {
                 count++;
             }
         }
@@ -49,12 +70,32 @@ Map.prototype.getTowerCount = function () {
     return count;
 };
 
+Map.prototype.getCell = function (x, y) {
+    return this.map[y][x];
+};
+
+Map.prototype.setEmpty = function (x, y) {
+    this.map[y][x] = new EmptyCell();
+};
+
+Map.prototype.buildTower = function (x, y) {
+    this.map[y][x] = new TowerCell();
+};
+
+Map.prototype.buildHouse = function (x, y) {
+    this.map[y][x] = new HouseCell();
+};
+
 function Cell() {
-    this.tower = 'TOWER';
-    this.house = 'HOUSE';
-    this.empty = 'EMPTY';
+    this.empty = 0;
+    this.tower = 1;
+    this.house = 2;
 
     this.type = null;
+
+    this.getTilemapId = function () {
+        return this.type;
+    };
 
     this.isEmpty = function () {
         return this.type === this.empty;

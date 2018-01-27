@@ -4,6 +4,7 @@ let runningGame = function () {
 
 runningGame.prototype = {
     create: function () {
+        game.world.setBounds(0, 0, 1920, 1200);
         game.map = new Map(32, 32, 120);
         house = game.make.sprite(0, 0, 'house_small');
         lake = game.make.sprite(0, 0, 'lake');
@@ -47,24 +48,29 @@ runningGame.prototype = {
         /* TC, TODO
         game.input.onTap.addOnce(build_tower, this);
         */
-        renderMap();
     }
 };
 
+function render() {
+    randerMap();
+    game.debug.cameraInfo(game.camera, 32, 32);
+}
+
 function renderMap() {
-    game.bmd.clear();
-    for (let i = 0; i < game.map.width; i++){
-        for (let j =0; j < game.map.height; j++){
-            let cell = game.map.getMap()[i][j];
-            if (cell.isHouse()){
-                game.bmd.draw(house, i * house.width, j * house.height);
+    // game.bmd.clear();
+    for (let x = 0; x < game.map.width; x++) {
+        for (let y = 0; y < game.map.height; y++) {
+            let cell = game.map.getCell(x, y);
+            if (cell.isHouse()) {
+                game.bmd.draw(house, x * house.width, y * house.height);
             }
             else {
-                game.bmd.draw(green, i * green.width, j * green.height);
+                game.bmd.draw(green, x * green.width, y * green.height);
             }
         }
     }
 }
+
 function build_tower() {
     update_money(towercost);
     update_money(revenue)
