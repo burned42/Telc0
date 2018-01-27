@@ -3,6 +3,7 @@ let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'telc0', {preload: preload, 
 let moneytext;
 let lastmaintenance;
 let timenow;
+var cursors;
 
 // TODO change values
 let money = 2000;
@@ -13,26 +14,21 @@ let maintenancecost = -100;
 
 
 function preload() {
+    game.load.image('tiles', 'assets/images/tilemap.png');
     game.load.image('house_small', 'assets/images/house_small.png');
     game.load.image('lake', 'assets/images/lake.png');
     game.load.image('green', 'assets/images/green.png');
 }
 
 function create() {
-    game.world.setBounds(0, 0, 1920, 1200);
-    game.map = new Map(32, 32, 120);
-    house = game.make.sprite(0, 0, 'house_small');
-    lake = game.make.sprite(0, 0, 'lake');
-    green = game.make.sprite(0, 0, 'green');
+    game.world.setBounds(0, 0, 2000 * 32, 2000 * 32);
+    generatedMap = new Map(32, 32, 100);
+    game.map = generatedMap;
+    game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
-    lake.anchor.set(0.5);
-    lake.scale.setTo(0.5, 0.5);
-
-    house.anchor.set(0.5);
-    house.scale.setTo(0.5, 0.5);
-
-    green.anchor.set(0.5);
-    green.scale.setTo(0.5, 0.5);
+    map = game.add.tilemap('generatedMap', 128, 128, generatedMap.width, generatedMap.height);
+    map.addTilesetImage('Map', 'tiles');
+    layer = map.createLayer(0);
 
     //	This is the BitmapData we're going to be drawing to
     game.bmd = game.add.bitmapData(game.width, game.height);
@@ -40,7 +36,11 @@ function create() {
 
     //	Disables anti-aliasing when we draw sprites to the BitmapData
     game.bmd.smoothed = false;
+    let start = findFirstTower();
+    game.camera.x = start.x * 128;
+    game.camera.y = start.y * 128;
 
+    cursors = game.input.keyboard.createCursorKeys();
     //  Show the moneytext
     let bar = game.add.graphics();
     bar.beginFill(0x000000, 0.2);
@@ -51,20 +51,22 @@ function create() {
 }
 
 function update() {
-    if ( game.input.activePointer.middleButton.isDown)
+    if (cursors.up.isDown)
     {
-        if (game.camera.x < game.input.mousePointer.x){
-            game.camera.x += 1;
-        }
-        if (game.camera.x > game.input.mousePointer.x){
-            game.camera.x -= 1;
-        }
-        if (game.camera.y < game.input.mousePointer.y){
-            game.camera.y += 1;
-        }
-        if (game.camera.x > game.input.mousePointer.y) {
-            game.camera.y -= 1;
-        }
+        game.camera.y -= 4;
+    }
+    else if (cursors.down.isDown)
+    {
+        game.camera.y += 4;
+    }
+
+    if (cursors.left.isDown)
+    {
+        game.camera.x -= 4;
+    }
+    else if (cursors.right.isDown)
+    {
+        game.camera.x += 4;
     }
 
     timenow = game.time.now;
@@ -82,27 +84,25 @@ function update() {
 }
 
 function render() {
-    renderMap();
     game.debug.cameraInfo(game.camera, 32, 32);
 }
 
-function renderMap() {
-    // game.bmd.clear();
-    for (let i = 0; i < game.map.width; i++){
-        for (let j =0; j < game.map.height; j++){
-            let cell = game.map.getCell(i, j);
-            if (cell.isHouse()){
-                game.bmd.draw(house, i * house.width, j * house.height);
-            }
-            else {
-                game.bmd.draw(green, i * green.width, j * green.height);
-            }
-        }
-    }
-}
 function build_tower() {
     update_money(towercost);
     update_money(revenue)
+}
+
+function findFirstTower() {
+    for (let i =0; i < game.map.width; i++){
+        for (let j = 0; j < game.map.height; j++){
+            let cell = game.map.getCell(i, j);
+            if (cell.isTower() === true){
+                return {x: i, y: j};
+            }
+        }
+    }
+
+    
 }
 
 function update_money(value) {
