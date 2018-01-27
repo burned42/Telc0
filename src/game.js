@@ -138,7 +138,7 @@ runningGame.prototype = {
             for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
                 if (cell.isBaseTower() === true) {
-                    // this.game.map.coverAt(x, y);
+                    this.game.map.coverAt(x, y);
 
                     return {x: x, y: y};
                 }

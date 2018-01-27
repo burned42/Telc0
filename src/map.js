@@ -190,13 +190,6 @@ Map.prototype.getNeighbors = function(x, y) {
     return coords;
 };
 
-Map.prototype.coverAt = function (x, y) {
-    this.getCell(x, y).covered = true;
-    let neighbours = this.getNeighbors(x, y);
-    for (neigh in neighbours) {
-        this.getCell(neigh.x, neigh.y).covered = true;
-    }
-};
 
 Map.prototype.isConnectedToNetwork = function (x, y) {
     let neighbours = this.getNeighbors(x, y);
