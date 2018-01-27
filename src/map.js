@@ -174,7 +174,7 @@ function Cell() {
     this.empty = [0, 4, 9];
     this.tower = [1, 10];
     this.house = [2, 5];
-    this.blocked = [3];
+    this.blocked = [3, 11];
     this.covered = false;
 
     this.type = null;

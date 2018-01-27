@@ -7,6 +7,8 @@ let runningGame = function () {
     this.graphics = null;
     this.blink = 0.3;
     this.texts = [];
+    this.color_build = 0x9FFA3B;
+    this.color_fail = 0xFF003B;
 };
 
 
@@ -16,33 +18,41 @@ runningGame.prototype = {
     },
 
     create: function () {
-        this.game.world.setBounds(0, 0, 32 * 128, 32 * 128);
-        this.game.camera.width = 800;
-        this.game.camera.height = 600;
-        let generatedMap = new Map(32, 32, 100, 50);
+        this.game.world.setBounds(0, 0, mapRows * cellSize, mapCols * cellSize);
+        this.game.camera.width = viewport.w;
+        this.game.camera.height = viewport.h;
+        let generatedMap = new Map(mapRows, mapCols, 100, 50);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
-        this.game.tilemap = this.game.add.tilemap('generatedMap', 128, 128, generatedMap.width, generatedMap.height);
+        this.game.tilemap = this.game.add.tilemap('generatedMap', cellSize, cellSize, generatedMap.width, generatedMap.height);
         this.game.tilemap.addTilesetImage('Map', 'tiles');
         this.game.tilelayer = this.game.tilemap.createLayer(0);
 
         this.graphics = this.game.add.graphics(0, 0);
 
+        // The rabbits are no static tiles, they move and are in fact a spritesheet (tileid is 4)
+        let rabbits = this.game.add.group();
+        rabbits.enableBody = true;
+        this.game.tilemap.createFromObjects('generatedMap', 4, 'greenGrassRabbitMoving', 0, true, false, rabbits);
+        rabbits.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3], 10, true);
+        rabbits.callAll('animations.play', 'animations', 'spin');
+
         // graphics.lineStyle(2, 0xffd900, 1);
 
         let start = this.findBaseTower();
-        this.game.camera.x = start.x * 128 - this.game.width / 2;
-        this.game.camera.y = start.y * 128 - this.game.height / 2;
+        this.game.camera.x = start.x * cellSize - cellSize/ 2;
+        this.game.camera.y = start.y * cellSize - cellSize / 2;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
         this.escKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 
-        let bar = this.game.add.graphics();
-        bar.beginFill(0x000000, 0.2);
+        this.bar = this.game.add.graphics();
+        this.bar.beginFill(0x0c0c0c, 0.2);
         moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
-        bar.fixedToCamera = true;
+        this.bar.drawRect(0, 20, 150, 40);
+        this.bar.fixedToCamera = true;
         moneytext.fixedToCamera = true;
 
         this.cashGood = this.game.add.audio('cashGood');
@@ -50,10 +60,9 @@ runningGame.prototype = {
 
         this.game.add.audio('backgroundTheme', 1, true).play();
 
-        let numofbirds = 6;
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
-            let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird');
+            let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.world.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.world.height + 1), 'bird');
             let fly = aktbird.animations.add('fly');
             aktbird.animations.play('fly', 10, true);
             this.game.birds.push(aktbird);
@@ -69,8 +78,9 @@ runningGame.prototype = {
 
     update: function () {
         if (this.escKey.isDown) {
-            location.reload();
+            this.game.state.start('menu');
         }
+
         if (this.cursors.up.isDown) {
             this.game.camera.y -= 4;
         } else if (this.cursors.down.isDown) {
@@ -111,12 +121,12 @@ runningGame.prototype = {
         }
 
         this.graphics.beginFill(0x000000, this.blink);
-        // this.game.debug.cameraInfo(this.game.camera, 32, 32);
+        this.game.debug.cameraInfo(this.game.camera, 32, 32);
         for (let x = 0; x < this.game.map.width; x++){
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
-                    this.graphics.drawRoundedRect(128 * x, 128 * y, 132, 132, 64);
+                    this.graphics.drawRoundedRect(cellSize * x, cellSize * y, cellSize, cellSize, 4);
                 }
             }
         }
@@ -127,27 +137,32 @@ runningGame.prototype = {
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
 
-        if (this.game.map.isConnectedToNetwork(x, y)){
-            this.game.map.coverAt(x, y);
-        }
 
-        if (current_tile.isEmpty()) {
+        if (current_tile.isEmpty() && !current_tile.isBlocked()) {
             this.game.map.buildTower(x, y);
             this.update_money(towercost, false);
             this.game.tilemap.putTile(1, x, y);
             this.money_effect(x, y, towercost);
             let revenue = this.calculate_revenue();
             this.update_money(revenue);
-        }
+
+            if (this.game.map.isConnectedToNetwork(x, y)){
+                this.game.map.coverAt(x, y);
+            }
+            this.flash_build_success();
 
 
-        for (let x = 0; x < this.game.map.width; x++) {
-            for (let y = 0; y < this.game.map.height; y++) {
-                let cell = this.game.map.getCell(x, y);
-                if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y)) {
-                    this.game.map.coverAt(x, y);
+            for (let x = 0; x < this.game.map.width; x++) {
+                for (let y = 0; y < this.game.map.height; y++) {
+                    let cell = this.game.map.getCell(x, y);
+                    if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y)) {
+                        this.game.map.coverAt(x, y);
+                    }
                 }
             }
+        }
+        else  {
+            this.flash_build_fails();
         }
     },
 
@@ -208,7 +223,6 @@ runningGame.prototype = {
 
     animate_world: function() {
         // Let the Birds fly
-        let birdspeed = 2;
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
             if (aktbird.rotation === 0) {
@@ -225,7 +239,7 @@ runningGame.prototype = {
             }
 
             // Change rotation sometimes
-            if (Math.random() > 0.97) {
+            if (Math.random() > 0.98) {
                 aktbird.rotation += 90;
 
                 if (aktbird.rotation === 360) {
@@ -249,6 +263,17 @@ runningGame.prototype = {
         }
     },
 
+    flash_build_success: function () {
+        this.game.camera.flash(this.color_build, 200);
+
+    },
+
+
+    flash_build_fails: function () {
+        this.game.camera.flash(this.color_fail, 200);
+
+    },
+
     money_effect: function (x, y, value) {
         let fontconfig = {antialias: false, font: "bold 16pt Arial"};
         if (value >= 0) {
@@ -258,7 +283,7 @@ runningGame.prototype = {
             // color red
             fontconfig.fill = "#ff0000";
         }
-        effectX = (x * cellSize) + (cellSize/2);
+        effectX = (x * cellSize) + (cellSize/4);
         effectY = (y * cellSize) + (cellSize/2);
         let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
         text.birth = this.game.time.now;
