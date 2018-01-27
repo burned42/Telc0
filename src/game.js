@@ -168,12 +168,12 @@ runningGame.prototype = {
         if (timenow - lastmaintenance > maintenanceinterval) {
             lastmaintenance = this.game.time.now;
             this.update_money(maintenancecost * this.game.map.getTowerCount());
-        }
-        for (let x = 0; x < this.game.map.width; x++) {
-            for (let y = 0; y < this.game.map.height; y++) {
-                let cell = this.game.map.getCell(x, y);
-                if (cell.isTower()) {
-                    this.money_effect(x, y, maintenancecost);
+            for (let x = 0; x < this.game.map.width; x++) {
+                for (let y = 0; y < this.game.map.height; y++) {
+                    let cell = this.game.map.getCell(x, y);
+                    if (cell.isTower()) {
+                        this.money_effect(x, y, maintenancecost);
+                    }
                 }
             }
         }
