@@ -95,9 +95,6 @@ runningGame.prototype = {
         }
 
         this.calculate_maintenance();
-        if (money < towercost) {
-            // TODO End the this.game
-        }
         this.game.input.onDown.addOnce(this.build_tower, this);
         // this.render();
 
