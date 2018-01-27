@@ -16,9 +16,9 @@ runningGame.prototype = {
     },
 
     create: function () {
-        this.game.world.setBounds(0, 0, mapRows * cellSize, mapCols * cellSize);
-        this.game.camera.width = mapWidth;
-        this.game.camera.height = mapHeight;
+        // this.game.world.setBounds(0, /**/0);
+        this.game.camera.width = viewport.w;
+        this.game.camera.height = viewport.h;
         let generatedMap = new Map(mapRows, mapCols, 100, 50);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
@@ -32,8 +32,8 @@ runningGame.prototype = {
         // graphics.lineStyle(2, 0xffd900, 1);
 
         let start = this.findBaseTower();
-        this.game.camera.x = start.x * cellSize - this.game.width / 2;
-        this.game.camera.y = start.y * cellSize - this.game.height / 2;
+        this.game.camera.x = start.x * cellSize - cellSize/ 2;
+        this.game.camera.y = start.y * cellSize - cellSize / 2;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
@@ -70,6 +70,7 @@ runningGame.prototype = {
         if (this.escKey.isDown) {
             this.game.state.start('menu');
         }
+
         if (this.cursors.up.isDown) {
             this.game.camera.y -= 4;
         } else if (this.cursors.down.isDown) {
@@ -110,7 +111,7 @@ runningGame.prototype = {
         }
 
         this.graphics.beginFill(0x000000, this.blink);
-        // this.game.debug.cameraInfo(this.game.camera, 32, 32);
+        this.game.debug.cameraInfo(this.game.camera, 32, 32);
         for (let x = 0; x < this.game.map.width; x++){
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);

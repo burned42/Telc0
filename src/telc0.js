@@ -3,11 +3,12 @@ let game;
 let cellSize = 128;
 let mapRows = 16;
 let mapCols = 16;
+let viewport = {w: 800, h: 600};
 
-let maxHeight = document.getElementById('container').scrollHeight;
-let maxWidth = document.getElementById('container').scrollWidth;
-let mapHeight = Math.floor(maxHeight / mapCols);
-let mapWidth = Math.floor(maxWidth / mapRows);
+let maxHeight = mapRows * cellSize; //document.getElementById('container').scrollHeight;
+let maxWidth = mapCols * cellSize; //document.getElementById('container').scrollWidth;
+let mapHeight = Math.floor(maxHeight);
+let mapWidth = Math.floor(maxWidth);
 
 let birdspeed = 2;
 let numofbirds = 6;
@@ -26,7 +27,7 @@ let maintenancecost = -100;
 
 //main game functions for each game step
 window.onload = function () {
-    game = new Phaser.Game(mapWidth, mapHeight, Phaser.CANVAS, 'game', null, false, false, null);
+    game = new Phaser.Game(1920, 1080, Phaser.CANVAS, 'game', null, false, false, null);
     game.state.add('boot', gameBoot);
     game.state.add('preload', gamePreload);
     game.state.add('menu', gameMenu);
