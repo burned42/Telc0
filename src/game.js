@@ -83,11 +83,11 @@ runningGame.prototype = {
     build_tower: function () {
         let x = layer.getTileX(this.game.input.activePointer.worldX);
         let y = layer.getTileY(this.game.input.activePointer.worldY);
-        let current_tile = this.game.map.getCell(x, y).type;
+        let current_tile = this.game.map.getCell(x, y);
 
-        if (current_tile === 0) {
+        if (current_tile.isEmpty()) {
             this.game.map.buildTower(x, y);
-            this.update_money(towercost);
+            this.update_money(towercost, false);
             // TODO calculate revenue
             this.update_money(revenue);
         }
