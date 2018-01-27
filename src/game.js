@@ -2,8 +2,8 @@ let runningGame = function () {
     this.cursors = null;
     this.cashGood = null;
     this.cashBad = null;
+    this.gameAudio = null;
     this.graphics = null;
-    this.blink = 0.3;
     this.texts = [];
     this.colorBuild = 0x9FFA3B;
     this.colorFail = 0xFF003B;
@@ -59,7 +59,7 @@ runningGame.prototype = {
         this.cashGood = this.game.add.audio('cashGood');
         this.cashBad = this.game.add.audio('cashBad');
 
-        this.game.add.audio('backgroundTheme', 1, true).play();
+        this.gameAudio = this.game.add.audio('backgroundTheme', 1, true).play();
 
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
@@ -126,13 +126,13 @@ runningGame.prototype = {
             }
         }
 
-        this.graphics.beginFill(0x000000, 0.3);
         this.game.debug.cameraInfo(this.game.camera, 32, 32);
         for (let x = 0; x < this.game.map.width; x++){
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
-                    this.graphics.drawRoundedRect(cellSize * x, cellSize * y, cellSize, cellSize, 4);
+                    this.graphics.beginFill(0x000FF0, 0.2);
+                    this.graphics.drawRoundedRect(cellSize * x, cellSize * y, cellSize, cellSize, 0.4);
                 }
             }
         }
