@@ -1,4 +1,9 @@
-let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'telc0', {preload: preload, create: create, update: update, render: render});
+let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'telc0', {
+    preload: preload,
+    create: create,
+    update: update,
+    render: render
+});
 
 let moneytext;
 let lastmaintenance;
@@ -50,8 +55,8 @@ function create() {
     let bar = game.add.graphics();
     bar.beginFill(0x000000, 0.2);
     bar.drawRect(0, 20, 150, 40);
-    moneytext = game.add.text(30, 30, "$ " + money, { font: "bold 19px Arial", fill: "#edff70"});
-    
+    moneytext = game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
+
     lastmaintenance = game.time.now;
 
     cashgood = game.add.audio('cashGood');
@@ -80,10 +85,10 @@ function render() {
 
 function renderMap() {
     // game.bmd.clear();
-    for (let x = 0; x < game.map.width; x++){
-        for (let y = 0; y < game.map.height; y++){
+    for (let x = 0; x < game.map.width; x++) {
+        for (let y = 0; y < game.map.height; y++) {
             let cell = game.map.getCell(x, y);
-            if (cell.isHouse()){
+            if (cell.isHouse()) {
                 game.bmd.draw(house, x * house.width, y * house.height);
             }
             else {
@@ -92,6 +97,7 @@ function renderMap() {
         }
     }
 }
+
 function build_tower() {
     update_money(towercost, false);
     update_money(revenue);
