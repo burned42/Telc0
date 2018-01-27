@@ -31,6 +31,7 @@ runningGame.prototype = {
         bar.beginFill(0x000000, 0.2);
         bar.drawRect(0, 20, 150, 40);
         moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
+        moneytext.fixedToCamera = true;
 
         cashgood = this.game.add.audio('cashGood');
         cashbad = this.game.add.audio('cashBad');
@@ -43,7 +44,6 @@ runningGame.prototype = {
         if (cursors.up.isDown)
         {
             this.game.camera.y -= 4;
-            this.game.camera.z -= 4;
         }
         else if (cursors.down.isDown)
         {
