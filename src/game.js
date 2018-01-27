@@ -71,6 +71,9 @@ runningGame.prototype = {
 
         cashgood = this.game.add.audio('cashGood');
         cashbad = this.game.add.audio('cashBad');
+
+        theme = this.game.add.audio('backgroundTheme', 1, true);
+        theme.play();
     },
 
     update: function () {
