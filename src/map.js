@@ -29,7 +29,7 @@ Map.prototype.generateMap = function () {
     for (let i = 1; i <= numofroads; i++) {
         x = getRandomInt(0, this.width);
         y = getRandomInt(0, this.height);
-        if (this.getCell(x, y).isEmpty() && 
+        if (this.getCell(x, y).isEmpty() &&
             (x-1 >= 1 && !this.getCell(x-1, y).isStreet()) &&
             (x+1 <= this.width-1 && !this.getCell(x+1, y).isStreet()) &&
             (y-1 >= 1 && !this.getCell(x, y-1).isStreet()) &&

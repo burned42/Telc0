@@ -168,13 +168,14 @@ runningGame.prototype = {
     },
 
     findBaseTower: function () {
-        for (let x = 0; x < this.game.map.width; x++) {
-            for (let y = 0; y < this.game.map.height; y++) {
-                let cell = this.game.map.getCell(x, y);
-                if (cell.isBaseTower()) {
-                    this.game.map.coverAt(x, y);
-                    return {x: x, y: y};
-                }
+        for (let i = 0; i < this.game.map.towers.length; i++) {
+            let tower = this.game.map.towers[i];
+            console.log(tower);
+            let cell = this.game.map.getCell(tower.x, tower.y);
+            if (cell.isBaseTower()) {
+                this.game.map.coverAt(tower.x, tower.y);
+
+                return {x: tower.x, y: tower.y};
             }
         }
     },
