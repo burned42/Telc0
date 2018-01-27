@@ -1,7 +1,8 @@
-function Map(width, height, houseCount) {
+function Map(width, height, houseCount, blockedCount) {
     this.width = width;
     this.height = height;
     this.houseCount = houseCount;
+    this.blockedCount = blockedCount;
     this.map = [];
 
     this.generateMap();
@@ -35,6 +36,22 @@ Map.prototype.generateMap = function () {
 
         this.buildHouse(x, y);
     }
+
+    // spwan random blocked tiles
+    for (let i = 0; i < this.blockedCount; i++) {
+        let j = 0;
+        do {
+            x = getRandomInt(0, this.width);
+            y = getRandomInt(0, this.height);
+            j++;
+        } while (
+            j < 1000
+            && (this.getCell(x, y).isBlocked() || this.getCell(x, y).isBlocked())
+        );
+
+        this.buildBlocked(x, y);
+    }
+
 };
 
 Map.prototype.getMapAsCsv = function () {
@@ -86,10 +103,16 @@ Map.prototype.buildHouse = function (x, y) {
     this.map[y][x] = new HouseCell();
 };
 
+Map.prototype.buildBlocked = function (x, y) {
+    this.map[y][x] = new BlockCell();
+};
+
+
 function Cell() {
-    this.empty = 0;
-    this.tower = 1;
-    this.house = 2;
+    this.empty = [0, 4, 9];
+    this.tower = [1];
+    this.house = [2];
+    this.blocked = [3];
 
     this.type = null;
 
@@ -98,32 +121,46 @@ function Cell() {
     };
 
     this.isEmpty = function () {
-        return this.type === this.empty;
+        return this.empty.includes(this.type);
     };
 
     this.isTower = function () {
-        return this.type === this.tower;
+        return this.tower.includes(this.type); 
     };
 
     this.isHouse = function () {
-        return this.type === this.house;
+        return this.house.includes(this.type);
+    };
+
+    this.isBlocked = function () {
+        return this.blocked.includes(this.type);
     };
 }
 
 function EmptyCell() {
     Cell.call(this);
 
-    this.type = this.empty;
+    let emptytiles = [0, 0, 0, 0, 4, 9];
+    this.type = emptytiles[Math.floor(Math.random() * emptytiles.length)]
 }
 
 function HouseCell() {
     Cell.call(this);
 
-    this.type = this.house;
+    let housetiles = [2, 5];
+    this.type = housetiles[Math.floor(Math.random() * housetiles.length)]
 }
 
 function TowerCell() {
     Cell.call(this);
 
-    this.type = this.tower;
+    this.type = this.tower[0];
 }
+
+function BlockCell() {
+    Cell.call(this);
+
+    let blocktiles = [3];
+    this.type = blocktiles[Math.floor(Math.random() * blocktiles.length)]
+}
+
