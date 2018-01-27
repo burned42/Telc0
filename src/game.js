@@ -31,6 +31,13 @@ runningGame.prototype = {
 
         this.graphics = this.game.add.graphics(0, 0);
 
+        // The rabbits are no static tiles, they move and are in fact a spritesheet (tileid is 4)
+        let rabbits = this.game.add.group();
+        rabbits.enableBody = true;
+        this.game.tilemap.createFromObjects('generatedMap', 4, 'greenGrassRabbitMoving', 0, true, false, rabbits);
+        rabbits.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3], 10, true);
+        rabbits.callAll('animations.play', 'animations', 'spin');
+
         // graphics.lineStyle(2, 0xffd900, 1);
 
         let start = this.findBaseTower();
@@ -55,7 +62,7 @@ runningGame.prototype = {
 
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
-            let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird');
+            let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.world.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.world.height + 1), 'bird');
             let fly = aktbird.animations.add('fly');
             aktbird.animations.play('fly', 10, true);
             this.game.birds.push(aktbird);
@@ -232,7 +239,7 @@ runningGame.prototype = {
             }
 
             // Change rotation sometimes
-            if (Math.random() > 0.97) {
+            if (Math.random() > 0.98) {
                 aktbird.rotation += 90;
 
                 if (aktbird.rotation === 360) {

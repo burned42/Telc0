@@ -14,6 +14,7 @@ gamePreload.prototype = {
         this.game.load.image('green', 'assets/images/green.png');
         this.game.load.image('greenGrass', 'assets/images/green_grass.png');
         this.game.load.image('greenGrassRabbit', 'assets/images/green_grass_rabbit.png');
+        this.game.load.image('greenGrassRabbitMoving', 'assets/images/tilemap_rabbit.png');
         this.game.load.image('houseBig', 'assets/images/house_big.png');
         this.game.load.image('houseSmall', 'assets/images/house_small.png');
         this.game.load.image('lake', 'assets/images/lake.png');
