@@ -200,6 +200,7 @@ runningGame.prototype = {
                 }
             }
         }
+        this.calculate_coverage();
         return revenue;
     },
 
@@ -274,5 +275,20 @@ runningGame.prototype = {
         this.texts.push(text);
 
         this.game.add.tween(text).to({alpha: 0}, 1000, Phaser.Easing.Default, true, 1000);
+    },
+
+    calculate_coverage: function () {
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.paidFor) {
+                   this.countCoveredHouses++;
+                }
+            }
+        }
+        if (this.countCoveredHouses == this.housesInMap) {
+            //coverage % calculation here…
+            this.game.state.start('gameOver');
+        }
     }
 };
