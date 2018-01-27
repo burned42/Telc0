@@ -39,6 +39,8 @@ runningGame.prototype = {
 
         theme = this.game.add.audio('backgroundTheme', 1, true);
         theme.play();
+
+        lastmaintenance = this.game.time.now;
     },
 
     update: function () {
@@ -58,11 +60,6 @@ runningGame.prototype = {
         else if (cursors.right.isDown)
         {
             this.game.camera.x += 4;
-        }
-
-        timenow = this.game.time.now;
-        if (timenow - lastmaintenance > maintenanceinterval) {
-            lastmaintenance = this.game.time.now;
         }
 
         timenow = this.game.time.now;
