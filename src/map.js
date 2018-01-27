@@ -128,7 +128,7 @@ Map.prototype.coverAt = function (x, y) {
 function Cell() {
     this.empty = [0, 4, 9];
     this.tower = [1, 10];
-    this.house = [2];
+    this.house = [2, 5];
     this.blocked = [3];
     this.covered = false;
 
