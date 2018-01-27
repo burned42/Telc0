@@ -28,7 +28,6 @@ window.onload = function () {
     game.state.add('preload', gamePreload);
     game.state.add('menu', gameMenu);
     game.state.add('telc0', runningGame);
-    //add state Pause here
     game.state.add('gameOver', gameOver);
     game.state.start('boot');
 };
