@@ -68,9 +68,6 @@ runningGame.prototype = {
             // TODO End the this.game
         }
         this.game.input.onDown.addOnce(this.build_tower, this);
-        /* TC, TODO
-        this.game.input.onTap.addOnce(build_tower, this);
-        */
     },
 
     render: function() {
