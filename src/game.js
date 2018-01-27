@@ -122,7 +122,7 @@ runningGame.prototype = {
             }
         }
 
-        this.game.debug.cameraInfo(this.game.camera, 32, 32);
+        // this.game.debug.cameraInfo(this.game.camera, 32, 32);
         for (let x = 0; x < this.game.map.width; x++){
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
