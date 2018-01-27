@@ -146,6 +146,10 @@ function Cell() {
         return this.tower.includes(this.type); 
     };
 
+    this.isBaseTower = function () {
+        return this.type === 10;
+    };
+
     this.isHouse = function () {
         return this.house.includes(this.type);
     };

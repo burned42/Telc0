@@ -30,7 +30,7 @@ runningGame.prototype = {
 
         // graphics.lineStyle(2, 0xffd900, 1);
 
-        let start = this.findFirstTower();
+        let start = this.findBaseTower();
         this.game.camera.x = start.x * 128 - this.game.width / 2;
         this.game.camera.y = start.y * 128 - this.game.height / 2;
 
@@ -51,8 +51,8 @@ runningGame.prototype = {
 
         let numofbirds = 6;
         this.game.birds = [];
-        for (let i = 0; i < numofbirds; i++) { 
-            this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird')); 
+        for (let i = 0; i < numofbirds; i++) {
+            this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird'));
         }
 
         lastmaintenance = this.game.time.now;
@@ -133,13 +133,14 @@ runningGame.prototype = {
         }
     },
 
-    findFirstTower: function () {
-        for (let i =0; i < this.game.map.width; i++){
-            for (let j = 0; j < this.game.map.height; j++){
-                let cell = this.game.map.getCell(i, j);
-                if (cell.isTower() === true){
-                    // this.game.map.coverAt(i, j);
-                    return {x: i, y: j};
+    findBaseTower: function () {
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.isBaseTower() === true) {
+                    // this.game.map.coverAt(x, y);
+
+                    return {x: x, y: y};
                 }
             }
         }
@@ -177,7 +178,7 @@ runningGame.prototype = {
             let aktbird = this.game.birds[i];
             if (aktbird.rotation == 0) {
                 aktbird.y += 5;
-            }	
+            }
         }
     }
 
