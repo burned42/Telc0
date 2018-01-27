@@ -16,9 +16,9 @@ runningGame.prototype = {
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
-        map = this.game.add.tilemap('generatedMap', 128, 128, generatedMap.width, generatedMap.height);
-        map.addTilesetImage('Map', 'tiles');
-        layer = map.createLayer(0);
+        this.game.tilemap = this.game.add.tilemap('generatedMap', 128, 128, generatedMap.width, generatedMap.height);
+        this.game.tilemap.addTilesetImage('Map', 'tiles');
+        this.game.tilelayer = this.game.tilemap.createLayer(0);
 
 
         let start = this.findFirstTower();
@@ -81,13 +81,14 @@ runningGame.prototype = {
     },
 
     build_tower: function () {
-        let x = layer.getTileX(this.game.input.activePointer.worldX);
-        let y = layer.getTileY(this.game.input.activePointer.worldY);
+        let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
+        let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
 
         if (current_tile.isEmpty()) {
             this.game.map.buildTower(x, y);
             this.update_money(towercost, false);
+            this.game.tilemap.putTile(1, x, y);
             // TODO calculate revenue
             this.update_money(revenue);
         }
