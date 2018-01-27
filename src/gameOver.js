@@ -1,4 +1,5 @@
 let gameOver = function (game) {
+    this.space = null;
 };
 
 gameOver.prototype = {
@@ -18,10 +19,10 @@ gameOver.prototype = {
         // "replay" need picture for this
         this.game.add.button(this.game.width * 0.1, this.game.height * 0.6, 'replay', this.playGame, this);
 
-        space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
     update: function () {
-        if (space.isDown) {
+        if (this.space.isDown) {
             this.playGame();
         }
     },

@@ -6,6 +6,7 @@ function Map(width, height, houseCount, blockedCount) {
     this.map = [];
 
     this.generateMap();
+    // this.coverAtSource();
 }
 
 Map.prototype.generateMap = function () {
@@ -54,25 +55,6 @@ Map.prototype.generateMap = function () {
 
 };
 
-Map.prototype.getMapAsCsv = function () {
-    let csv = "";
-    let line = "";
-    for (let y = 0; y < this.height; y++) {
-        line = "";
-        for (let x = 0; x < this.width; x++) {
-            let cell = this.getCell(x, y);
-            if (line === "") {
-                line = cell.getTilemapId();
-            }
-            else {
-                line = line + "," + cell.getTilemapId();
-            }
-        }
-        csv = csv + line + "\n";
-    }
-
-    return csv;
-};
 
 Map.prototype.getTowerCount = function () {
     let count = 0;
@@ -113,6 +95,7 @@ function Cell() {
     this.tower = [1];
     this.house = [2];
     this.blocked = [3];
+    this.covered = false;
 
     this.type = null;
 
@@ -137,18 +120,40 @@ function Cell() {
     };
 }
 
+Map.prototype.getMapAsCsv = function () {
+    let csv = "";
+    let line = "";
+    for (let y = 0; y < this.height; y++) {
+        line = "";
+        for (let x = 0; x < this.width; x++) {
+            let cell = this.getCell(x, y);
+            if (line === "") {
+                line = cell.getTilemapId();
+            }
+            else {
+                line = line + "," + cell.getTilemapId();
+            }
+        }
+        csv = csv + line + "\n";
+    }
+
+    return csv;
+};
+
+
 function EmptyCell() {
     Cell.call(this);
 
-    let emptytiles = [0, 0, 0, 0, 4, 9];
-    this.type = emptytiles[Math.floor(Math.random() * emptytiles.length)]
+    let emptyTiles = [0, 0, 0, 0, 4, 9];
+    this.type = emptyTiles[Math.floor(Math.random() * emptyTiles.length)]
 }
 
 function HouseCell() {
     Cell.call(this);
 
-    let housetiles = [2, 5];
-    this.type = housetiles[Math.floor(Math.random() * housetiles.length)]
+    let houseTiles = [2, 5];
+    this.type = houseTiles[Math.floor(Math.random() * houseTiles.length)];
+    this.paidFor = false;
 }
 
 function TowerCell() {
@@ -160,7 +165,7 @@ function TowerCell() {
 function BlockCell() {
     Cell.call(this);
 
-    let blocktiles = [3];
-    this.type = blocktiles[Math.floor(Math.random() * blocktiles.length)]
+    let blockTiles = [3];
+    this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)]
 }
 

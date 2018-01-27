@@ -1,5 +1,9 @@
 let runningGame = function () {
     // do something…
+
+    this.cursors = null;
+    this.cashGood = null;
+    this.cashBad = null;
 };
 
 
@@ -12,7 +16,7 @@ runningGame.prototype = {
         this.game.world.setBounds(0, 0, 32 * 128, 32 * 128);
         this.game.camera.width = 800;
         this.game.camera.height = 600;
-        generatedMap = new Map(32, 32, 100, 50);
+        let generatedMap = new Map(32, 32, 100, 50);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
@@ -25,7 +29,7 @@ runningGame.prototype = {
         this.game.camera.x = start.x * 128;
         this.game.camera.y = start.y * 128;
 
-        cursors = this.game.input.keyboard.createCursorKeys();
+        this.cursors = this.game.input.keyboard.createCursorKeys();
 
         let bar = this.game.add.graphics();
         bar.beginFill(0x000000, 0.2);
@@ -34,11 +38,10 @@ runningGame.prototype = {
         bar.fixedToCamera = true;
         moneytext.fixedToCamera = true;
 
-        cashgood = this.game.add.audio('cashGood');
-        cashbad = this.game.add.audio('cashBad');
+        this.cashGood = this.game.add.audio('cashGood');
+        this.cashBad = this.game.add.audio('cashBad');
 
-        theme = this.game.add.audio('backgroundTheme', 1, true);
-        theme.play();
+        this.game.add.audio('backgroundTheme', 1, true).play();
 
         lastmaintenance = this.game.time.now;
 
@@ -49,21 +52,15 @@ runningGame.prototype = {
     },
 
     update: function () {
-        if (cursors.up.isDown)
-        {
+        if (this.cursors.up.isDown) {
             this.game.camera.y -= 4;
-        }
-        else if (cursors.down.isDown)
-        {
+        } else if (this.cursors.down.isDown) {
             this.game.camera.y += 4;
         }
 
-        if (cursors.left.isDown)
-        {
+        if (this.cursors.left.isDown) {
             this.game.camera.x -= 4;
-        }
-        else if (cursors.right.isDown)
-        {
+        } else if (this.cursors.right.isDown) {
             this.game.camera.x += 4;
         }
 
@@ -76,9 +73,6 @@ runningGame.prototype = {
             // TODO End the this.game
         }
         this.game.input.onDown.addOnce(this.build_tower, this);
-        /* TC, TODO
-        this.game.input.onTap.addOnce(build_tower, this);
-        */
 
         let miniMapViewportX = this.game.camera.x * 150 / this.game.world.width;
         let miniMapViewportY = this.game.camera.y * 150 / this.game.world.height;
@@ -101,7 +95,7 @@ runningGame.prototype = {
             this.game.map.buildTower(x, y);
             this.update_money(towercost, false);
             this.game.tilemap.putTile(1, x, y);
-            // TODO calculate revenue
+            let revenue = this.calculate_revenue();
             this.update_money(revenue);
         }
     },
@@ -117,19 +111,30 @@ runningGame.prototype = {
         }
     },
 
+    calculate_revenue: function() {
+        let revenue = 0;
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; x < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.isHouse() && cell.covered && ! cell.paidFor) {
+                    revenue += this.revenueHouse;
+                    cell.paidFor = true;
+                }
+            }
+        }
+        return revenue
+    },
+
     update_money: function (value, playsound=true) {
         if (playsound) {
             if (value >= 0) {
-                cashgood.play();
+                this.cashGood.play();
             } else {
-                cashbad.play();
+                this.cashBad.play();
             }
         }
         money += value;
         moneytext.setText("$ " + money);
-        {
-
-        }
     }
 
 };
