@@ -3,13 +3,15 @@ let gamePreload = function () {
 
 gamePreload.prototype = {
     preload: function () {
-        let loadingBar = this.add.sprite((this.game.width - 512) / 2, 0, 'loading');
+        this.game.add.image(0, 0, 'startBg');
+        let loadingBar = this.add.sprite((this.game.width - 512) / 2, 420, 'loading');
         loadingBar.anchor.setTo(0, 0);
         this.load.setPreloadSprite(loadingBar);
 
         this.game.load.spritesheet('bird', 'assets/images/bird_flying.png', 16, 16, 3);
         this.game.load.image('buttonCredits', 'assets/images/button_credits.png');
         this.game.load.image('buttonPlay', 'assets/images/button_play.png');
+        this.game.load.image('buttonMenu', 'assets/images/button_menu.png');
         this.game.load.image('crossroads', 'assets/images/crossroads.png');
         this.game.load.image('green', 'assets/images/green.png');
         this.game.load.image('greenGrass', 'assets/images/green_grass.png');

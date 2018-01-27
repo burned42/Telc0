@@ -95,6 +95,10 @@ runningGame.prototype = {
         }
 
         this.calculate_maintenance();
+        if (money < towercost || money <= 0) {
+            money = startMoney;
+            this.game.state.start('gameOver');
+        }
         this.game.input.onDown.addOnce(this.build_tower, this);
         // this.render();
 
@@ -107,11 +111,6 @@ runningGame.prototype = {
         this.miniMap.update();
 
         this.animate_world();
-
-        if (money <= 0) {
-            money = startMoney;
-            this.game.state.start('gameOver');
-        }
     },
 
     render: function() {
@@ -169,8 +168,6 @@ runningGame.prototype = {
             let tower = this.game.map.towers[i];
             let cell = this.game.map.getCell(tower.x, tower.y);
             if (cell.isBaseTower()) {
-                this.game.map.coverAt(tower.x, tower.y);
-
                 return {x: tower.x, y: tower.y};
             }
         }
