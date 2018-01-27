@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <title>Telc0</title>
-   <script type="text/javascript" src="src/phaser.js"></script>
-   <script type="text/javascript" src="src/game.js"></script>
-   <script type="text/javascript" src="src/util.js"></script>
-   <script type="text/javascript" src="src/map.js"></script>
+    <meta charset="UTF-8">
+    <title>Telc0</title>
+    <script type="text/javascript" src="src/phaser.js"></script>
+    <script type="text/javascript" src="src/game.js"></script>
+    <script type="text/javascript" src="src/telc0.js"></script>
+    <script type="text/javascript" src="src/gameBoot.js"></script>
+    <script type="text/javascript" src="src/gamePreload.js"></script>
+    <script type="text/javascript" src="src/gameMenu.js"></script>
+    <script type="text/javascript" src="src/gameOver.js"></script>
+    <script type="text/javascript" src="src/util.js"></script>
+    <script type="text/javascript" src="src/map.js"></script>
+    <!--shortcut icon does not work; fix needed! -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
 </head>
 <body>
-<!-- I need this later…
-   <div id="container" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
-      <div id="game"></div>
-      <div id="credits">
-         <h2 style="margin: 0; padding: 0;">Credits</h2>
-      </div>
-   </div>
--->
+    <div id="container" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
+        <div id="game"></div>
+        <div id="credits" style="display: none;">
+            <h2 style="margin: 0; padding: 0;">Credits</h2>
+        </div>
+    </div>
 </body>
 </html>
