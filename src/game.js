@@ -17,8 +17,8 @@ runningGame.prototype = {
 
     create: function () {
         this.game.world.setBounds(0, 0, mapRows * cellSize, mapCols * cellSize);
-        this.game.camera.width = 800;
-        this.game.camera.height = 600;
+        this.game.camera.width = mapWidth;
+        this.game.camera.height = mapHeight;
         let generatedMap = new Map(mapRows, mapCols, 100, 50);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
@@ -50,7 +50,6 @@ runningGame.prototype = {
 
         this.game.add.audio('backgroundTheme', 1, true).play();
 
-        let numofbirds = 6;
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
             let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird');
@@ -209,7 +208,6 @@ runningGame.prototype = {
 
     animate_world: function() {
         // Let the Birds fly
-        let birdspeed = 2;
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
             if (aktbird.rotation === 0) {
