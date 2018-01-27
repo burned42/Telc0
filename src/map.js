@@ -87,7 +87,7 @@ Map.prototype.buildHouse = function (x, y) {
 };
 
 function Cell() {
-    this.empty = 0;
+    this.empty = [0, 4, 9];
     this.tower = 1;
     this.house = 2;
 
@@ -98,7 +98,7 @@ function Cell() {
     };
 
     this.isEmpty = function () {
-        return this.type === this.empty;
+        return this.empty.includes(this.type);
     };
 
     this.isTower = function () {
@@ -113,7 +113,8 @@ function Cell() {
 function EmptyCell() {
     Cell.call(this);
 
-    this.type = this.empty;
+    let emptytiles = [0, 0, 0, 0, 4, 9];
+    this.type = emptytiles[Math.floor(Math.random() * emptytiles.length)]
 }
 
 function HouseCell() {
