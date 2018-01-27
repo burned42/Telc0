@@ -53,9 +53,6 @@ runningGame.prototype = {
         let numofbirds = 6;
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
-            this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird'));
-            let fly = this.game.birds[this.game.birds.length-1].animations.add('fly');
-            this.game.birds[this.game.birds.length-1].animations.play('fly', 30, true);
             let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird');
             let fly = aktbird.animations.add('fly');
             aktbird.animations.play('fly', 10, true);
