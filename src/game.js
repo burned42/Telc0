@@ -22,12 +22,11 @@ function preload() {
 }
 */
 
-let runningGame = function (){
+let runningGame = function () {
     // do something…
 };
 
-runningGame.prototype
-{
+runningGame.prototype = {
     create: function () {
         game.map = new Map(32, 32, 120);
         house = game.make.sprite(0, 0, 'house_small');
@@ -74,7 +73,7 @@ runningGame.prototype
         */
         renderMap();
     }
-}
+};
 
 function renderMap() {
     game.bmd.clear();
