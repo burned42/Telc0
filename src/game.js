@@ -20,7 +20,7 @@ runningGame.prototype = {
     },
 
     create: function () {
-        this.game.world.setBounds(0, 0, 2000, 2000);
+        this.game.world.setBounds(32, 32, 31 * 128, 31 * 128);
         this.game.camera.width = 800;
         this.game.camera.height = 600;
         generatedMap = new Map(32, 32, 100);
@@ -59,7 +59,7 @@ runningGame.prototype = {
         timenow = game.time.now;
 =======
         let start = this.findFirstTower();
-        this.game.camera.x = start.x * 128;
+        this.game.camera.x = start.x *  128;
         this.game.camera.y = start.y * 128;
 
         cursors = this.game.input.keyboard.createCursorKeys();
