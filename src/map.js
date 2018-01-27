@@ -154,7 +154,6 @@ function Cell() {
     }
 }
 
-<<<<<<< HEAD
 Map.prototype.getMapAsCsv = function () {
     let csv = "";
     let line = "";
@@ -177,8 +176,8 @@ Map.prototype.getMapAsCsv = function () {
 
 Map.prototype.getNeighbors = function(x, y) {
     let coords = [];
-    for (let i = x-1; i <= x+1; i++){
-        for (let j = y-1; j<=y+1; j++){
+    for (let i = Math.max(0,x-1); i <= Math.min(this.width, x+1); i++){
+        for (let j = Math.max(0,y-1); j<=Math.min(this.height, y+1); j++){
             coords.push({x, y})
         }
     }
