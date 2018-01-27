@@ -1,8 +1,8 @@
 //global game settings (letiables)
 let game;
-let cellSize = 124;
-let mapRows;
-let mapCols;
+let cellSize = 128;
+let mapRows = 32;
+let mapCols = 32;
 
 let moneytext;
 let lastmaintenance;
@@ -23,9 +23,6 @@ window.onload = function () {
 
     let maxHeight = containerHeight - creditsHeight;
     let maxWidth = document.getElementById('container').scrollWidth;
-
-    mapRows = Math.floor(maxWidth / cellSize);
-    mapCols = Math.floor(maxHeight / cellSize);
 
     let game = new Phaser.Game(mapCols * cellSize, mapRows * cellSize, Phaser.CANVAS, 'game');
     game.state.add('boot', gameBoot);
