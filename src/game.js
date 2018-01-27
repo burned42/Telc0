@@ -6,6 +6,7 @@ let runningGame = function () {
     this.cashBad = null;
     this.graphics = null;
     this.blink = 0.3;
+    this.texts = [];
 };
 
 
@@ -54,7 +55,7 @@ runningGame.prototype = {
         for (let i = 0; i < numofbirds; i++) {
             this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird'));
             var fly = this.game.birds[this.game.birds.length-1].animations.add('fly');
-            this.game.birds[this.game.birds.length-1].animations.play('flyÄ', 30, true);
+            this.game.birds[this.game.birds.length-1].animations.play('fly', 30, true);
         }
 
         lastmaintenance = this.game.time.now;
@@ -101,6 +102,13 @@ runningGame.prototype = {
 
     render: function() {
         this.graphics.clear();
+        let now = this.game.time.now;
+        for (t in this.texts) {
+            if (t.birth - now <= 100){
+                this.game.text.remove(t);
+            }
+        }
+
         this.graphics.beginFill(0x000000, this.blink);
         // this.game.debug.cameraInfo(this.game.camera, 32, 32);
         for (let x = 0; x < this.game.map.width; x++){
@@ -237,9 +245,11 @@ runningGame.prototype = {
         }
         effectX = (x * cellSize) + (cellSize/2);
         effectY = (y * cellSize) + (cellSize/2);
+        let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
+        text.birth = this.game.time.now;
 
-        text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
+        this.texts.push(text);
 
-        this.game.add.tween(text).to({alpha: 0}, 1000, Phaser.Easing.Default, true, 1000);
+        this.game.add.tween(text).to({alpha: 0.1}, 1000, Phaser.Easing.Default, true, 1000);
     }
 };
