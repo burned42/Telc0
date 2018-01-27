@@ -3,8 +3,8 @@ let gamePreload = function (game) {
 
 gamePreload.prototype = {
     preload: function () {
-        let loadingBar = this.add.sprite(160, 240, 'loading');
-        loadingBar.anchor.setTo(0.5, 0.5);
+        let loadingBar = this.add.sprite(((this.game.width - 512) / 2), 16, 'loading');
+        loadingBar.anchor.setTo(0, 0);
         this.load.setPreloadSprite(loadingBar);
 
         this.game.load.image('crossroads', 'assets/images/crossroads.png');
