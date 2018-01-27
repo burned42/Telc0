@@ -49,6 +49,12 @@ runningGame.prototype = {
 
         this.game.add.audio('backgroundTheme', 1, true).play();
 
+        let numofbirds = 6;
+        this.game.birds = [];
+        for (let i = 0; i < numofbirds; i++) { 
+            this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird')); 
+        }
+
         lastmaintenance = this.game.time.now;
 
         this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
@@ -90,6 +96,8 @@ runningGame.prototype = {
         this.miniMap.rect(0, 0, this.miniMap.width, this.miniMap.height, '#000000');
         this.miniMap.copy(this.stage, 0, 0, this.stage.width, this.stage.height, 2 + miniMapViewportX, 2 + miniMapViewportY, this.miniMap.width - 4, this.miniMap.height - 4);
         this.miniMap.update();
+
+        this.animate_world();
     },
 
     render: function() {
@@ -162,6 +170,16 @@ runningGame.prototype = {
         }
         money += value;
         moneytext.setText("$ " + money);
+    },
+
+    animate_world: function() {
+        // Let the Birds fly
+        for (let i = 0; i < this.game.birds.length; i++) {
+            let aktbird = this.game.birds[i];
+            if (aktbird.rotation == 0) {
+                aktbird.y += 5;
+            }	
+        }
     }
 
 };
