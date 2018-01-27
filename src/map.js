@@ -208,34 +208,37 @@ function Cell() {
 function EmptyCell() {
     Cell.call(this);
 
-    let emptyTiles = [0, 0, 0, 0, 4, 9];
+    let emptyTiles = this.empty;
+    // add some more empty grass
+    emptyTiles.push(0, 0, 0);
     this.type = emptyTiles[Math.floor(Math.random() * emptyTiles.length)]
 }
 
 function HouseCell() {
     Cell.call(this);
 
-    let houseTiles = [2, 5];
+    let houseTiles = this.house;
     this.type = houseTiles[Math.floor(Math.random() * houseTiles.length)];
+
     this.paidFor = false;
 }
 
 function TowerCell() {
     Cell.call(this);
 
-    this.type = this.tower[0];
+    this.type = 1;
 }
 
 function BaseTowerCell() {
     TowerCell.call(this);
 
-    this.type = this.tower[1];
+    this.type = 10;
 }
 
 function BlockCell() {
     Cell.call(this);
 
-    let blockTiles = [3];
+    let blockTiles = this.blocked;
     this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)]
 }
 
