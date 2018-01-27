@@ -116,8 +116,13 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
 
         if (direction === 1) {
             y -= 1;
-            if (this.getCell(x-1, y).isStreet() || this.getCell(x+1, y).isStreet()) {
+            if (this.getCell(x-1, y).isStreet()) {
                 this.map[y][x] = new StreetCell(8);
+                this.map[y][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x+1, y).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y][x+1] = new StreetCell(8);
                 return;
             } else {
             	this.map[y][x] = new StreetCell(6);
@@ -125,8 +130,13 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         }
         if (direction === 2) {
             x += 1;
-            if (this.getCell(x, y-1).isStreet() || this.getCell(x, y+1).isStreet()) {
+            if (this.getCell(x, y-1).isStreet()) {
                 this.map[y][x] = new StreetCell(8);
+                this.map[y-1][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x, y+1).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y+1][x] = new StreetCell(8);
                 return;
             } else {
                 this.map[y][x] = new StreetCell(7);
@@ -134,8 +144,13 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         }
         if (direction === 3) {
             y += 1;
-            if (this.getCell(x-1, y).isStreet() || this.getCell(x+1, y).isStreet()) {
+            if (this.getCell(x-1, y).isStreet()) {
                 this.map[y][x] = new StreetCell(8);
+                this.map[y][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x+1, y).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y][x+1] = new StreetCell(8);
                 return;
             } else {
                 this.map[y][x] = new StreetCell(6);
@@ -143,15 +158,20 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         }
         if (direction === 4) {
             x -= 1;
-            if (this.getCell(x, y-1).isStreet() || this.getCell(x, y+1).isStreet()) {
+            if (this.getCell(x, y-1).isStreet()) {
                 this.map[y][x] = new StreetCell(8);
+                this.map[y-1][x-1] = new StreetCell(8);
+                return;
+            } else if (this.getCell(x, y+1).isStreet()) {
+                this.map[y][x] = new StreetCell(8);
+                this.map[y+1][x] = new StreetCell(8);
                 return;
             } else {
                 this.map[y][x] = new StreetCell(7);
             }
         }
     }
-}
+};
 
 Map.prototype.buildHouse = function (x, y) {
     this.map[y][x] = new HouseCell();
@@ -213,17 +233,6 @@ Map.prototype.getMapAsCsv = function () {
     }
 
     return csv;
-};
-
-Map.prototype.getNeighbors = function(x, y) {
-    let coords = [];
-    for (let i = Math.max(0,x-1); i <= Math.min(this.width, x+1); i++){
-        for (let j = Math.max(0,y-1); j<=Math.min(this.height, y+1); j++){
-            coords.push({x, y})
-        }
-    }
-
-    return coords;
 };
 
 Map.prototype.isConnectedToNetwork = function (x, y) {
@@ -319,11 +328,6 @@ function BaseTowerCell() {
 function BlockCell() {
     Cell.call(this);
 
-    let blockTiles = this.blocked;
-    this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)];
-    // Don't build streets
-    while ([6, 7, 8].indexOf(this.type) != -1) {
-        this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)];
-    }
+    this.type = this.street[getRandomInt(0, this.street.length)];
 }
 

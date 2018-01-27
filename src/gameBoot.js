@@ -1,4 +1,4 @@
-let gameBoot = function (game) {
+let gameBoot = function () {
 };
 
 gameBoot.prototype = {

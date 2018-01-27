@@ -1,4 +1,4 @@
-let gameOver = function (game) {
+let gameOver = function () {
     this.space = null;
 };
 
