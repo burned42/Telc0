@@ -6,7 +6,6 @@ function Map(width, height, houseCount, blockedCount) {
     this.map = [];
 
     this.generateMap();
-    // this.coverAtSource();
 }
 
 Map.prototype.generateMap = function () {
@@ -21,6 +20,7 @@ Map.prototype.generateMap = function () {
     // spawn tower
     let x = getRandomInt(0, this.width);
     let y = getRandomInt(0, this.height);
+    this.coverAt(x, y);
     this.buildTower(x, y);
 
     // spawn houses
@@ -118,6 +118,9 @@ function Cell() {
     this.isBlocked = function () {
         return this.blocked.includes(this.type);
     };
+
+    this.getNeighbors = function () {
+    }
 }
 
 Map.prototype.getMapAsCsv = function () {
@@ -138,6 +141,15 @@ Map.prototype.getMapAsCsv = function () {
     }
 
     return csv;
+};
+
+Map.prototype.coverAt = function (x, y) {
+    this.getCell(x, y).covered = true;
+    for (let i = x-1; i <= x+1; i++){
+        for (let j = y-1; j<=y+1; j++){
+            this.getCell(i, j).covered = true;
+        }
+    }
 };
 
 
