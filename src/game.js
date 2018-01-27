@@ -9,7 +9,7 @@ runningGame.prototype = {
     },
 
     create: function () {
-        this.game.world.setBounds(0, 0, 2000, 2000);
+        this.game.world.setBounds(0, 0, 32 * 128, 32 * 128);
         this.game.camera.width = 800;
         this.game.camera.height = 600;
         generatedMap = new Map(32, 32, 100);
@@ -31,6 +31,8 @@ runningGame.prototype = {
         bar.beginFill(0x000000, 0.2);
         bar.drawRect(0, 20, 150, 40);
         moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
+        bar.fixedToCamera = true;
+        moneytext.fixedToCamera = true;
 
         cashgood = this.game.add.audio('cashGood');
         cashbad = this.game.add.audio('cashBad');
@@ -43,7 +45,6 @@ runningGame.prototype = {
         if (cursors.up.isDown)
         {
             this.game.camera.y -= 4;
-            this.game.camera.z -= 4;
         }
         else if (cursors.down.isDown)
         {
@@ -79,7 +80,7 @@ runningGame.prototype = {
     },
 
     render: function() {
-        this.game.debug.cameraInfo(this.game.camera, 32, 32);
+        // this.game.debug.cameraInfo(this.game.camera, 32, 32);
     },
 
     build_tower: function () {

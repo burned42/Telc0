@@ -1,6 +1,6 @@
 //global game settings (letiables)
 let game;
-let cellSize = 64;
+let cellSize = 128;
 let mapRows = 32;
 let mapCols = 32;
 
