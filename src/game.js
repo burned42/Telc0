@@ -105,9 +105,6 @@ runningGame.prototype = {
         for (let x = 0; x < this.game.map.width; x++){
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
-                if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y) ){
-                    this.game.map.coverAt(x, y);
-                }
                 if (cell.covered) {
                     this.graphics.drawRoundedRect(128 * x, 128 * y, 132, 132, 64);
                 }
@@ -131,6 +128,16 @@ runningGame.prototype = {
             this.money_effect(x, y, towercost);
             let revenue = this.calculate_revenue();
             this.update_money(revenue);
+        }
+
+
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
+                let cell = this.game.map.getCell(x, y);
+                if (cell.isTower() && this.game.map.isConnectedToNetwork(x, y)) {
+                    this.game.map.coverAt(x, y);
+                }
+            }
         }
     },
 
@@ -191,19 +198,20 @@ runningGame.prototype = {
 
     animate_world: function() {
         // Let the Birds fly
+        let birdspeed = 2;
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
             if (aktbird.rotation === 0) {
-                aktbird.y -= 5;
+                aktbird.y -= birdspeed;
             }
             if (aktbird.rotation === 90) {
-                aktbird.x += 5;
+                aktbird.x += birdspeed;
             }
             if (aktbird.rotation === 180) {
-                aktbird.y += 5;
+                aktbird.y += birdspeed;
             }
             if (aktbird.rotation === 270) {
-                aktbird.x -= 5;
+                aktbird.x -= birdspeed;
             }
 
             // Change rotation sometimes
