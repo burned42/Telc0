@@ -49,6 +49,10 @@ Map.prototype.getTowerCount = function () {
     return count;
 };
 
+Map.prototype.getCell = function (x, y) {
+    return this.map[y][x];
+};
+
 function Cell() {
     this.tower = 'TOWER';
     this.house = 'HOUSE';

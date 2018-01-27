@@ -69,7 +69,7 @@ function renderMap() {
     game.bmd.clear();
     for (let i = 0; i < game.map.width; i++){
         for (let j =0; j < game.map.height; j++){
-            let cell = game.map.getMap()[i][j];
+            let cell = game.map.getCell(i, j);
             if (cell.isHouse()){
                 game.bmd.draw(house, i * house.width, j * house.height);
             }
