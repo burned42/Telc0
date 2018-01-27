@@ -108,7 +108,8 @@ Map.prototype.buildStreet = function (x, y, streettype) {
 };
 
 Map.prototype.buildStreetLine = function (x, y, direction) {
-    while (true) {
+    let i = 0;
+    while (i < 1000) {
         if (x >= this.width-1 || y >= this.height-1 || x <= 0 || y <= 0) {
             return;
         }
@@ -129,6 +130,8 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
             x -= 1;
             this.map[y][x] = new StreetCell(7);
         }
+
+        i++;
     }
 };
 
