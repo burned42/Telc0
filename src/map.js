@@ -25,21 +25,24 @@ Map.prototype.generateMap = function () {
     let y = getRandomInt(0, this.height);
     this.buildBaseTower(x, y);
 
-    // Simple Streets
-    x = getRandomInt(0, this.width);
-    y = getRandomInt(0, this.height);
-    this.buildStreet(x, y, 8);
-    // Up
-    this.buildStreetLine(x, y, 1);
+    // Four simple Streets
+    for (let i = 0; i <= 4; i++) {
+        x = getRandomInt(0, this.width);
+        y = getRandomInt(0, this.height);
+        this.buildStreet(x, y, 8);
+        
+        // Up
+        this.buildStreetLine(x, y, 1);
 
-    // Right
-    this.buildStreetLine(x, y, 2);
+        // Right
+        this.buildStreetLine(x, y, 2);
 
-    // Down
-    this.buildStreetLine(x, y, 3);
+        // Down
+        this.buildStreetLine(x, y, 3);
 
-    // Left
-    this.buildStreetLine(x, y, 4);
+        // Left
+        this.buildStreetLine(x, y, 4);
+     }
 
     // spawn houses
     for (let i = 0; i < this.houseCount; i++) {
@@ -114,22 +117,32 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
             return;
         }
 
+        let streettype = 8;
         if (direction === 1) {
             y -= 1;
-            this.map[y][x] = new StreetCell(6);
+            if (!this.getCell(x, y).isStreet()) {
+                streettype = 6;
+            }
         }
         if (direction === 2) {
             x += 1;
-            this.map[y][x] = new StreetCell(7);
+            if (!this.getCell(x, y).isStreet()) {
+                streettype = 7;
+            }
         }
         if (direction === 3) {
             y += 1;
-            this.map[y][x] = new StreetCell(6);
+            if (!this.getCell(x, y).isStreet()) {
+                streettype = 6;
+            }
         }
         if (direction === 4) {
             x -= 1;
-            this.map[y][x] = new StreetCell(7);
+            if (!this.getCell(x, y).isStreet()) {
+                streettype = 7;
+            }
         }
+        this.map[y][x] = new StreetCell(streettype);
 
         i++;
     }
