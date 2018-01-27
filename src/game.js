@@ -20,7 +20,9 @@ runningGame.prototype = {
     },
 
     create: function () {
-        this.game.world.setBounds(0, 0, 2000 * 32, 2000 * 32);
+        this.game.world.setBounds(0, 0, 2000, 2000);
+        this.game.camera.width = 800;
+        this.game.camera.height = 600;
         generatedMap = new Map(32, 32, 100);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
@@ -75,6 +77,7 @@ runningGame.prototype = {
         if (cursors.up.isDown)
         {
             this.game.camera.y -= 4;
+            this.game.camera.z -= 4;
         }
         else if (cursors.down.isDown)
         {
