@@ -54,8 +54,12 @@ runningGame.prototype = {
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
             this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird'));
-            var fly = this.game.birds[this.game.birds.length-1].animations.add('fly');
+            let fly = this.game.birds[this.game.birds.length-1].animations.add('fly');
             this.game.birds[this.game.birds.length-1].animations.play('fly', 30, true);
+            let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird');
+            aktbird.animations.add('fly');
+            aktbird.animations.play('fly', 10, true);
+            this.game.birds.push(aktbird);
         }
 
         lastmaintenance = this.game.time.now;
@@ -231,6 +235,20 @@ runningGame.prototype = {
                     aktbird.rotation = 0;
                 }
             }
+            
+            // Rotate them when at the end of map
+            if (aktbird.x < 0) {
+                aktbird.rotation = 90;
+            }
+            if (aktbird.y < 0) {
+                aktbird.rotation = 180;
+            }
+            if (aktbird.x > this.game.camera.width) {
+                aktbird.rotation = 270;
+            }
+            if (aktbird.y > this.game.camera.height) {
+                aktbird.rotation = 0;
+            }
         }
     },
 
@@ -243,12 +261,19 @@ runningGame.prototype = {
             // color red
             fontconfig = {font: "bold 16pt Arial", fill: "#ff0000"};
         }
+<<<<<<< HEAD
         effectX = (x * cellSize) + (cellSize/2);
         effectY = (y * cellSize) + (cellSize/2);
         let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
         text.birth = this.game.time.now;
 
         this.texts.push(text);
+=======
+        let effectX = (x * cellSize) + (cellSize/2);
+        let effectY = (y * cellSize) + (cellSize/2);
+
+        let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
+>>>>>>> 54ba5c443eec8d298b703a7505300d68d5cd32c1
 
         this.game.add.tween(text).to({alpha: 0.1}, 1000, Phaser.Easing.Default, true, 1000);
     }
