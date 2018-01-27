@@ -7,6 +7,8 @@ let runningGame = function () {
     this.graphics = null;
     this.blink = 0.3;
     this.texts = [];
+    this.color_build = 0x9FFA3B;
+    this.color_fail = 0xFF003B;
 };
 
 
@@ -151,6 +153,7 @@ runningGame.prototype = {
             if (this.game.map.isConnectedToNetwork(x, y)){
                 this.game.map.coverAt(x, y);
             }
+            this.flash_build_success();
 
 
             for (let x = 0; x < this.game.map.width; x++) {
@@ -161,6 +164,9 @@ runningGame.prototype = {
                     }
                 }
             }
+        }
+        else  {
+            this.flash_build_fails();
         }
     },
 
@@ -259,6 +265,17 @@ runningGame.prototype = {
                 aktbird.rotation = 0;
             }
         }
+    },
+
+    flash_build_success: function () {
+        this.game.camera.flash(this.color_build, 200);
+
+    },
+
+
+    flash_build_fails: function () {
+        this.game.camera.flash(this.color_fail, 200);
+
     },
 
     money_effect: function (x, y, value) {
