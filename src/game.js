@@ -87,7 +87,7 @@ runningGame.prototype = {
 
         if (current_tile === 0) {
             this.game.map.buildTower(x, y);
-            this.update_money(towercost);
+            this.update_money(towercost, false);
             // TODO calculate revenue
             this.update_money(revenue);
         }
