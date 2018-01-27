@@ -1,4 +1,4 @@
-let game = new Phaser.Game(800, 600, Phaser.CANVAS, '', {preload: preload, create: create, update: update});
+let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'telc0', {preload: preload, create: create, update: update, render: render});
 
 let moneytext;
 let lastmaintenance;
@@ -19,6 +19,7 @@ function preload() {
 }
 
 function create() {
+    game.world.setBounds(0, 0, 1920, 1200);
     game.map = new Map(32, 32, 120);
     house = game.make.sprite(0, 0, 'house_small');
     lake = game.make.sprite(0, 0, 'lake');
@@ -62,11 +63,15 @@ function update() {
     /* TC, TODO
     game.input.onTap.addOnce(build_tower, this);
     */
+}
+
+function render() {
     renderMap();
+    game.debug.cameraInfo(game.camera, 32, 32);
 }
 
 function renderMap() {
-    game.bmd.clear();
+    // game.bmd.clear();
     for (let i = 0; i < game.map.width; i++){
         for (let j =0; j < game.map.height; j++){
             let cell = game.map.getMap()[i][j];
