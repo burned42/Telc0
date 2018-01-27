@@ -93,6 +93,7 @@ runningGame.prototype = {
         this.stage.drawFull(this.game.world);
         this.miniMap.rect(0, 0, this.miniMap.width, this.miniMap.height, '#000000');
         this.miniMap.copy(this.stage, 0, 0, this.stage.width, this.stage.height, 2 + miniMapViewportX, 2 + miniMapViewportY, this.miniMap.width - 4, this.miniMap.height - 4);
+        this.stage.clear();
         this.miniMap.update();
 
         this.animate_world();
