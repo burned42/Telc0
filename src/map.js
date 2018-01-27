@@ -21,15 +21,15 @@ Map.prototype.generateMap = function () {
     }
 
     // spawn tower
-    let x = getRandomInt(0, this.width);
-    let y = getRandomInt(0, this.height);
-    this.buildBaseTower(x, y);
+    let baseTowerX = getRandomInt(0, this.width);
+    let baseTowerY = getRandomInt(0, this.height);
+    this.buildBaseTower(baseTowerX, baseTowerY);
 
     // Four simple Streets
     for (let i = 1; i <= numofroads; i++) {
-        x = getRandomInt(0, this.width);
-        y = getRandomInt(0, this.height);
-        if (this.getCell(x, y).isEmpty() && 
+        let x = getRandomInt(0, this.width);
+        let y = getRandomInt(0, this.height);
+        if (this.getCell(x, y).isEmpty() &&
             (x-1 >= 1 && !this.getCell(x-1, y).isStreet()) &&
             (x+1 <= this.width-1 && !this.getCell(x+1, y).isStreet()) &&
             (y-1 >= 1 && !this.getCell(x, y-1).isStreet()) &&
@@ -79,6 +79,8 @@ Map.prototype.generateMap = function () {
             this.buildBlocked(x, y);
         }
     }
+
+    this.coverAt(baseTowerX, baseTowerY);
 };
 
 Map.prototype.getTowerCount = function () {
