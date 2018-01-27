@@ -54,7 +54,8 @@ runningGame.prototype = {
         for (let i = 0; i < numofbirds; i++) {
             let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird');
             aktbird.animations.add('fly');
-            aktbird.animations.play('fly', 30, true);
+            aktbird.animations.play('fly', 10, true);
+>>>>>>> Let Birds turn around when hitting the corner
             this.game.birds.push(aktbird);
         }
 
@@ -223,6 +224,20 @@ runningGame.prototype = {
                 if (aktbird.rotation === 360) {
                     aktbird.rotation = 0;
                 }
+            }
+            
+            // Rotate them when at the end of map
+            if (aktbird.x < 0) {
+                aktbird.rotation = 90;
+            }
+            if (aktbird.y < 0) {
+                aktbird.rotation = 180;
+            }
+            if (aktbird.x > this.game.camera.width) {
+                aktbird.rotation = 270;
+            }
+            if (aktbird.y > this.game.camera.height) {
+                aktbird.rotation = 0;
             }
         }
     },
