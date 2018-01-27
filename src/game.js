@@ -250,13 +250,13 @@ runningGame.prototype = {
     },
 
     money_effect: function (x, y, value) {
-        let fontconfig;
+        let fontconfig = {antialias: false, font: "bold 16pt Arial"};
         if (value >= 0) {
             // color green
-            fontconfig = {font: "bold 16pt Arial", fill: "#edff70"};
+            fontconfig.fill = "#edff70";
         } else {
             // color red
-            fontconfig = {font: "bold 16pt Arial", fill: "#ff0000"};
+            fontconfig.fill = "#ff0000";
         }
         effectX = (x * cellSize) + (cellSize/2);
         effectY = (y * cellSize) + (cellSize/2);
