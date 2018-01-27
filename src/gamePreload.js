@@ -3,7 +3,7 @@ let gamePreload = function (game) {
 
 gamePreload.prototype = {
     preload: function () {
-        let loadingBar = this.add.sprite(160, 240, "loading");
+        let loadingBar = this.add.sprite(160, 240, 'loading');
         loadingBar.anchor.setTo(0.5, 0.5);
         this.load.setPreloadSprite(loadingBar);
 
