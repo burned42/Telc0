@@ -126,7 +126,6 @@ runningGame.prototype = {
     },
 
     render: function() {
-
         this.graphics.clear();
         this.graphics.beginFill(0x000FF0, 0.2);
         let now = this.game.time.now;
