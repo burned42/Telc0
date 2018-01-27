@@ -53,6 +53,8 @@ runningGame.prototype = {
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
             this.game.birds.push(this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird'));
+            var fly = this.game.birds[this.game.birds.length-1].animations.add('fly');
+            this.game.birds[this.game.birds.length-1].animations.play('flyÄ', 30, true);
         }
 
         lastmaintenance = this.game.time.now;
@@ -196,23 +198,24 @@ runningGame.prototype = {
 
     animate_world: function() {
         // Let the Birds fly
+        let birdspeed = 2;
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
             if (aktbird.rotation === 0) {
-                aktbird.y -= 5;
+                aktbird.y -= birdspeed;
             }
             if (aktbird.rotation === 90) {
-                aktbird.x += 5;
+                aktbird.x += birdspeed;
             }
             if (aktbird.rotation === 180) {
-                aktbird.y += 5;
+                aktbird.y += birdspeed;
             }
             if (aktbird.rotation === 270) {
-                aktbird.x -= 5;
+                aktbird.x -= birdspeed;
             }
 
             // Change rotation sometimes
-            if (Math.random() > 0.8) {
+            if (Math.random() > 0.97) {
                 aktbird.rotation += 90;
 
                 if (aktbird.rotation === 360) {
