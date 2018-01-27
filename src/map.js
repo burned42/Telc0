@@ -29,7 +29,11 @@ Map.prototype.generateMap = function () {
     for (let i = 0; i <= 4; i++) {
         x = getRandomInt(0, this.width);
         y = getRandomInt(0, this.height);
-        if (this.getCell(x, y).isEmpty()) {
+        if (this.getCell(x, y).isEmpty() && 
+            !this.getCell(x-1, y).isStreet() &&
+            !this.getCell(x+1, y).isStreet() &&
+            !this.getCell(x, y-1).isStreet() &&
+            !this.getCell(x, y+1).isStreet()) {
             this.buildStreet(x, y, 8);
         
             // Up
@@ -43,6 +47,8 @@ Map.prototype.generateMap = function () {
 
             // Left
             this.buildStreetLine(x, y, 4);
+        } else { 
+            i--;
         }
      }
 
