@@ -147,7 +147,8 @@ function EmptyCell() {
 function HouseCell() {
     Cell.call(this);
 
-    this.type = this.house[0];
+    let housetiles = [2, 5];
+    this.type = housetiles[Math.floor(Math.random() * housetiles.length)]
 }
 
 function TowerCell() {
