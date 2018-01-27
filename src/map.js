@@ -309,10 +309,8 @@ function BlockCell() {
     Cell.call(this);
 
     let blockTiles = this.blocked;
-    this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)];
-    // Don't build streets
-    while ([6, 7, 8].indexOf(this.type) != -1) {
+    do {
         this.type = blockTiles[Math.floor(Math.random() * blockTiles.length)];
-    }
+    } while (this.street.indexOf(this.type) !== -1);
 }
 
