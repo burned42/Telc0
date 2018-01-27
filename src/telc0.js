@@ -25,9 +25,6 @@ let revenueHouse = 50;
 let maintenanceinterval = 10 * 1000; // secends * milliseconds
 let maintenancecost = -100;
 
-let countCoveredHouses;
-let housesInMap;
-
 //main game functions for each game step
 window.onload = function () {
     game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game', null, false, false, null);
