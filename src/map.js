@@ -24,10 +24,12 @@ Map.prototype.generateMap = function () {
     this.buildBaseTower(x, y);
 
     // build streets (tiles 6 - 8)
-    x = getRandomInt(0, this.width);
-    y = getRandomInt(0, this.height);
-    this.buildStreet(x, y, 8);
-    this.buildStreetLine(x, y, 4);
+    for (let i = 0; i < 30; i++) {
+        x = getRandomInt(0, this.width);
+        y = getRandomInt(0, this.height);
+        this.buildStreet(x, y, 8);
+        this.buildStreetLine(x, y, getRandomInt(1, 5));
+    }
 
     // spawn houses
     for (let i = 0; i < this.houseCount; i++) {
@@ -97,6 +99,24 @@ Map.prototype.buildStreet = function (x, y, streettype) {
 
 Map.prototype.buildStreetLine = function (x, y, direction) {
     while (true) {
+        if (getRandomInt(0, 10) === 0) {
+            // End road
+            return;
+        }
+        if (x >= this.width-1 || y >= this.height-1 || x <= 0 || y <= 0) {
+            return;
+        }
+
+        if (getRandomInt(0, 10) > 6) {
+            this.buildStreet(x, y, 8);
+            let newdir = getRandomInt(1, 5);
+            while (newdir === direction) {
+                newdir = getRandomInt(1, 5);
+            }
+            this.buildStreetLine(x, y, getRandomInt(1, 5));
+            return;
+        }
+
         if (direction === 1) {
             y -= 1;
             this.map[y][x] = new StreetCell(6);
@@ -111,17 +131,7 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         }
         if (direction === 4) {
             x -= 1;
-            if (Math.random() > 0.5) {
-                this.map[y][x] = new StreetCell(8);
-
-//                return this.buildStreetLine(x, y, getRandomInt(1, 2));
-            } else {
-                this.map[y][x] = new StreetCell(7);
-            }
-        }
-
-        if (x > this.width || y > this.height || x < 0 || y < 0) {
-            break;
+            this.map[y][x] = new StreetCell(7);
         }
     }
 }
