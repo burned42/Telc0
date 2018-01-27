@@ -233,7 +233,7 @@ runningGame.prototype = {
             }
 
             // Change rotation sometimes
-            if (Math.random() > 0.97) {
+            if (Math.random() > 0.98) {
                 aktbird.rotation += 90;
 
                 if (aktbird.rotation === 360) {
