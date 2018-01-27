@@ -134,6 +134,11 @@ runningGame.prototype = {
         }
     },
 
+    shutdown: function() {
+        this.gameAudio.stop();
+        this.miniMap.destroy();
+    },
+
     build_tower: function () {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
