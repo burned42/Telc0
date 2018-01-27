@@ -113,6 +113,11 @@ runningGame.prototype = {
         this.miniMap.update();
 
         this.animate_world();
+
+        if (money <= 0) {
+            money = startMoney;
+            this.game.state.start('gameOver');
+        }
     },
 
     render: function() {

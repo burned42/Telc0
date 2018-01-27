@@ -16,7 +16,8 @@ gameOver.prototype = {
         game.add.tween(endGame).to( { emitX: 800-64 }, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0, Number.MAX_VALUE, true);
         game.add.tween(endGame).to( { emitY: 200 }, 4000, Phaser.Easing.Sinusoidal.InOut, true, 0, Number.MAX_VALUE, true);
 
-        // "replay" need picture for this
+        this.game.add.text(this.game.width * 0.2, 200, 'Game Over', {font: '42px Arial', fill: '#ffffff'});
+        //replace this with menu button
         this.game.add.button(this.game.width * 0.1, this.game.height * 0.6, 'buttonPlay', this.playGame, this);
 
         this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -27,6 +28,6 @@ gameOver.prototype = {
         }
     },
     playGame: function () {
-        this.game.state.start('telc0');
+        this.game.state.start('gameMenu');
     }
 };
