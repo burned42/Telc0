@@ -1,114 +1,24 @@
-let game = new Phaser.Game(800, 600, Phaser.CANVAS, 'telc0', {preload: preload, create: create, update: update, render: render});
+let runningGame = function () {
+    // do something…
+};
 
-<<<<<<< HEAD
-let moneytext;
-let lastmaintenance;
-let timenow;
-=======
->>>>>>> 65b69e8... ARCH + TILEMAP = BERND NERVT
 
-// TODO change values
-let money = 2000;
-let towercost = -1000;
-let revenue = 50 * 22;
-let maintenanceinterval = 10 * 1000;
-let maintenancecost = -100;
+runningGame.prototype = {
+    preload: function () {
 
-<<<<<<< HEAD
-
-function preload() {
-    game.load.image('house_small', 'assets/images/house_small.png');
-    game.load.image('lake', 'assets/images/lake.png');
-    game.load.image('green', 'assets/images/green.png');
-}
-
-function create() {
-    game.world.setBounds(0, 0, 1920, 1200);
-    game.map = new Map(32, 32, 120);
-    house = game.make.sprite(0, 0, 'house_small');
-    lake = game.make.sprite(0, 0, 'lake');
-    green = game.make.sprite(0, 0, 'green');
-
-    lake.anchor.set(0.5);
-    lake.scale.setTo(0.5, 0.5);
-
-    house.anchor.set(0.5);
-    house.scale.setTo(0.5, 0.5);
-
-    green.anchor.set(0.5);
-    green.scale.setTo(0.5, 0.5);
-
-    //	This is the BitmapData we're going to be drawing to
-    game.bmd = game.add.bitmapData(game.width, game.height);
-    game.bmd.addToWorld();
-
-    //	Disables anti-aliasing when we draw sprites to the BitmapData
-    game.bmd.smoothed = false;
-
-    //  Show the moneytext
-    let bar = game.add.graphics();
-    bar.beginFill(0x000000, 0.2);
-    bar.drawRect(0, 20, 150, 40);
-    moneytext = game.add.text(30, 30, "$ " + money, { font: "bold 19px Arial", fill: "#edff70"});
-    
-    lastmaintenance = game.time.now;
-}
-
-function update() {
-    timenow = game.time.now;
-    if (timenow - lastmaintenance > maintenanceinterval) {
-        lastmaintenance = game.time.now;
-        update_money(maintenancecost * game.map.getTowerCount())
-    }
-    if (money < towercost) {
-        // TODO End the game
-    }
-    game.input.onDown.addOnce(build_tower, this);
-    /* TC, TODO
-    game.input.onTap.addOnce(build_tower, this);
-    */
-}
-
-function render() {
-    renderMap();
-    game.debug.cameraInfo(game.camera, 32, 32);
-}
-
-function renderMap() {
-    // game.bmd.clear();
-    for (let i = 0; i < game.map.width; i++){
-        for (let j =0; j < game.map.height; j++){
-            let cell = game.map.getCell(i, j);
-            if (cell.isHouse()){
-                game.bmd.draw(house, i * house.width, j * house.height);
-            }
-            else {
-                game.bmd.draw(green, i * green.width, j * green.height);
-            }
-        }
-    }
-}
-function build_tower() {
-    update_money(towercost);
-    update_money(revenue)
-}
-
-function update_money(value) {
-    money += value;
-    moneytext.setText("$ " + money);
-}
-=======
     },
 
     create: function () {
-        this.game.world.setBounds(0, 0, 2000 * 32, 2000 * 32);
-        generatedMap = new Map(32, 32, 100);
+        this.game.world.setBounds(0, 0, 32 * 128, 32 * 128);
+        this.game.camera.width = 800;
+        this.game.camera.height = 600;
+        generatedMap = new Map(32, 32, 100, 50);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
-        map = this.game.add.tilemap('generatedMap', 128, 128, generatedMap.width, generatedMap.height);
-        map.addTilesetImage('Map', 'tiles');
-        layer = map.createLayer(0);
+        this.game.tilemap = this.game.add.tilemap('generatedMap', 128, 128, generatedMap.width, generatedMap.height);
+        this.game.tilemap.addTilesetImage('Map', 'tiles');
+        this.game.tilelayer = this.game.tilemap.createLayer(0);
 
 
         let start = this.findFirstTower();
@@ -121,9 +31,16 @@ function update_money(value) {
         bar.beginFill(0x000000, 0.2);
         bar.drawRect(0, 20, 150, 40);
         moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
+        bar.fixedToCamera = true;
+        moneytext.fixedToCamera = true;
 
         cashgood = this.game.add.audio('cashGood');
         cashbad = this.game.add.audio('cashBad');
+
+        theme = this.game.add.audio('backgroundTheme', 1, true);
+        theme.play();
+
+        lastmaintenance = this.game.time.now;
     },
 
     update: function () {
@@ -148,11 +65,6 @@ function update_money(value) {
         timenow = this.game.time.now;
         if (timenow - lastmaintenance > maintenanceinterval) {
             lastmaintenance = this.game.time.now;
-        }
-
-        timenow = this.game.time.now;
-        if (timenow - lastmaintenance > maintenanceinterval) {
-            lastmaintenance = this.game.time.now;
             this.update_money(maintenancecost * this.game.map.getTowerCount())
         }
         if (money < towercost) {
@@ -165,12 +77,21 @@ function update_money(value) {
     },
 
     render: function() {
-        this.game.debug.cameraInfo(this.game.camera, 32, 32);
+        // this.game.debug.cameraInfo(this.game.camera, 32, 32);
     },
 
     build_tower: function () {
-        this.update_money(towercost);
-        this.update_money(revenue)
+        let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
+        let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
+        let current_tile = this.game.map.getCell(x, y);
+
+        if (current_tile.isEmpty()) {
+            this.game.map.buildTower(x, y);
+            this.update_money(towercost, false);
+            this.game.tilemap.putTile(1, x, y);
+            // TODO calculate revenue
+            this.update_money(revenue);
+        }
     },
 
     findFirstTower: function () {
@@ -200,4 +121,3 @@ function update_money(value) {
     }
 
 };
->>>>>>> 65b69e8... ARCH + TILEMAP = BERND NERVT
