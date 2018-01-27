@@ -53,7 +53,7 @@ runningGame.prototype = {
         this.game.birds = [];
         for (let i = 0; i < numofbirds; i++) {
             let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.camera.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.camera.height + 1), 'bird');
-            let fly = aktbird.animations.add('fly');
+            aktbird.animations.add('fly');
             aktbird.animations.play('fly', 30, true);
             this.game.birds.push(aktbird);
         }
@@ -236,10 +236,10 @@ runningGame.prototype = {
             // color red
             fontconfig = {font: "bold 16pt Arial", fill: "#ff0000"};
         }
-        effectX = (x * cellSize) + (cellSize/2);
-        effectY = (y * cellSize) + (cellSize/2);
+        let effectX = (x * cellSize) + (cellSize/2);
+        let effectY = (y * cellSize) + (cellSize/2);
 
-        text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
+        let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
 
         this.game.add.tween(text).to({alpha: 0}, 1000, Phaser.Easing.Default, true, 1000);
     }
