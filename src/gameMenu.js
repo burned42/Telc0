@@ -7,7 +7,7 @@ gameMenu.prototype = {
         logo.anchor.setTo(0.5, 0);
         let button1 = this.game.add.button(this.game.width / 2 - 128, 304, 'buttonPlay', this.playGame, this);
         button1.anchor.setTo(0, 0);
-        let button2 = this.game.add.button(this.game.width / 2, 304, 'buttonCredits', function () {
+        let button2 = this.game.add.button(this.game.width / 2 + 16, 304, 'buttonCredits', function () {
             if ( document.getElementById("game").style.display != "none") {
                 document.getElementById("game").style.display = "none";
                 document.getElementById("credits").style.display = "block";
