@@ -3,9 +3,9 @@ let gamePreload = function (game) {
 
 gamePreload.prototype = {
     preload: function () {
-        let loadingBar = this.add.sprite(160, 240, "loading");
-        loadingBar.anchor.setTo(0.5, 0.5);
-        this.load.setPreloadSprite(loadingBar);
+        //let loadingBar = this.add.sprite(160, 240, 'loading');
+        //loadingBar.anchor.setTo(0.5, 0.5);
+        //this.load.setPreloadSprite(loadingBar);
 
         this.game.load.image('crossroads', 'assets/images/crossroads.png');
         this.game.load.image('green', 'assets/images/green.png');
@@ -18,6 +18,7 @@ gamePreload.prototype = {
         this.game.load.image('streetHorizontal', 'assets/images/street_horizontal.png');
         this.game.load.image('streetVertical', 'assets/images/street_vertical.png');
         this.game.load.image('tower', 'assets/images/tower.png');
+        this.game.load.image('play', 'assets/images/play.png');
 
         this.game.load.audio('cashBad', 'assets/sounds/cashbad.mp3');
         this.game.load.audio('cashGood', 'assets/sounds/cashgood.mp3');
