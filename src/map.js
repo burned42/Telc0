@@ -29,19 +29,21 @@ Map.prototype.generateMap = function () {
     for (let i = 0; i <= 4; i++) {
         x = getRandomInt(0, this.width);
         y = getRandomInt(0, this.height);
-        this.buildStreet(x, y, 8);
+        if (!this.getCell(x, y).isStreet() && !this.getCell(x, y).isBaseTower()) { 
+            this.buildStreet(x, y, 8);
         
-        // Up
-        this.buildStreetLine(x, y, 1);
+            // Up
+            this.buildStreetLine(x, y, 1);
 
-        // Right
-        this.buildStreetLine(x, y, 2);
+            // Right
+            this.buildStreetLine(x, y, 2);
 
-        // Down
-        this.buildStreetLine(x, y, 3);
+            // Down
+            this.buildStreetLine(x, y, 3);
 
-        // Left
-        this.buildStreetLine(x, y, 4);
+            // Left
+            this.buildStreetLine(x, y, 4);
+        }
      }
 
     // spawn houses
