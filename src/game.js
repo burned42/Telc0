@@ -171,11 +171,11 @@ runningGame.prototype = {
         let current_tile = this.game.map.getCell(x, y);
  
         if (current_tile.isBlocked()) {
-            marker.lineColor = 0xff0000;
+            marker.lineStyle(2, 0xff0000, 1);
         } else {
-            marker.lineColor = 0x00ff00;
+            marker.lineStyle(2, 0x00ff00, 1);
         }
-        console.log(marker.lineColor);
+        marker.drawRect(0, 0, cellSize, cellSize);
     },
 
     render: function () {
