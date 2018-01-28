@@ -1,5 +1,4 @@
 function Map(width, height, houseCount, natureCount) {
-    this.connecetTowers = [];
     this.width = width;
     this.height = height;
     this.houseCount = houseCount;
@@ -116,8 +115,7 @@ Map.prototype.buildTower = function (x, y) {
 };
 
 Map.prototype.buildBaseTower = function (x, y) {
-    let tower = new BaseTowerCell();
-    this.map[y][x] = tower;
+    this.map[y][x] = new BaseTowerCell();
     this.towers.push({x: x, y: y});
 };
 
