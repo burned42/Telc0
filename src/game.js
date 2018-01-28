@@ -301,13 +301,11 @@ runningGame.prototype = {
 
     flash_build_success: function () {
         this.game.camera.flash(this.colorBuild, 200);
-
     },
 
 
     flash_build_fails: function () {
         this.game.camera.flash(this.colorFail, 200);
-
     },
 
     moneyEffect: function (x, y, value) {
@@ -346,6 +344,4 @@ runningGame.prototype = {
             this.game.state.start('gameOver');
         }
     },
-
 };
-
