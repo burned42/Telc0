@@ -24,6 +24,14 @@ gamePreload.prototype = {
     },
 
     create: function () {
+        let loadDelayTimer = this.game.time.create();
+        loadDelayTimer.loop(100, this.showMenu, this);
+        //loadDelayTimer.onEvent.add(this.showMenu, this);
+        loadDelayTimer.start();
+        //this.game.state.start('menu');
+    },
+
+    showMenu: function () {
         this.game.state.start('menu');
     }
 };
