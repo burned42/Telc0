@@ -4,6 +4,7 @@ let runningGame = function () {
     this.cashBad = null;
     this.gameAudio = null;
     this.graphics = null;
+    this.marker = null;
     this.texts = [];
     this.colorBuild = 0x9FFA3B;
     this.colorFail = 0xFF003B;
@@ -61,9 +62,7 @@ runningGame.prototype = {
         }
 
         // Create the markers for the tile under the cursor
-        marker = game.add.graphics();
-        marker.lineStyle(2, 0x00ff00, 1);
-        marker.drawRect(0, 0, cellSize, cellSize);
+        this.marker = this.game.add.graphics();
 
         // Create the start position
         let start = this.getBaseTower();
@@ -164,19 +163,18 @@ runningGame.prototype = {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
 
-        marker.x = x * cellSize;
-        marker.y = y * cellSize;
+        this.marker.x = x * cellSize;
+        this.marker.y = y * cellSize;
 
         // Update the marker color
         let currentTile = this.game.map.getCell(x, y);
         if (currentTile.isBlocked()) {
-            marker.lineStyle(2, 0xff0000, 1);
+            this.marker.lineStyle(2, 0xff0000, 1);
         } else if (currentTile.covered === false) {
-            marker.lineStyle(2, 0xffff00, 1);
+            this.marker.lineStyle(2, 0xffff00, 1);
         } else {
-            marker.lineStyle(2, 0x00ff00, 1);
+            this.marker.lineStyle(2, 0x00ff00, 1);
         }
-        marker.drawRect(0, 0, cellSize, cellSize);
     },
 
     render: function () {
@@ -202,10 +200,13 @@ runningGame.prototype = {
 
         // Now flush the graphics
         this.graphics.endFill();
+        // draw marker on very top
+        this.marker.drawRect(0, 0, cellSize, cellSize);
     },
 
     shutdown: function () {
         this.gameAudio.stop();
+        this.graphics.clear();
         this.miniMap.destroy();
     },
 
