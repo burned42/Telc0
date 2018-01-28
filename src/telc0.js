@@ -21,7 +21,7 @@ let lastmaintenance;
 let timenow;
 
 // TODO change values
-let startMoney = 1000;
+let startMoney = 100000000;
 let money = startMoney;
 let towercost = -200;
 let revenueHouse = 50;

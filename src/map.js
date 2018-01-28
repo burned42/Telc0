@@ -1,4 +1,5 @@
 function Map(width, height, houseCount, blockedCount) {
+    this.connecetTowers = [];
     this.width = width;
     this.height = height;
     this.houseCount = houseCount;
@@ -105,13 +106,18 @@ Map.prototype.setEmpty = function (x, y) {
 };
 
 Map.prototype.buildTower = function (x, y) {
-    this.map[y][x] = new TowerCell();
+    let tower = new TowerCell();
+    tower.posX = x;
+    tower.posY = y;
+    this.map[y][x] = tower;
     this.towers.push({x:x, y:y})
 };
 
 Map.prototype.buildBaseTower = function (x, y) {
-    this.map[y][x] = new BaseTowerCell();
-    this.towers.push({x:x, y:y})
+    let tower = new BaseTowerCell();
+    this.map[y][x] = tower;
+    this.towers.push({x:x, y:y});
+    this.connecetTowers.push(tower);
 };
 
 Map.prototype.buildStreet = function (x, y, streettype) {
@@ -225,15 +231,39 @@ Map.prototype.getMapAsCsv = function () {
 };
 
 Map.prototype.isConnectedToNetwork = function (x, y) {
+    console.log(x, y);
+    console.log("ME:");
+    console.log(this.getCell(x, y));
+    console.log("MAP");
+    console.log(this);
+    console.log("NEIGH");
     for (let i = x - 1; i <= x + 1; i++) {
         if (i >= 0 && i < this.width) {
             for (let j = y - 1; j <= y + 1; j++) {
                 if (j >= 0 && j < this.height) {
-                    if(this.getCell(i, j).covered){
+                    // I am connected, if at least one of my neighbours is covered
+                    let neigh = this.getCell(i, j);
+                    console.log(neigh);
+                    if(neigh.covered){
+                        console.log('CONNECTED');
                         return true;
                     }
                 }
             }
+        }
+    }
+    console.log('NOT_CONNECTED');
+};
+
+Map.prototype.updateCoverage = function () {
+    console.log("STACK: "+ this.stack);
+    for (let i = 0; i< this.towers.length; i++){
+        let t = this.towers[i];
+        let cell = this.getCell(t.x, t.y);
+        if (cell.covered === true && cell.isTower()) {
+            this.coverAt(t.x, t.y);
+            // this.updateCoverage();
+            // return;
         }
     }
 };
@@ -246,7 +276,6 @@ function Cell() {
     this.blocked = [3, 6, 7, 8, 11];
     this.street = [6, 7, 8];
     this.covered = false;
-
     this.type = null;
 
     this.getTilemapId = function () {
@@ -306,7 +335,8 @@ function HouseCell() {
 
 function TowerCell() {
     Cell.call(this);
-
+    this.posX = null;
+    this.posY = null;
     this.type = 1;
 }
 

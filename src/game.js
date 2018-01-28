@@ -167,17 +167,12 @@ runningGame.prototype = {
             this.money_effect(x, y, towercost);
             if (this.game.map.isConnectedToNetwork(x, y)){
                 this.game.map.coverAt(x, y);
+                this.game.map.updateCoverage();
             }
             let revenue = this.calculate_revenue();
             this.update_money(revenue);
 
             this.flash_build_success();
-            let towers = this.game.map.towers;
-            for (let t in towers) {
-                if(this.game.map.isConnectedToNetwork(t.x, t.y)){
-                    this.game.map.coverAt(x, y);
-                }
-            }
         }
         else  {
             this.flash_build_fails();
