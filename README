@@ -8,6 +8,6 @@ A simple internet tower has a squared range of 2 tiles in every direction
 Every tower costs $150 maintenance per 5 seconds
 In the same time every house pays you $75
 
-The game is over when you have no money left or when the 5 minute game counter is over
+The game is over when you have no money left
 
 Your goal is to bring internet to all houses!
