@@ -117,7 +117,18 @@ runningGame.prototype = {
             money = startMoney;
             this.game.state.start('gameOver');
         }
-        this.game.input.onDown.addOnce(this.build_tower, this);
+
+	if (this.game.input.activePointer.isDown) {	
+		if (this.game.origDragPoint) {		
+			this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
+			this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;	
+		}	
+		this.game.origDragPoint = this.game.input.activePointer.position.clone();
+	} else {
+		this.game.origDragPoint = null;
+	}
+
+        this.game.input.onTap.addOnce(this.build_tower, this);
         // this.render();
 
         let miniMapViewportX = this.game.camera.x * 150 / this.game.world.width;
