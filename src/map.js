@@ -31,12 +31,12 @@ Map.prototype.generateMap = function () {
         let x = getRandomInt(0, this.width);
         let y = getRandomInt(0, this.height);
         if (this.getCell(x, y).isEmpty() &&
-            (x-1 >= 1 && !this.getCell(x-1, y).isStreet()) &&
-            (x+1 <= this.width-1 && !this.getCell(x+1, y).isStreet()) &&
-            (y-1 >= 1 && !this.getCell(x, y-1).isStreet()) &&
-            (y+1 <= this.height-1 && !this.getCell(x, y+1).isStreet())) {
+            (x - 1 >= 1 && !this.getCell(x - 1, y).isStreet()) &&
+            (x + 1 <= this.width - 1 && !this.getCell(x + 1, y).isStreet()) &&
+            (y - 1 >= 1 && !this.getCell(x, y - 1).isStreet()) &&
+            (y + 1 <= this.height - 1 && !this.getCell(x, y + 1).isStreet())) {
             this.buildStreet(x, y, 8);
-        
+
             // Up
             this.buildStreetLine(x, y, 1);
 
@@ -48,10 +48,10 @@ Map.prototype.generateMap = function () {
 
             // Left
             this.buildStreetLine(x, y, 4);
-        } else { 
+        } else {
             i--;
         }
-     }
+    }
 
     // spawn houses
     for (let i = 0; i < this.houseCount; i++) {
@@ -128,7 +128,7 @@ Map.prototype.buildStreet = function (x, y, streettype) {
 Map.prototype.buildStreetLine = function (x, y, direction) {
     let i = 0;
     while (i < 1000) {
-        if (x >= this.width-1 || y >= this.height-1 || x <= 0 || y <= 0) {
+        if (x >= this.width - 1 || y >= this.height - 1 || x <= 0 || y <= 0) {
             return;
         }
 
@@ -204,7 +204,7 @@ Map.prototype.coverAt = function (x, y) {
             for (let j = y - coverRadius; j <= y + coverRadius; j++) {
                 if (j >= 0 && j < this.height) {
                     this.getCell(i, j).covered = true;
-                    this.covered.push({x:i, y: j});
+                    this.covered.push({x: i, y: j});
                 }
             }
         }
@@ -270,7 +270,8 @@ Map.prototype.updateCoverage = function (input) {
             }
         }
     }
-    return 0;
+    // return ;
+    return this.updateCoverage(input-1);
 };
 
 
@@ -312,7 +313,7 @@ function Cell() {
     };
 
     this.isRabbit = function () {
-       return this.type === 4;
+        return this.type === 4;
     };
 
     this.isDuck = function () {

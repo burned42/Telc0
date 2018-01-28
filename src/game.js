@@ -7,9 +7,7 @@ let runningGame = function () {
     this.texts = [];
     this.colorBuild = 0x9FFA3B;
     this.colorFail = 0xFF003B;
-    this.rabbit = null;
 };
-
 
 runningGame.prototype = {
     preload: function () {
@@ -26,7 +24,6 @@ runningGame.prototype = {
         this.game.tilemap = this.game.add.tilemap('generatedMap', cellSize, cellSize, generatedMap.width, generatedMap.height);
         this.game.tilemap.addTilesetImage('Map', 'tiles');
         this.game.tilelayer = this.game.tilemap.createLayer(0);
-
 
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
@@ -59,9 +56,9 @@ runningGame.prototype = {
             this.game.birds.push(bird);
         }
 
-        let start = this.findBaseTower();
-        this.game.camera.x = start.x * cellSize - cellSize / 2;
-        this.game.camera.y = start.y * cellSize - cellSize / 2;
+        let start = this.getBaseTower();
+        this.game.camera.x = start.x * cellSize - this.camera.width / 2; //= start.x * cellSize - cellSize / 2;
+        this.game.camera.y = start.y * cellSize - this.camera.height / 2;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
@@ -99,6 +96,7 @@ runningGame.prototype = {
     },
 
     update: function () {
+        // Moving with Keys
         if (this.escKey.isDown) {
             this.game.state.start('menu');
         }
@@ -115,14 +113,21 @@ runningGame.prototype = {
             this.game.camera.x += 15;
         }
 
-        this.periodicBilling();
-        if (money < 0) {
-            money = startMoney;
-            this.game.state.start('gameOver');
-        }
-        this.game.input.onDown.addOnce(this.build_tower, this);
-        // this.render();
+        // Drag&Drop
+	if (this.game.input.activePointer.isDown) {	
+		if (this.game.origDragPoint) {		
+			this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
+			this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;	
+		}	
+		this.game.origDragPoint = this.game.input.activePointer.position.clone();
+	} else {
+		this.game.origDragPoint = null;
+	}
 
+        // Build Tower
+        this.game.input.onTap.addOnce(this.build_tower, this);
+
+        // Update minimap
         let miniMapViewportX = this.game.camera.x * 150 / this.game.world.width;
         let miniMapViewportY = this.game.camera.y * 150 / this.game.world.height;
         this.stage.drawFull(this.game.world);
@@ -131,7 +136,15 @@ runningGame.prototype = {
         this.stage.clear();
         this.miniMap.update();
 
+        // Let the world live!
         this.animate_world();
+
+        // Pay the rent
+        this.periodicBilling();
+        if (money < 0) {
+            money = startMoney;
+            this.game.state.start('gameOver');
+        }
     },
 
     render: function () {
@@ -144,9 +157,10 @@ runningGame.prototype = {
             }
         }
 
-        // this.game.debug.cameraInfo(this.game.camera, 32, 32);
-        for (let x = 0; x < this.game.map.width; x++) {
-            for (let y = 0; y < this.game.map.height; y++) {
+        // this.game.debug.cameraInfo(this.game.camera, 32, 32); // debug for Camera TODO remove at the end!
+
+        for (let x = 0; x < this.game.map.width; x++){
+            for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
                     this.graphics.drawRoundedRect(cellSize * x, cellSize * y, cellSize, cellSize, 0.4);
@@ -188,7 +202,7 @@ runningGame.prototype = {
         }
     },
 
-    findBaseTower: function () {
+    getBaseTower: function () {
         for (let i = 0; i < this.game.map.towers.length; i++) {
             let tower = this.game.map.towers[i];
             let cell = this.game.map.getCell(tower.x, tower.y);
@@ -299,13 +313,11 @@ runningGame.prototype = {
 
     flash_build_success: function () {
         this.game.camera.flash(this.colorBuild, 200);
-
     },
 
 
     flash_build_fails: function () {
         this.game.camera.flash(this.colorFail, 200);
-
     },
 
     moneyEffect: function (x, y, value) {
@@ -344,6 +356,4 @@ runningGame.prototype = {
             this.game.state.start('gameOver');
         }
     },
-
 };
-
