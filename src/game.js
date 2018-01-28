@@ -63,16 +63,15 @@ runningGame.prototype = {
         // Create the markers for the tile under the cursor
         markergreen = game.add.graphics();
     	markergreen.lineStyle(2, 0x00ff00, 1);
-    	markergreen.drawRect(0, 0, 32, 32);
+    	markergreen.drawRect(0, 0, cellSize, cellSize);
 
         markeryellow = game.add.graphics();
         markeryellow.lineStyle(2, 0x00ffff, 1);
-        markeryellow.drawRect(0, 0, 32, 32);
+        markeryellow.drawRect(0, 0, cellSize, cellSize); 
 
         markerred = game.add.graphics();
         markerred.lineStyle(2, 0xff0000, 1);
-        markerred.drawRect(0, 0, 32, 32);
-
+        markerred.drawRect(0, 0, cellSize, cellSize);
 
         // Create the start position
         let start = this.getBaseTower();
@@ -162,18 +161,21 @@ runningGame.prototype = {
         // Let the world live!
         this.animate_world();
 
-        // Mark the tile under the cursor
-        let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
-        let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
-        let current_tile = this.game.map.getCell(x, y);
-
-
         // Pay the rent
         this.periodicBilling();
         if (money < 0) {
             money = startMoney;
             this.game.state.start('gameOver');
         }
+
+	// Update the markers
+        let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
+        let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
+        let current_tile = this.game.map.getCell(x, y);
+
+        markergreen.x = current_tile.x;
+        markergreen.y = current_tile.y;
+
     },
 
     render: function () {
