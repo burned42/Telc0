@@ -9,7 +9,6 @@ let runningGame = function () {
     this.colorFail = 0xFF003B;
 };
 
-
 runningGame.prototype = {
     preload: function () {
     },
