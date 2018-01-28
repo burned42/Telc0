@@ -30,5 +30,4 @@ gameMenu.prototype = {
     playGame: function () {
         this.game.state.start('telc0');
     },
-
 };
