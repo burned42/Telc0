@@ -55,6 +55,7 @@ Map.prototype.generateMap = function () {
     // spawn houses
     for (let i = 0; i < this.houseCount; i++) {
         let j = 0;
+        let x, y;
         do {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
@@ -69,6 +70,7 @@ Map.prototype.generateMap = function () {
     // spawn random blocked tiles
     for (let i = 0; i < this.blockedCount; i++) {
         let j = 0;
+        let x, y;
         do {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
