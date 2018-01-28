@@ -375,7 +375,7 @@ runningGame.prototype = {
             if (aktbird.x < 0) {
                 aktbird.angle = 90;
             } else if (aktbird.x > this.game.world.width) {
-                aktbird.angle = 270;
+                aktbird.angle = -90;
             }
             if (aktbird.y < 0) {
                 aktbird.angle = 180;
