@@ -166,6 +166,7 @@ runningGame.prototype = {
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
 
+
         if (current_tile.isEmpty() && !current_tile.isBlocked()) {
             this.game.map.buildTower(x, y);
             this.updateMoney(towerInitialCost, false);
@@ -173,7 +174,7 @@ runningGame.prototype = {
             this.moneyEffect(x, y, towerInitialCost);
             if (this.game.map.isConnectedToNetwork(x, y)) {
                 this.game.map.coverAt(x, y);
-                this.game.map.updateCoverage();
+                this.game.map.updateCoverage(this.game.map.towers.length-1);
             }
             let revenue = this.calculateInitialHouseRevenue();
             this.updateMoney(revenue);

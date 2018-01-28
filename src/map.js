@@ -119,7 +119,6 @@ Map.prototype.buildBaseTower = function (x, y) {
     let tower = new BaseTowerCell();
     this.map[y][x] = tower;
     this.towers.push({x:x, y:y});
-    this.connecetTowers.push(tower);
 };
 
 Map.prototype.buildStreet = function (x, y, streettype) {
@@ -233,41 +232,45 @@ Map.prototype.getMapAsCsv = function () {
 };
 
 Map.prototype.isConnectedToNetwork = function (x, y) {
-    console.log(x, y);
-    console.log("ME:");
-    console.log(this.getCell(x, y));
-    console.log("MAP");
-    console.log(this);
-    console.log("NEIGH");
-    for (let i = x - 1; i <= x + 1; i++) {
+    for (let i = x - coverRadius; i <= x + coverRadius; i++) {
         if (i >= 0 && i < this.width) {
-            for (let j = y - 1; j <= y + 1; j++) {
+            for (let j = y - coverRadius; j <= y + coverRadius; j++) {
                 if (j >= 0 && j < this.height) {
                     // I am connected, if at least one of my neighbours is covered
                     let neigh = this.getCell(i, j);
-                    console.log(neigh);
                     if(neigh.covered){
-                        console.log('CONNECTED');
                         return true;
                     }
                 }
             }
         }
     }
-    console.log('NOT_CONNECTED');
 };
 
-Map.prototype.updateCoverage = function () {
-    console.log("STACK: "+ this.stack);
-    for (let i = 0; i< this.towers.length; i++){
-        let t = this.towers[i];
-        let cell = this.getCell(t.x, t.y);
-        if (cell.covered === true && cell.isTower()) {
-            this.coverAt(t.x, t.y);
-            // this.updateCoverage();
-            // return;
+Map.prototype.updateCoverage = function (input) {
+    if (input < 0 || input>=this.towers.length){
+        return
+    }
+    let t = this.towers[input];
+    if (t === null){
+        return this.updateCoverage(input-1);
+    }
+    for (let i = t.x - coverRadius; i <= t.x + coverRadius; i++) {
+        if (i >= 0 && i < this.width) {
+            for (let j = t.y - coverRadius; j <= t.y + coverRadius; j++) {
+                if (j >= 0 && j < this.height) {
+                    //if something in our reach is a connected tower, cover at our position (connect US)
+                    let cell = this.getCell(i,j);
+                    if (this.isConnectedToNetwork(i, j) && cell.isTower()){
+                        this.coverAt(i, j);
+                        this.coverAt(t.x, t.y);
+                        return this.updateCoverage(input-1);
+                    }
+                }
+            }
         }
     }
+    return 0;
 };
 
 
