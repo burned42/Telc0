@@ -23,12 +23,20 @@ gameOver.prototype = {
             fill: '#909296'
         });
         gameOverLabel.anchor.setTo(0.5, 0);
-        let scoreLable = this.game.add.text(this.game.width / 2, this.game.height / 2 + 96, 'Score: ' + score + '%', {
+        let scoreLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 96, 'Score: ' + score + '%', {
             font: '32px Arial',
             fill: '#909296'
         });
-        scoreLable.anchor.setTo(0.5, 0);
-        let buttonMenuPos = this.game.add.button(this.game.width / 2, this.game.height / 2 + 144, 'buttonMenu', this.playGame, this);
+        scoreLabel.anchor.setTo(0.5, 0);
+        let timePlayedRaw = this.game.time.totalElapsedSeconds() / 60.0;
+        let timePlayed = precisionRound(timePlayedRaw, 2);
+
+        let timeLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 136, 'Time: ' + timePlayed + ' Min.', {
+            font: '32px Arial',
+            fill: '#909296'
+        });
+        timeLabel.anchor.setTo(0.5, 0);
+        let buttonMenuPos = this.game.add.button(this.game.width / 2, this.game.height / 2 + 184, 'buttonMenu', this.playGame, this);
         buttonMenuPos.anchor.setTo(0.5, 0);
 
         this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
