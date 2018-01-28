@@ -9,26 +9,28 @@ let mapHeight;
 let mapWidth;
 let viewport;
 
+let coverRadius = 2; // note: real radius -1
 
 let birdspeed = 2;
-let numofbirds = 6;
+let numOfBirds = 20;
 
 let numofroads = 5;
 
 let moneytext;
+let scoretext;
 let bar;
-let lastmaintenance;
-let timenow;
+let lastBillingRun;
 
-// TODO change values
-let startMoney = 100000000;
+let startMoney = 1000;
 let money = startMoney;
-let towercost = -200;
-let revenueHouse = 50;
-let maintenanceinterval = 10 * 1000; // secends * milliseconds
-let maintenancecost = -100;
+let towerInitialCost = -200;
+let towerMaintenanceCost = -100;
+let houseInitialRevenue = 300;
+let housePeriodicRevenue = 50;
+let billingIntervalSeconds = 10;
 
 let countCoveredHouses = 0;
+let score;
 
 //main game functions for each game step
 window.onload = function () {

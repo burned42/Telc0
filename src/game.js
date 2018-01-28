@@ -33,16 +33,16 @@ runningGame.prototype = {
 
                 let cell = this.game.map.getCell(x, y);
 
-                if (cell.isDuck()){
-                    let duck = this.game.add.sprite(x*cellSize, y*cellSize, 'swimmingDuck');
+                if (cell.isDuck()) {
+                    let duck = this.game.add.sprite(x * cellSize, y * cellSize, 'swimmingDuck');
                     duck.animations.add('swim');
-                    duck.animations.play('swim', 4, true);
+                    duck.animations.play('swim', (Math.random() * 3 + 2), true);
                 }
 
-                else if (cell.isRabbit()){
-                    let rabbit = this.game.add.sprite(x*cellSize, y*cellSize, 'greenGrassRabbitMoving');
+                else if (cell.isRabbit()) {
+                    let rabbit = this.game.add.sprite(x * cellSize, y * cellSize, 'greenGrassRabbitMoving');
                     rabbit.animations.add('hop');
-                    rabbit.animations.play('hop', 3, true);
+                    rabbit.animations.play('hop', (Math.random() * 3 + 2), true);
                     rabbit.inputEnabled = true;
                     rabbit.events.onInputDown.add(function (s) {
                         s.destroy();
@@ -52,15 +52,15 @@ runningGame.prototype = {
         }
 
         this.game.birds = [];
-        for (let i = 0; i < numofbirds; i++) {
-            let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.world.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.world.height + 1), 'bird');
-            aktbird.animations.add('fly');
-            aktbird.animations.play('fly', 10, true);
-            this.game.birds.push(aktbird);
+        for (let i = 0; i < numOfBirds; i++) {
+            let bird = this.game.add.sprite(Math.floor(Math.random() * this.game.world.width + 1), Math.floor(Math.random() * this.game.world.height + 1), 'bird');
+            bird.animations.add('fly');
+            bird.animations.play('fly', (Math.random() * 5 + 4), true);
+            this.game.birds.push(bird);
         }
 
         let start = this.findBaseTower();
-        this.game.camera.x = start.x * cellSize - cellSize/ 2;
+        this.game.camera.x = start.x * cellSize - cellSize / 2;
         this.game.camera.y = start.y * cellSize - cellSize / 2;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -71,25 +71,31 @@ runningGame.prototype = {
         this.keyS = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
         this.keyD = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 
-        this.bar = this.game.add.graphics();
-        this.bar.beginFill(0x0c0c0c, 0.2);
-        moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
-        this.bar.drawRect(0, 20, 150, 40);
-        this.bar.fixedToCamera = true;
-        moneytext.fixedToCamera = true;
 
         this.cashGood = this.game.add.audio('cashGood');
         this.cashBad = this.game.add.audio('cashBad');
 
         this.gameAudio = this.game.add.audio('backgroundTheme', 1, true).play();
 
-        lastmaintenance = this.game.time.now;
+        lastBillingRun = this.game.time.now;
 
         this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
         this.miniMap = this.game.make.bitmapData(150, 150);
         this.miniMapContainer = this.game.make.sprite(this.game.width - 150, this.game.height - 150, this.miniMap);
         this.graphics = this.game.add.graphics(0, 0);
         this.game.stage.addChild(this.miniMapContainer);
+
+        score = 0;
+
+        this.bar = this.game.add.graphics();
+        this.bar.beginFill(0x0c0c0c, 0.2);
+        moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
+        this.bar.drawRect(0, 20, 150, 70);
+        this.bar.fixedToCamera = true;
+        moneytext.fixedToCamera = true;
+
+        scoretext = this.game.add.text(30, 60, score + " %", {font: "bold 19px Arial", fill: "#edff70"});
+        scoretext.fixedToCamera = true;
     },
 
     update: function () {
@@ -109,8 +115,8 @@ runningGame.prototype = {
             this.game.camera.x += 15;
         }
 
-        this.calculate_maintenance();
-        if (money < towercost || money <= 0) {
+        this.periodicBilling();
+        if (money < 0) {
             money = startMoney;
             this.game.state.start('gameOver');
         }
@@ -128,19 +134,19 @@ runningGame.prototype = {
         this.animate_world();
     },
 
-    render: function() {
+    render: function () {
         this.graphics.clear();
         this.graphics.beginFill(0x000FF0, 0.2);
         let now = this.game.time.now;
         for (let t in this.texts) {
-            if (t.birth - now <= 100){
+            if (t.birth - now <= 100) {
                 this.game.text.remove(t);
             }
         }
 
         // this.game.debug.cameraInfo(this.game.camera, 32, 32);
-        for (let x = 0; x < this.game.map.width; x++){
-            for (let y = 0; y < this.game.map.height; y++){
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
                     this.graphics.drawRoundedRect(cellSize * x, cellSize * y, cellSize, cellSize, 0.4);
@@ -150,7 +156,7 @@ runningGame.prototype = {
         this.graphics.endFill();
     },
 
-    shutdown: function() {
+    shutdown: function () {
         this.gameAudio.stop();
         this.miniMap.destroy();
     },
@@ -162,19 +168,21 @@ runningGame.prototype = {
 
         if (current_tile.isEmpty() && !current_tile.isBlocked()) {
             this.game.map.buildTower(x, y);
-            this.update_money(towercost, false);
+            this.updateMoney(towerInitialCost, false);
             this.game.tilemap.putTile(1, x, y);
-            this.money_effect(x, y, towercost);
-            if (this.game.map.isConnectedToNetwork(x, y)){
+            this.moneyEffect(x, y, towerInitialCost);
+            if (this.game.map.isConnectedToNetwork(x, y)) {
                 this.game.map.coverAt(x, y);
                 this.game.map.updateCoverage();
             }
-            let revenue = this.calculate_revenue();
-            this.update_money(revenue);
+            let revenue = this.calculateInitialHouseRevenue();
+            this.updateMoney(revenue);
+
+            this.calculateCoverage();
 
             this.flash_build_success();
         }
-        else  {
+        else {
             this.flash_build_fails();
         }
     },
@@ -189,39 +197,52 @@ runningGame.prototype = {
         }
     },
 
-    calculate_maintenance: function() {
-        timenow = this.game.time.now;
-        if (timenow - lastmaintenance > maintenanceinterval) {
-            lastmaintenance = this.game.time.now;
-            this.update_money(maintenancecost * this.game.map.getTowerCount());
-            for (let x = 0; x < this.game.map.width; x++) {
-                for (let y = 0; y < this.game.map.height; y++) {
-                    let cell = this.game.map.getCell(x, y);
-                    if (cell.isTower()) {
-                        this.money_effect(x, y, maintenancecost);
-                    }
+    periodicBilling: function () {
+        let timeNow = this.game.time.now;
+        if ((timeNow - lastBillingRun) > (billingIntervalSeconds * 1000)) {
+            lastBillingRun = timeNow;
+
+            // pay maintenance for towers and display effects
+            this.updateMoney(this.game.map.getTowerCount() * towerMaintenanceCost);
+            for (let i = 0; i < this.game.map.towers.length; i++) {
+                let tower = this.game.map.towers[i];
+                let cell = this.game.map.getCell(tower.x, tower.y);
+                if (cell.isTower()) {
+                    this.moneyEffect(tower.x, tower.y, towerMaintenanceCost);
                 }
             }
+
+            // get money from houses
+            let coveredHouses = 0;
+            for (let i = 0; i < this.game.map.houses.length; i++) {
+                let house = this.game.map.houses[i];
+                let cell = this.game.map.getCell(house.x, house.y);
+                if (cell.isHouse() && cell.covered) {
+                    coveredHouses++;
+                    this.moneyEffect(house.x, house.y, housePeriodicRevenue);
+                }
+            }
+            this.updateMoney(coveredHouses * housePeriodicRevenue);
         }
     },
 
-    calculate_revenue: function() {
+    calculateInitialHouseRevenue: function () {
         let revenue = 0;
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
-                if (cell.isHouse() && cell.covered && ! cell.paidFor) {
-                    revenue += revenueHouse;
+                if (cell.isHouse() && cell.covered && !cell.paidFor) {
+                    revenue += houseInitialRevenue;
                     cell.paidFor = true;
-                    this.money_effect(x, y, revenueHouse);
+                    this.moneyEffect(x, y, houseInitialRevenue);
                 }
             }
         }
-        this.calculate_coverage();
+
         return revenue;
     },
 
-    update_money: function (value, playsound=true) {
+    updateMoney: function (value, playsound = true) {
         if (playsound) {
             if (value >= 0) {
                 this.cashGood.play();
@@ -233,7 +254,7 @@ runningGame.prototype = {
         moneytext.setText("$ " + money);
     },
 
-    animate_world: function() {
+    animate_world: function () {
         // Let the Birds fly
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
@@ -258,7 +279,7 @@ runningGame.prototype = {
                     aktbird.rotation = 0;
                 }
             }
-            
+
             // Rotate them when at the end of map
             if (aktbird.x < 0) {
                 aktbird.rotation = 90;
@@ -286,17 +307,17 @@ runningGame.prototype = {
 
     },
 
-    money_effect: function (x, y, value) {
+    moneyEffect: function (x, y, value) {
         let fontconfig = {antialias: false, font: "bold 16pt Arial"};
         if (value >= 0) {
             // color green
-            fontconfig.fill = "#edff70";
+            fontconfig.fill = "#00ff00";
         } else {
             // color red
             fontconfig.fill = "#ff0000";
         }
-        let effectX = (x * cellSize) + (cellSize/4);
-        let effectY = (y * cellSize) + (cellSize/2);
+        let effectX = (x * cellSize) + (cellSize / 4);
+        let effectY = (y * cellSize) + (cellSize / 2);
         let text = this.game.add.text(effectX, effectY, "$ " + value, fontconfig);
         text.birth = this.game.time.now;
 
@@ -305,16 +326,18 @@ runningGame.prototype = {
         this.game.add.tween(text).to({alpha: 0}, 1000, Phaser.Easing.Default, true, 1000);
     },
 
-    calculate_coverage: function () {
-        // rebuild with coveredHouses array (maybe)?
-        for (let x = 0; x < this.game.map.width; x++) {
-            for (let y = 0; y < this.game.map.height; y++) {
-                let cell = this.game.map.getCell(x, y);
-                if (cell.paidFor) {
-                   countCoveredHouses++;
-                }
+    calculateCoverage: function () {
+        countCoveredHouses = 0;
+        for (let i = 0; i < this.game.map.houses.length; i++) {
+            let houses = this.game.map.houses[i];
+            let cell = this.game.map.getCell(houses.x, houses.y);
+            if (cell.isHouse() && cell.paidFor) {
+                countCoveredHouses++;
             }
         }
+
+        score = 100 / this.game.map.houses.length * countCoveredHouses;
+        scoretext.setText(score + " %");
 
         if (countCoveredHouses === this.game.map.houses.length) {
             this.game.state.start('gameOver');
