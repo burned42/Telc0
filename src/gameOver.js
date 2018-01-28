@@ -31,7 +31,7 @@ gameOver.prototype = {
         let timePlayedRaw = this.game.time.totalElapsedSeconds() / 60.0;
         let timePlayed = precisionRound(timePlayedRaw, 2);
 
-        let timeLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 136, 'Time: ' + timePlayed + ' Min.', {
+        let timeLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 136, 'Time: ' + timePlayed + ' Min', {
             font: '32px Arial',
             fill: '#909296'
         });

@@ -10,6 +10,7 @@ let runningGame = function () {
     this.colorFail = 0xFF003B;
     this.moneyText = null;
     this.scoreText = null;
+    this.timeText = null;
     this.lastBillingRun = null;
 };
 
@@ -96,18 +97,24 @@ runningGame.prototype = {
 
         // Add the score and money text
         score = 0;
+        playTimeRaw = this.game.time.totalElapsedSeconds() / 60.0;
+        playTime = precisionRound(playTimeRaw, 2);
 
         this.bar = this.game.add.graphics();
         this.bar.beginFill(0x0c0c0c, 0.2);
         this.moneyText = this.game.add.text(30, 30, "$ " + money + " ", {font: "bold 19px Arial", fill: "#edff70"});
         this.moneyText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
-        this.bar.drawRect(0, 20, 150, 70);
+        this.bar.drawRect(0, 20, 150, 100);
         this.bar.fixedToCamera = true;
         this.moneyText.fixedToCamera = true;
 
         this.scoreText = this.game.add.text(30, 60, score + " %" + " ", {font: "bold 19px Arial", fill: "#edff70"});
         this.scoreText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
         this.scoreText.fixedToCamera = true;
+
+        this.timeText = this.game.add.text(30, 90, playTime + " Min" + " ", {font: "bold 19px Arial", fill: "#edff70"});
+        this.timeText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
+        this.timeText.fixedToCamera = true;
 
         // there may be houses in reach of the base tower
         let revenue = this.calculateInitialHouseRevenue();
@@ -219,6 +226,11 @@ runningGame.prototype = {
         } else {
             this.marker.lineStyle(2, 0x00ff00, 1);
         }
+
+        // Update playTime
+        playTimeRaw = this.game.time.totalElapsedSeconds() / 60.0;
+        playTime = precisionRound(playTimeRaw, 2);
+        this.timeText.setText(playTime + " Min" + " ");
     },
 
     render: function () {
