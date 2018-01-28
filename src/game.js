@@ -61,17 +61,9 @@ runningGame.prototype = {
         }
 
         // Create the markers for the tile under the cursor
-        markergreen = game.add.graphics();
-        markergreen.lineStyle(2, 0x00ff00, 1);
-        markergreen.drawRect(0, 0, cellSize, cellSize);
-
-        markeryellow = game.add.graphics();
-        markeryellow.lineStyle(2, 0x00ffff, 1);
-        markeryellow.drawRect(0, 0, cellSize, cellSize);
-
-        markerred = game.add.graphics();
-        markerred.lineStyle(2, 0xff0000, 1);
-        markerred.drawRect(0, 0, cellSize, cellSize);
+        marker = game.add.graphics();
+    	marker.lineStyle(2, 0x00ff00, 1);
+    	marker.drawRect(0, 0, cellSize, cellSize);
 
         // Create the start position
         let start = this.getBaseTower();
@@ -168,14 +160,22 @@ runningGame.prototype = {
             this.game.state.start('gameOver');
         }
 
-        // Update the markers
+	// Update the marker position
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
+
+        marker.x = x * cellSize;
+        marker.y = y * cellSize;
+
+        // Update the marker color
         let current_tile = this.game.map.getCell(x, y);
-
-        markergreen.x = current_tile.x;
-        markergreen.y = current_tile.y;
-
+ 
+        if (current_tile.isBlocked()) {
+            marker.lineColor = 0xff0000;
+        } else {
+            marker.lineColor = 0x00ff00;
+        }
+        console.log(marker.lineColor);
     },
 
     render: function () {
