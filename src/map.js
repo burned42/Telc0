@@ -1,8 +1,9 @@
-function Map(width, height, houseCount, natureCount) {
+function Map(width, height, houseCount, natureCount, roadCount) {
     this.width = width;
     this.height = height;
     this.houseCount = houseCount;
     this.natureCount = natureCount;
+    this.roadCount = roadCount;
     this.map = [];
     this.towers = [];
     this.houses = [];
@@ -26,7 +27,7 @@ Map.prototype.generateMap = function () {
     this.buildBaseTower(baseTowerX, baseTowerY);
 
     // Four simple Streets
-    for (let i = 1; i <= numofroads; i++) {
+    for (let i = 1; i <= this.roadCount; i++) {
         let x = getRandomInt(0, this.width);
         let y = getRandomInt(0, this.height);
         if (this.getCell(x, y).isEmpty() &&

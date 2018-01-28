@@ -9,16 +9,17 @@ let mapHeight;
 let mapWidth;
 let viewport;
 
+// map config
+let numOfHouses = 100;
+let numOfRoads = 5;
+let numOfNature = 50;
+
+let numOfBirds = 20;
+let birdSpeed = 2;
+
 let coverRadius = 2; // note: real radius -1
 
-let birdspeed = 2;
-let numOfBirds = 20;
-
-let numofroads = 5;
-
-let bar;
-let lastBillingRun;
-
+// money config
 let startMoney = 2000;
 let money = startMoney;
 let towerInitialCost = -400;
@@ -29,6 +30,7 @@ let billingIntervalSeconds = 5;
 
 let countCoveredHouses = 0;
 let score;
+let bar;
 
 //main game functions for each game step
 window.onload = function () {

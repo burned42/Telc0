@@ -10,6 +10,7 @@ let runningGame = function () {
     this.colorFail = 0xFF003B;
     this.moneyText = null;
     this.scoreText = null;
+    this.lastBillingRun = null;
 };
 
 runningGame.prototype = {
@@ -21,7 +22,7 @@ runningGame.prototype = {
         this.game.world.setBounds(0, 0, mapRows * cellSize, mapCols * cellSize);
         this.game.camera.width = viewport.w;
         this.game.camera.height = viewport.h;
-        let generatedMap = new Map(mapRows, mapCols, 100, 50);
+        let generatedMap = new Map(mapRows, mapCols, numOfHouses, numOfNature, numOfRoads);
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
@@ -84,7 +85,7 @@ runningGame.prototype = {
         this.gameAudio = this.game.add.audio('backgroundTheme', 1, true).play();
 
         // Prepare the billing run
-        lastBillingRun = this.game.time.now;
+        this.lastBillingRun = this.game.time.now;
 
         // Add the Minimap
         this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
@@ -285,8 +286,8 @@ runningGame.prototype = {
 
     periodicBilling: function () {
         let timeNow = this.game.time.now;
-        if ((timeNow - lastBillingRun) > (billingIntervalSeconds * 1000)) {
-            lastBillingRun = timeNow;
+        if ((timeNow - this.lastBillingRun) > (billingIntervalSeconds * 1000)) {
+            this.lastBillingRun = timeNow;
 
             // pay maintenance for towers and display effects
             this.updateMoney(this.game.map.getTowerCount() * towerMaintenanceCost);
@@ -345,13 +346,13 @@ runningGame.prototype = {
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
             if (aktbird.angle === 0) {
-                aktbird.y -= birdspeed;
+                aktbird.y -= birdSpeed;
             } else if (aktbird.angle === 90) {
-                aktbird.x += birdspeed;
+                aktbird.x += birdSpeed;
             } else if (aktbird.angle === 180) {
-                aktbird.y += birdspeed;
+                aktbird.y += birdSpeed;
             } else if (aktbird.angle === 270) {
-                aktbird.x -= birdspeed;
+                aktbird.x -= birdSpeed;
             }
 
             // Change rotation sometimes
