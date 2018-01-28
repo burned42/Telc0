@@ -128,6 +128,43 @@ runningGame.prototype = {
             this.game.camera.x += 15;
         }
 
+        // Move with mouse at screen edges
+        if (this.game.input.activePointer.position.x < (viewport.w * 0.25)) {
+            this.game.camera.x -= Phaser.Math.mapLinear(
+                this.game.input.activePointer.position.x,
+                0,
+                viewport.w * 0.25,
+                15,
+                1
+            );
+        } else if (this.game.input.activePointer.position.x > (viewport.w * 0.75)) {
+            this.game.camera.x += Phaser.Math.mapLinear(
+                this.game.input.activePointer.position.x,
+                viewport.w,
+                viewport.w * 0.75,
+                15,
+                1
+            );
+        }
+
+        if (this.game.input.activePointer.position.y < (viewport.h * 0.25)) {
+            this.game.camera.y -= Phaser.Math.mapLinear(
+                this.game.input.activePointer.position.y,
+                0,
+                viewport.h * 0.25,
+                15,
+                1
+            );
+        } else if (this.game.input.activePointer.position.y > (viewport.h * 0.75)) {
+            this.game.camera.y += Phaser.Math.mapLinear(
+                this.game.input.activePointer.position.y,
+                viewport.h,
+                viewport.h * 0.75,
+                15,
+                1
+            );
+        }
+
         // Drag&Drop
         if (this.game.input.activePointer.isDown) {
             if (this.game.origDragPoint) {
