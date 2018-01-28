@@ -8,6 +8,8 @@ let runningGame = function () {
     this.texts = [];
     this.colorBuild = 0x9FFA3B;
     this.colorFail = 0xFF003B;
+    this.moneyText = null;
+    this.scoreText = null;
 };
 
 runningGame.prototype = {
@@ -96,15 +98,15 @@ runningGame.prototype = {
 
         this.bar = this.game.add.graphics();
         this.bar.beginFill(0x0c0c0c, 0.2);
-        moneytext = this.game.add.text(30, 30, "$ " + money + " ", {font: "bold 19px Arial", fill: "#edff70"});
-        moneytext.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
+        this.moneyText = this.game.add.text(30, 30, "$ " + money + " ", {font: "bold 19px Arial", fill: "#edff70"});
+        this.moneyText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
         this.bar.drawRect(0, 20, 150, 70);
         this.bar.fixedToCamera = true;
-        moneytext.fixedToCamera = true;
+        this.moneyText.fixedToCamera = true;
 
-        scoretext = this.game.add.text(30, 60, score + " %" + " ", {font: "bold 19px Arial", fill: "#edff70"});
-        scoretext.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
-        scoretext.fixedToCamera = true;
+        this.scoreText = this.game.add.text(30, 60, score + " %" + " ", {font: "bold 19px Arial", fill: "#edff70"});
+        this.scoreText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
+        this.scoreText.fixedToCamera = true;
     },
 
     update: function () {
@@ -335,7 +337,7 @@ runningGame.prototype = {
             }
         }
         money += value;
-        moneytext.setText("$ " + money + " ");
+        this.moneyText.setText("$ " + money + " ");
     },
 
     animateWorld: function () {
@@ -418,7 +420,7 @@ runningGame.prototype = {
         }
 
         score = 100 / this.game.map.houses.length * countCoveredHouses;
-        scoretext.setText(score + " % ");
+        this.scoreText.setText(score + " % ");
 
         if (countCoveredHouses === this.game.map.houses.length) {
             this.game.state.start('gameOver');

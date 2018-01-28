@@ -16,8 +16,6 @@ let numOfBirds = 20;
 
 let numofroads = 5;
 
-let moneytext;
-let scoretext;
 let bar;
 let lastBillingRun;
 
