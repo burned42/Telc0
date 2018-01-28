@@ -167,16 +167,18 @@ runningGame.prototype = {
             this.updateMoney(towerInitialCost, false);
             this.game.tilemap.putTile(1, x, y);
             this.moneyEffect(x, y, towerInitialCost);
-            if (this.game.map.isConnectedToNetwork(x, y)){
+            if (this.game.map.isConnectedToNetwork(x, y)) {
                 this.game.map.coverAt(x, y);
             }
-            let revenue = this.calculate_revenue();
+            let revenue = this.calculateInitialHouseRevenue();
             this.updateMoney(revenue);
+
+            this.calculateCoverage();
 
             this.flash_build_success();
             let towers = this.game.map.towers;
             for (let t in towers) {
-                if(this.game.map.isConnectedToNetwork(t.x, t.y)){
+                if (this.game.map.isConnectedToNetwork(t.x, t.y)){
                     this.game.map.coverAt(x, y);
                 }
             }
@@ -225,7 +227,7 @@ runningGame.prototype = {
         }
     },
 
-    calculate_revenue: function() {
+    calculateInitialHouseRevenue: function() {
         let revenue = 0;
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
@@ -237,7 +239,6 @@ runningGame.prototype = {
                 }
             }
         }
-        this.calculate_coverage();
 
         return revenue;
     },
@@ -326,7 +327,7 @@ runningGame.prototype = {
         this.game.add.tween(text).to({alpha: 0}, 1000, Phaser.Easing.Default, true, 1000);
     },
 
-    calculate_coverage: function () {
+    calculateCoverage: function () {
         for (let i = 0; i < this.game.map.houses.length; i++) {
             let houses = this.game.map.houses[i];
             let cell = this.game.map.getCell(houses.x, houses.y);
