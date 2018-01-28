@@ -36,6 +36,6 @@ gameOver.prototype = {
     },
 
     playGame: function () {
-        location.reload();
+        this.game.state.start('menu');
     }
 };

@@ -276,6 +276,14 @@ function Cell() {
     this.isStreet = function () {
         return this.street.includes(this.type);
     };
+
+    this.isRabbit = function () {
+       return this.type === 4;
+    };
+
+    this.isDuck = function () {
+        return this.type === 3;
+    }
 }
 
 function EmptyCell() {
