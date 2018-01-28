@@ -28,31 +28,21 @@ runningGame.prototype = {
         this.game.tilelayer = this.game.tilemap.createLayer(0);
 
 
-        // The rabbits are no static tiles, they move and are in fact a spritesheet (tileid is 4)
-        // let rabbits = this.game.add.group();
-        // rabbits.enableBody = true;
-        // this.game.tilemap.createFromObjects('generatedMap', 4, 'greenGrassRabbitMoving', 0, true, false, rabbits);
-        // rabbits.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3], 10, true);
-        // rabbits.callAll('animations.play', 'animations', 'spin');
-
-        // graphics.lineStyle(2, 0xffd900, 1);
-
-        // let rabbit1 = this.game.add.sprite(0, 0, 'rabbit');
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
 
                 let cell = this.game.map.getCell(x, y);
 
                 if (cell.isDuck()){
-                    let duck = this.game.add.sprite(x*128, y*128, 'swimmingDuck');
+                    let duck = this.game.add.sprite(x*cellSize, y*cellSize, 'swimmingDuck');
                     duck.animations.add('swim');
-                    duck.animations.play('swim', 4, true);
+                    duck.animations.play('swim', (Math.random() * 3 + 2), true);
                 }
 
                 else if (cell.isRabbit()){
-                    let rabbit = this.game.add.sprite(x*128, y*128, 'greenGrassRabbitMoving');
+                    let rabbit = this.game.add.sprite(x*cellSize, y*cellSize, 'greenGrassRabbitMoving');
                     rabbit.animations.add('hop');
-                    rabbit.animations.play('hop', 3, true);
+                    rabbit.animations.play('hop', (Math.random() * 3 + 2), true);
                     rabbit.inputEnabled = true;
                     rabbit.events.onInputDown.add(function (s) {
                         s.destroy();
@@ -62,11 +52,11 @@ runningGame.prototype = {
         }
 
         this.game.birds = [];
-        for (let i = 0; i < numofbirds; i++) {
-            let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.world.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.world.height + 1), 'bird');
-            aktbird.animations.add('fly');
-            aktbird.animations.play('fly', 10, true);
-            this.game.birds.push(aktbird);
+        for (let i = 0; i < numOfBirds; i++) {
+            let bird = this.game.add.sprite(Math.floor(Math.random() * this.game.world.width + 1), Math.floor(Math.random() * this.game.world.height + 1), 'bird');
+            bird.animations.add('fly');
+            bird.animations.play('fly', (Math.random() * 5 + 4), true);
+            this.game.birds.push(bird);
         }
 
         let start = this.findBaseTower();
@@ -100,6 +90,8 @@ runningGame.prototype = {
         this.miniMapContainer = this.game.make.sprite(this.game.width - 150, this.game.height - 150, this.miniMap);
         this.graphics = this.game.add.graphics(0, 0);
         this.game.stage.addChild(this.miniMapContainer);
+
+        countCoveredHouses = 0;
     },
 
     update: function () {
@@ -321,13 +313,11 @@ runningGame.prototype = {
     },
 
     calculate_coverage: function () {
-        // rebuild with coveredHouses array (maybe)?
-        for (let x = 0; x < this.game.map.width; x++) {
-            for (let y = 0; y < this.game.map.height; y++) {
-                let cell = this.game.map.getCell(x, y);
-                if (cell.paidFor) {
-                   countCoveredHouses++;
-                }
+        for (let i = 0; i < this.game.map.houses.length; i++) {
+            let houses = this.game.map.houses[i];
+            let cell = this.game.map.getCell(houses.x, houses.y);
+            if (cell.isHouse() && cell.paidFor) {
+                countCoveredHouses++;
             }
         }
 
@@ -338,7 +328,3 @@ runningGame.prototype = {
 
 };
 
-
-function handleAnimated(sprite, pointer) {
-    sprite.alpha(1);
-}
