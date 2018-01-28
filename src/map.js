@@ -1,8 +1,9 @@
-function Map(width, height, houseCount, natureCount) {
+function Map(width, height, houseCount, natureCount, roadCount) {
     this.width = width;
     this.height = height;
     this.houseCount = houseCount;
     this.natureCount = natureCount;
+    this.roadCount = roadCount;
     this.map = [];
     this.towers = [];
     this.houses = [];
@@ -26,7 +27,7 @@ Map.prototype.generateMap = function () {
     this.buildBaseTower(baseTowerX, baseTowerY);
 
     // Four simple Streets
-    for (let i = 1; i <= numofroads; i++) {
+    for (let i = 1; i <= this.roadCount; i++) {
         let x = getRandomInt(0, this.width);
         let y = getRandomInt(0, this.height);
         if (this.getCell(x, y).isEmpty() &&
@@ -119,8 +120,8 @@ Map.prototype.buildBaseTower = function (x, y) {
     this.towers.push({x: x, y: y});
 };
 
-Map.prototype.buildStreet = function (x, y, streettype) {
-    this.map[y][x] = new StreetCell(streettype);
+Map.prototype.buildStreet = function (x, y, streetType) {
+    this.map[y][x] = new StreetCell(streetType);
 };
 
 Map.prototype.buildStreetLine = function (x, y, direction) {
@@ -130,44 +131,41 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
             return;
         }
 
-        let streettype = 8;
+        let streetType = 8;
         if (direction === 1) {
             y -= 1;
             if (!this.getCell(x, y).isStreet()) {
                 if (getRandomInt(0, 6) === 5) {
-                    streettype = 13;
+                    streetType = 13;
                 } else {
-                    streettype = 6;
+                    streetType = 6;
                 }
             }
-        }
-        if (direction === 2) {
+        } else if (direction === 2) {
             x += 1;
             if (!this.getCell(x, y).isStreet()) {
                 if (getRandomInt(0, 6) === 5) {
-                    streettype = 12;
+                    streetType = 12;
                 } else {
-                    streettype = 7;
+                    streetType = 7;
                 }
             }
-        }
-        if (direction === 3) {
+        } else if (direction === 3) {
             y += 1;
             if (!this.getCell(x, y).isStreet()) {
                 if (getRandomInt(0, 6) === 5) {
-                    streettype = 13;
+                    streetType = 13;
                 } else {
-                    streettype = 6;
+                    streetType = 6;
                 }
             }
-        }
-        if (direction === 4) {
+        } else if (direction === 4) {
             x -= 1;
             if (!this.getCell(x, y).isStreet()) {
                 if (getRandomInt(0, 6) === 5) {
-                    streettype = 12;
+                    streetType = 12;
                 } else {
-                    streettype = 7;
+                    streetType = 7;
                 }
             }
         }
@@ -176,7 +174,7 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
             return;
         }
 
-        this.map[y][x] = new StreetCell(streettype);
+        this.map[y][x] = new StreetCell(streetType);
 
         i++;
     }
@@ -199,10 +197,10 @@ Map.prototype.getMapAsCsv = function () {
         for (let x = 0; x < this.width; x++) {
             let cell = this.getCell(x, y);
             if (line === "") {
-                line = cell.getTilemapId();
+                line = cell.getTileMapId();
             }
             else {
-                line = line + "," + cell.getTilemapId();
+                line = line + "," + cell.getTileMapId();
             }
         }
         csv = csv + line + "\n";
@@ -233,10 +231,10 @@ Map.prototype.getMapAsCsv = function () {
         for (let x = 0; x < this.width; x++) {
             let cell = this.getCell(x, y);
             if (line === "") {
-                line = cell.getTilemapId();
+                line = cell.getTileMapId();
             }
             else {
-                line = line + "," + cell.getTilemapId();
+                line = line + "," + cell.getTileMapId();
             }
         }
         csv = csv + line + "\n";
@@ -284,9 +282,10 @@ function Cell() {
     this.nature = [3, 11];
     this.street = [6, 7, 8, 12, 13];
     this.covered = false;
+    /** @type {int} */
     this.type = null;
 
-    this.getTilemapId = function () {
+    this.getTileMapId = function () {
         return this.type;
     };
 
@@ -352,10 +351,10 @@ function TowerCell() {
     this.type = 1;
 }
 
-function StreetCell(streettype) {
+function StreetCell(streetType) {
     Cell.call(this);
 
-    this.type = streettype;
+    this.type = streetType;
 }
 
 function BaseTowerCell() {
