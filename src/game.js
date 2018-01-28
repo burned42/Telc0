@@ -166,6 +166,9 @@ runningGame.prototype = {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
 
+        x = Math.min(Math.max(parseInt(x), 0), this.game.map.width);
+        y = Math.min(Math.max(parseInt(y), 0), this.game.map.height);
+
         marker.x = x * cellSize;
         marker.y = y * cellSize;
 
