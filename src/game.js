@@ -36,13 +36,13 @@ runningGame.prototype = {
                 if (cell.isDuck()){
                     let duck = this.game.add.sprite(x*cellSize, y*cellSize, 'swimmingDuck');
                     duck.animations.add('swim');
-                    duck.animations.play('swim', 4, true);
+                    duck.animations.play('swim', (Math.random() * 3 + 2), true);
                 }
 
                 else if (cell.isRabbit()){
                     let rabbit = this.game.add.sprite(x*cellSize, y*cellSize, 'greenGrassRabbitMoving');
                     rabbit.animations.add('hop');
-                    rabbit.animations.play('hop', 3, true);
+                    rabbit.animations.play('hop', (Math.random() * 3 + 2), true);
                     rabbit.inputEnabled = true;
                     rabbit.events.onInputDown.add(function (s) {
                         s.destroy();
@@ -52,11 +52,11 @@ runningGame.prototype = {
         }
 
         this.game.birds = [];
-        for (let i = 0; i < numofbirds; i++) {
-            let aktbird = this.game.add.sprite(this.game.camera.x + Math.floor(Math.random() * this.game.world.width + 1), this.game.camera.y + Math.floor(Math.random() * this.game.world.height + 1), 'bird');
-            aktbird.animations.add('fly');
-            aktbird.animations.play('fly', 10, true);
-            this.game.birds.push(aktbird);
+        for (let i = 0; i < numOfBirds; i++) {
+            let bird = this.game.add.sprite(Math.floor(Math.random() * this.game.world.width + 1), Math.floor(Math.random() * this.game.world.height + 1), 'bird');
+            bird.animations.add('fly');
+            bird.animations.play('fly', (Math.random() * 5 + 4), true);
+            this.game.birds.push(bird);
         }
 
         let start = this.findBaseTower();

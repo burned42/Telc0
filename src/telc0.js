@@ -11,7 +11,7 @@ let viewport;
 
 
 let birdspeed = 2;
-let numofbirds = 6;
+let numOfBirds = 20;
 
 let numofroads = 5;
 
