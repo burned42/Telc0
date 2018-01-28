@@ -97,7 +97,8 @@ runningGame.prototype = {
 
         // Add the score and money text
         score = 0;
-        playTimeRaw = this.game.time.totalElapsedSeconds() / 60.0;
+        let playTimeRaw = this.game.time.totalElapsedSeconds() / 60.0;
+        timeGameStartedAt = playTimeRaw;
         playTime = precisionRound(playTimeRaw, 2);
 
         this.bar = this.game.add.graphics();
@@ -228,7 +229,7 @@ runningGame.prototype = {
         }
 
         // Update playTime
-        playTimeRaw = this.game.time.totalElapsedSeconds() / 60.0;
+        let playTimeRaw = (this.game.time.totalElapsedSeconds() / 60.0) - timeGameStartedAt;
         playTime = precisionRound(playTimeRaw, 2);
         this.timeText.setText(playTime + " Min" + " ");
     },

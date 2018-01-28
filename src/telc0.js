@@ -31,8 +31,8 @@ let billingIntervalSeconds = 5;
 
 let score;
 let bar;
-let playTimeRaw = 0;
 let playTime = 0;
+let timeGameStartedAt = 0;
 
 //main game functions for each game step
 window.onload = function () {
