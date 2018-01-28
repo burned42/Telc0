@@ -14,6 +14,7 @@ runningGame.prototype = {
     },
 
     create: function () {
+        // Create Worldmap
         this.game.world.setBounds(0, 0, mapRows * cellSize, mapCols * cellSize);
         this.game.camera.width = viewport.w;
         this.game.camera.height = viewport.h;
@@ -21,10 +22,12 @@ runningGame.prototype = {
         this.game.map = generatedMap;
         this.game.load.tilemap('generatedMap', null, generatedMap.getMapAsCsv(), Phaser.Tilemap.CSV);
 
+        // Create Tiles in Map
         this.game.tilemap = this.game.add.tilemap('generatedMap', cellSize, cellSize, generatedMap.width, generatedMap.height);
         this.game.tilemap.addTilesetImage('Map', 'tiles');
         this.game.tilelayer = this.game.tilemap.createLayer(0);
 
+        // Create Animated Tiles in Map
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
 
@@ -48,6 +51,7 @@ runningGame.prototype = {
             }
         }
 
+        // Create the birds
         this.game.birds = [];
         for (let i = 0; i < numOfBirds; i++) {
             let bird = this.game.add.sprite(Math.floor(Math.random() * this.game.world.width + 1), Math.floor(Math.random() * this.game.world.height + 1), 'bird');
@@ -56,10 +60,25 @@ runningGame.prototype = {
             this.game.birds.push(bird);
         }
 
+        // Create the markers for the tile under the cursor
+        markergreen = game.add.graphics();
+        markergreen.lineStyle(2, 0x00ff00, 1);
+        markergreen.drawRect(0, 0, cellSize, cellSize);
+
+        markeryellow = game.add.graphics();
+        markeryellow.lineStyle(2, 0x00ffff, 1);
+        markeryellow.drawRect(0, 0, cellSize, cellSize);
+
+        markerred = game.add.graphics();
+        markerred.lineStyle(2, 0xff0000, 1);
+        markerred.drawRect(0, 0, cellSize, cellSize);
+
+        // Create the start position
         let start = this.getBaseTower();
-        this.game.camera.x = start.x * cellSize - this.camera.width / 2; //= start.x * cellSize - cellSize / 2;
+        this.game.camera.x = start.x * cellSize - this.camera.width / 2;
         this.game.camera.y = start.y * cellSize - this.camera.height / 2;
 
+        // Add Cursor and other Keys
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
         this.escKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
@@ -68,20 +87,23 @@ runningGame.prototype = {
         this.keyS = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
         this.keyD = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 
-
+        // Add Sounds
         this.cashGood = this.game.add.audio('cashGood');
         this.cashBad = this.game.add.audio('cashBad');
 
         this.gameAudio = this.game.add.audio('backgroundTheme', 1, true).play();
 
+        // Prepare the billing run
         lastBillingRun = this.game.time.now;
 
+        // Add the Minimap
         this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
         this.miniMap = this.game.make.bitmapData(150, 150);
         this.miniMapContainer = this.game.make.sprite(this.game.width - 150, this.game.height - 150, this.miniMap);
         this.graphics = this.game.add.graphics(0, 0);
         this.game.stage.addChild(this.miniMapContainer);
 
+        // Add the score and money text
         score = 0;
 
         this.bar = this.game.add.graphics();
@@ -114,15 +136,15 @@ runningGame.prototype = {
         }
 
         // Drag&Drop
-	if (this.game.input.activePointer.isDown) {	
-		if (this.game.origDragPoint) {		
-			this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
-			this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;	
-		}	
-		this.game.origDragPoint = this.game.input.activePointer.position.clone();
-	} else {
-		this.game.origDragPoint = null;
-	}
+        if (this.game.input.activePointer.isDown) {
+            if (this.game.origDragPoint) {
+                this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;
+                this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;
+            }
+            this.game.origDragPoint = this.game.input.activePointer.position.clone();
+        } else {
+            this.game.origDragPoint = null;
+        }
 
         // Build Tower
         this.game.input.onTap.addOnce(this.build_tower, this);
@@ -145,6 +167,15 @@ runningGame.prototype = {
             money = startMoney;
             this.game.state.start('gameOver');
         }
+
+        // Update the markers
+        let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
+        let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
+        let current_tile = this.game.map.getCell(x, y);
+
+        markergreen.x = current_tile.x;
+        markergreen.y = current_tile.y;
+
     },
 
     render: function () {
@@ -159,8 +190,8 @@ runningGame.prototype = {
 
         // this.game.debug.cameraInfo(this.game.camera, 32, 32); // debug for Camera TODO remove at the end!
 
-        for (let x = 0; x < this.game.map.width; x++){
-            for (let y = 0; y < this.game.map.height; y++){
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
                     this.graphics.drawRoundedRect(cellSize * x, cellSize * y, cellSize, cellSize, 0.4);
@@ -188,7 +219,7 @@ runningGame.prototype = {
             this.moneyEffect(x, y, towerInitialCost);
             if (current_tile.covered){
                 this.game.map.coverAt(x, y);
-                this.game.map.updateCoverage(this.game.map.towers.length-1);
+                this.game.map.updateCoverage(this.game.map.towers.length - 1);
             }
             let revenue = this.calculateInitialHouseRevenue();
             this.updateMoney(revenue);

@@ -11,6 +11,9 @@ gameMenu.prototype = {
             if (document.getElementById("game").style.display !== "none") {
                 document.getElementById("game").style.display = "none";
                 document.getElementById("credits").style.display = "block";
+            } else {
+                document.getElementById("game").style.display = "block";
+                document.getElementById("credits").style.display = "none";
             }
         });
         button2.anchor.setTo(0, 0);
@@ -26,5 +29,6 @@ gameMenu.prototype = {
 
     playGame: function () {
         this.game.state.start('telc0');
-    }
+    },
+
 };
