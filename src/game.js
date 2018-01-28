@@ -31,16 +31,13 @@ runningGame.prototype = {
         // Create Animated Tiles in Map
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
-
                 let cell = this.game.map.getCell(x, y);
 
                 if (cell.isDuck()) {
                     let duck = this.game.add.sprite(x * cellSize, y * cellSize, 'swimmingDuck');
                     duck.animations.add('swim');
                     duck.animations.play('swim', (Math.random() * 3 + 2), true);
-                }
-
-                else if (cell.isRabbit()) {
+                } else if (cell.isRabbit()) {
                     let rabbit = this.game.add.sprite(x * cellSize, y * cellSize, 'greenGrassRabbitMoving');
                     rabbit.animations.add('hop');
                     rabbit.animations.play('hop', (Math.random() * 3 + 2), true);
@@ -254,7 +251,6 @@ runningGame.prototype = {
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
 
-
         if (current_tile.isEmpty() && !current_tile.isBlocked()) {
             this.game.map.buildTower(x, y);
             this.updateMoney(towerInitialCost, false);
@@ -270,8 +266,7 @@ runningGame.prototype = {
             this.calculateCoverage();
 
             this.flash_build_success();
-        }
-        else {
+        } else {
             this.flash_build_fails();
         }
     },
@@ -349,14 +344,11 @@ runningGame.prototype = {
             let aktbird = this.game.birds[i];
             if (aktbird.rotation === 0) {
                 aktbird.y -= birdspeed;
-            }
-            if (aktbird.rotation === 90) {
+            } else if (aktbird.rotation === 90) {
                 aktbird.x += birdspeed;
-            }
-            if (aktbird.rotation === 180) {
+            } else if (aktbird.rotation === 180) {
                 aktbird.y += birdspeed;
-            }
-            if (aktbird.rotation === 270) {
+            } else if (aktbird.rotation === 270) {
                 aktbird.x -= birdspeed;
             }
 
@@ -372,14 +364,12 @@ runningGame.prototype = {
             // Rotate them when at the end of map
             if (aktbird.x < 0) {
                 aktbird.rotation = 90;
+            } else if (aktbird.x > this.game.world.width) {
+                aktbird.rotation = 270;
             }
             if (aktbird.y < 0) {
                 aktbird.rotation = 180;
-            }
-            if (aktbird.x > this.game.world.width) {
-                aktbird.rotation = 270;
-            }
-            if (aktbird.y > this.game.world.height) {
+            } else if (aktbird.y > this.game.world.height) {
                 aktbird.rotation = 0;
             }
         }
@@ -388,7 +378,6 @@ runningGame.prototype = {
     flash_build_success: function () {
         this.game.camera.flash(this.colorBuild, 200);
     },
-
 
     flash_build_fails: function () {
         this.game.camera.flash(this.colorFail, 200);
