@@ -136,25 +136,41 @@ Map.prototype.buildStreetLine = function (x, y, direction) {
         if (direction === 1) {
             y -= 1;
             if (!this.getCell(x, y).isStreet()) {
-                streettype = 6;
+                if (getRandomInt(0, 6) === 5) {
+                    streettype = 13;
+                } else {
+                    streettype = 6;
+                }
             }
         }
         if (direction === 2) {
             x += 1;
             if (!this.getCell(x, y).isStreet()) {
-                streettype = 7;
+                if (getRandomInt(0, 6) === 5) {
+                    streettype = 12;
+                } else {
+                    streettype = 7;
+                }
             }
         }
         if (direction === 3) {
             y += 1;
             if (!this.getCell(x, y).isStreet()) {
-                streettype = 6;
+                if (getRandomInt(0, 6) === 5) {
+                    streettype = 13;
+                } else {
+                    streettype = 6;
+                }
             }
         }
         if (direction === 4) {
             x -= 1;
             if (!this.getCell(x, y).isStreet()) {
-                streettype = 7;
+                if (getRandomInt(0, 6) === 5) {
+                    streettype = 12;
+                } else {
+                    streettype = 7;
+                }
             }
         }
 
@@ -280,7 +296,7 @@ function Cell() {
     this.tower = [1, 10];
     this.house = [2, 5];
     this.blocked = [3, 6, 7, 8, 11];
-    this.street = [6, 7, 8];
+    this.street = [6, 7, 8, 12, 13];
     this.covered = false;
     this.type = null;
 
