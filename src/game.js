@@ -62,12 +62,12 @@ runningGame.prototype = {
 
         // Create the markers for the tile under the cursor
         markergreen = game.add.graphics();
-    	markergreen.lineStyle(2, 0x00ff00, 1);
-    	markergreen.drawRect(0, 0, cellSize, cellSize);
+        markergreen.lineStyle(2, 0x00ff00, 1);
+        markergreen.drawRect(0, 0, cellSize, cellSize);
 
         markeryellow = game.add.graphics();
         markeryellow.lineStyle(2, 0x00ffff, 1);
-        markeryellow.drawRect(0, 0, cellSize, cellSize); 
+        markeryellow.drawRect(0, 0, cellSize, cellSize);
 
         markerred = game.add.graphics();
         markerred.lineStyle(2, 0xff0000, 1);
@@ -136,15 +136,15 @@ runningGame.prototype = {
         }
 
         // Drag&Drop
-	if (this.game.input.activePointer.isDown) {	
-		if (this.game.origDragPoint) {		
-			this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
-			this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;	
-		}	
-		this.game.origDragPoint = this.game.input.activePointer.position.clone();
-	} else {
-		this.game.origDragPoint = null;
-	}
+        if (this.game.input.activePointer.isDown) {
+            if (this.game.origDragPoint) {
+                this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;
+                this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;
+            }
+            this.game.origDragPoint = this.game.input.activePointer.position.clone();
+        } else {
+            this.game.origDragPoint = null;
+        }
 
         // Build Tower
         this.game.input.onTap.addOnce(this.build_tower, this);
@@ -168,7 +168,7 @@ runningGame.prototype = {
             this.game.state.start('gameOver');
         }
 
-	// Update the markers
+        // Update the markers
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
         let current_tile = this.game.map.getCell(x, y);
@@ -190,8 +190,8 @@ runningGame.prototype = {
 
         // this.game.debug.cameraInfo(this.game.camera, 32, 32); // debug for Camera TODO remove at the end!
 
-        for (let x = 0; x < this.game.map.width; x++){
-            for (let y = 0; y < this.game.map.height; y++){
+        for (let x = 0; x < this.game.map.width; x++) {
+            for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
                 if (cell.covered) {
                     this.graphics.drawRoundedRect(cellSize * x, cellSize * y, cellSize, cellSize, 0.4);
@@ -219,7 +219,7 @@ runningGame.prototype = {
             this.moneyEffect(x, y, towerInitialCost);
             if (this.game.map.isConnectedToNetwork(x, y)) {
                 this.game.map.coverAt(x, y);
-                this.game.map.updateCoverage(this.game.map.towers.length-1);
+                this.game.map.updateCoverage(this.game.map.towers.length - 1);
             }
             let revenue = this.calculateInitialHouseRevenue();
             this.updateMoney(revenue);
