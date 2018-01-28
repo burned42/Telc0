@@ -179,6 +179,7 @@ runningGame.prototype = {
     },
 
     render: function () {
+        // Prepare the rendering
         this.graphics.clear();
         this.graphics.beginFill(0x000FF0, 0.2);
         let now = this.game.time.now;
@@ -188,8 +189,7 @@ runningGame.prototype = {
             }
         }
 
-        // this.game.debug.cameraInfo(this.game.camera, 32, 32); // debug for Camera TODO remove at the end!
-
+        // Render the map
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
@@ -198,6 +198,8 @@ runningGame.prototype = {
                 }
             }
         }
+
+        // Now flush the graphics
         this.graphics.endFill();
     },
 
