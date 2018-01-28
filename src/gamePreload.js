@@ -4,7 +4,7 @@ let gamePreload = function () {
 gamePreload.prototype = {
     preload: function () {
         this.game.add.image(this.game.width / 2 - 400, this.game.height / 2 - 300, 'startBg');
-        let loadingBar = this.add.sprite((this.game.width - 512) / 2, this.game.height / 2 + 104 + 96, 'loading');
+        let loadingBar = this.add.sprite((this.game.width - 256) / 2, this.game.height / 2 + 104 + 96, 'loadingBar');
         loadingBar.anchor.setTo(0, 0);
         this.load.setPreloadSprite(loadingBar);
 
