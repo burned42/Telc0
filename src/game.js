@@ -186,7 +186,7 @@ runningGame.prototype = {
             this.updateMoney(towerInitialCost, false);
             this.game.tilemap.putTile(1, x, y);
             this.moneyEffect(x, y, towerInitialCost);
-            if (this.game.map.isConnectedToNetwork(x, y)) {
+            if (current_tile.covered){
                 this.game.map.coverAt(x, y);
                 this.game.map.updateCoverage(this.game.map.towers.length-1);
             }
