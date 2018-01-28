@@ -71,12 +71,6 @@ runningGame.prototype = {
         this.keyS = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
         this.keyD = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 
-        this.bar = this.game.add.graphics();
-        this.bar.beginFill(0x0c0c0c, 0.2);
-        moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
-        this.bar.drawRect(0, 20, 150, 40);
-        this.bar.fixedToCamera = true;
-        moneytext.fixedToCamera = true;
 
         this.cashGood = this.game.add.audio('cashGood');
         this.cashBad = this.game.add.audio('cashBad');
@@ -91,7 +85,17 @@ runningGame.prototype = {
         this.graphics = this.game.add.graphics(0, 0);
         this.game.stage.addChild(this.miniMapContainer);
 
-        countCoveredHouses = 0;
+        score = 0;
+
+        this.bar = this.game.add.graphics();
+        this.bar.beginFill(0x0c0c0c, 0.2);
+        moneytext = this.game.add.text(30, 30, "$ " + money, {font: "bold 19px Arial", fill: "#edff70"});
+        this.bar.drawRect(0, 20, 150, 70);
+        this.bar.fixedToCamera = true;
+        moneytext.fixedToCamera = true;
+
+        scoretext = this.game.add.text(30, 60, score + " %", {font: "bold 19px Arial", fill: "#edff70"});
+        scoretext.fixedToCamera = true;
     },
 
     update: function () {
@@ -328,6 +332,7 @@ runningGame.prototype = {
     },
 
     calculateCoverage: function () {
+        countCoveredHouses = 0;
         for (let i = 0; i < this.game.map.houses.length; i++) {
             let houses = this.game.map.houses[i];
             let cell = this.game.map.getCell(houses.x, houses.y);
@@ -335,6 +340,9 @@ runningGame.prototype = {
                 countCoveredHouses++;
             }
         }
+
+        score = 100 / this.game.map.houses.length * countCoveredHouses;
+        scoretext.setText(score + " %");
 
         if (countCoveredHouses === this.game.map.houses.length) {
             this.game.state.start('gameOver');
