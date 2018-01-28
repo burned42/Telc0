@@ -201,12 +201,11 @@ runningGame.prototype = {
         if (timenow - lastmaintenance > maintenanceinterval) {
             lastmaintenance = this.game.time.now;
             this.update_money(maintenancecost * this.game.map.getTowerCount());
-            for (let x = 0; x < this.game.map.width; x++) {
-                for (let y = 0; y < this.game.map.height; y++) {
-                    let cell = this.game.map.getCell(x, y);
-                    if (cell.isTower()) {
-                        this.money_effect(x, y, maintenancecost);
-                    }
+            for (let i = 0; i < this.game.map.towers.length; i++) {
+                let tower = this.game.map.towers[i];
+                let cell = this.game.map.getCell(tower.x, tower.y);
+                if (cell.isTower()) {
+                    this.money_effect(tower.x, tower.y, maintenancecost);
                 }
             }
         }
@@ -214,14 +213,13 @@ runningGame.prototype = {
 
     calculate_revenue: function() {
         let revenue = 0;
-        for (let x = 0; x < this.game.map.width; x++) {
-            for (let y = 0; y < this.game.map.height; y++) {
-                let cell = this.game.map.getCell(x, y);
-                if (cell.isHouse() && cell.covered && ! cell.paidFor) {
-                    revenue += revenueHouse;
-                    cell.paidFor = true;
-                    this.money_effect(x, y, revenueHouse);
-                }
+        for (let i = 0; i < this.game.map.houses.length; i++) {
+            let houses = this.game.map.houses[i];
+            let cell = this.game.map.getCell(houses.x, houses.y);
+            if (cell.isHouse() && cell.covered && ! cell.paidFor) {
+                revenue += revenueHouse;
+                cell.paidFor = true;
+                this.money_effect(houses.x, houses.y, revenueHouse);
             }
         }
         this.calculate_coverage();
