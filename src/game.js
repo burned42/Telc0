@@ -83,7 +83,7 @@ runningGame.prototype = {
 
         this.gameAudio = this.game.add.audio('backgroundTheme', 1, true).play();
 
-        lastmaintenance = this.game.time.now;
+        lastBillingRun = this.game.time.now;
 
         this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
         this.miniMap = this.game.make.bitmapData(150, 150);
@@ -111,8 +111,8 @@ runningGame.prototype = {
             this.game.camera.x += 15;
         }
 
-        this.calculate_maintenance();
-        if (money < towercost || money <= 0) {
+        this.periodicBilling();
+        if (money < 0) {
             money = startMoney;
             this.game.state.start('gameOver');
         }
@@ -164,14 +164,14 @@ runningGame.prototype = {
 
         if (current_tile.isEmpty() && !current_tile.isBlocked()) {
             this.game.map.buildTower(x, y);
-            this.update_money(towercost, false);
+            this.updateMoney(towerInitialCost, false);
             this.game.tilemap.putTile(1, x, y);
-            this.money_effect(x, y, towercost);
+            this.moneyEffect(x, y, towerInitialCost);
             if (this.game.map.isConnectedToNetwork(x, y)){
                 this.game.map.coverAt(x, y);
             }
             let revenue = this.calculate_revenue();
-            this.update_money(revenue);
+            this.updateMoney(revenue);
 
             this.flash_build_success();
             let towers = this.game.map.towers;
@@ -196,19 +196,32 @@ runningGame.prototype = {
         }
     },
 
-    calculate_maintenance: function() {
-        timenow = this.game.time.now;
-        if (timenow - lastmaintenance > maintenanceinterval) {
-            lastmaintenance = this.game.time.now;
-            this.update_money(maintenancecost * this.game.map.getTowerCount());
-            for (let x = 0; x < this.game.map.width; x++) {
-                for (let y = 0; y < this.game.map.height; y++) {
-                    let cell = this.game.map.getCell(x, y);
-                    if (cell.isTower()) {
-                        this.money_effect(x, y, maintenancecost);
-                    }
+    periodicBilling: function() {
+        let timeNow = this.game.time.now;
+        if ((timeNow - lastBillingRun) > (billingIntervalSeconds * 1000)) {
+            lastBillingRun = timeNow;
+
+            // pay maintenance for towers and display effects
+            this.updateMoney(this.game.map.getTowerCount() * towerMaintenanceCost);
+            for (let i = 0; i < this.game.map.towers.length; i++) {
+                let tower = this.game.map.towers[i];
+                let cell = this.game.map.getCell(tower.x, tower.y);
+                if (cell.isTower()) {
+                    this.moneyEffect(tower.x, tower.y, towerMaintenanceCost);
                 }
             }
+
+            // get money from houses
+            let coveredHouses = 0;
+            for (let i = 0; i < this.game.map.houses.length; i++) {
+                let house = this.game.map.houses[i];
+                let cell = this.game.map.getCell(house.x, house.y);
+                if (cell.isHouse() && cell.covered) {
+                    coveredHouses++;
+                    this.moneyEffect(house.x, house.y, housePeriodicRevenue);
+                }
+            }
+            this.updateMoney(coveredHouses * housePeriodicRevenue);
         }
     },
 
@@ -218,17 +231,18 @@ runningGame.prototype = {
             for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
                 if (cell.isHouse() && cell.covered && ! cell.paidFor) {
-                    revenue += revenueHouse;
+                    revenue += houseInitialRevenue;
                     cell.paidFor = true;
-                    this.money_effect(x, y, revenueHouse);
+                    this.moneyEffect(x, y, houseInitialRevenue);
                 }
             }
         }
         this.calculate_coverage();
+
         return revenue;
     },
 
-    update_money: function (value, playsound=true) {
+    updateMoney: function (value, playsound=true) {
         if (playsound) {
             if (value >= 0) {
                 this.cashGood.play();
@@ -293,11 +307,11 @@ runningGame.prototype = {
 
     },
 
-    money_effect: function (x, y, value) {
+    moneyEffect: function (x, y, value) {
         let fontconfig = {antialias: false, font: "bold 16pt Arial"};
         if (value >= 0) {
             // color green
-            fontconfig.fill = "#edff70";
+            fontconfig.fill = "#00ff00";
         } else {
             // color red
             fontconfig.fill = "#ff0000";
