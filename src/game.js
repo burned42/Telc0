@@ -96,6 +96,7 @@ runningGame.prototype = {
     },
 
     update: function () {
+        // Moving with Keys
         if (this.escKey.isDown) {
             this.game.state.start('menu');
         }
@@ -112,12 +113,7 @@ runningGame.prototype = {
             this.game.camera.x += 15;
         }
 
-        this.periodicBilling();
-        if (money < 0) {
-            money = startMoney;
-            this.game.state.start('gameOver');
-        }
-
+        // Drag&Drop
 	if (this.game.input.activePointer.isDown) {	
 		if (this.game.origDragPoint) {		
 			this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
@@ -128,9 +124,10 @@ runningGame.prototype = {
 		this.game.origDragPoint = null;
 	}
 
+        // Build Tower
         this.game.input.onTap.addOnce(this.build_tower, this);
-        // this.render();
 
+        // Update minimap
         let miniMapViewportX = this.game.camera.x * 150 / this.game.world.width;
         let miniMapViewportY = this.game.camera.y * 150 / this.game.world.height;
         this.stage.drawFull(this.game.world);
@@ -139,7 +136,15 @@ runningGame.prototype = {
         this.stage.clear();
         this.miniMap.update();
 
+        // Let the world live!
         this.animate_world();
+
+        // Pay the rent
+        this.periodicBilling();
+        if (money < 0) {
+            money = startMoney;
+            this.game.state.start('gameOver');
+        }
     },
 
     render: function () {
