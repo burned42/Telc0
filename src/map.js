@@ -73,7 +73,7 @@ Map.prototype.generateMap = function () {
             x = getRandomInt(0, this.width);
             y = getRandomInt(0, this.height);
             j++;
-        } while (j < 1000 && this.getCell(x, y).isEmpty());
+        } while (j < 1000 && this.getCell(x, y).isEmpty() === false);
 
         if (this.getCell(x, y).isEmpty()) {
             this.buildBlocked(x, y);
