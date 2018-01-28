@@ -62,8 +62,8 @@ runningGame.prototype = {
 
         // Create the markers for the tile under the cursor
         marker = game.add.graphics();
-    	marker.lineStyle(2, 0x00ff00, 1);
-    	marker.drawRect(0, 0, cellSize, cellSize);
+        marker.lineStyle(2, 0x00ff00, 1);
+        marker.drawRect(0, 0, cellSize, cellSize);
 
         // Create the start position
         let start = this.getBaseTower();
@@ -162,7 +162,7 @@ runningGame.prototype = {
             this.game.state.start('gameOver');
         }
 
-	    // Update the marker position
+        // Update the marker position
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
 
@@ -170,10 +170,11 @@ runningGame.prototype = {
         marker.y = y * cellSize;
 
         // Update the marker color
-        let current_tile = this.game.map.getCell(x, y);
- 
-        if (current_tile.isBlocked()) {
+        let currentTile = this.game.map.getCell(x, y);
+        if (currentTile.isBlocked()) {
             marker.lineStyle(2, 0xff0000, 1);
+        } else if (currentTile.covered === false) {
+            marker.lineStyle(2, 0xffff00, 1);
         } else {
             marker.lineStyle(2, 0x00ff00, 1);
         }
@@ -181,6 +182,7 @@ runningGame.prototype = {
     },
 
     render: function () {
+        // Prepare the rendering
         this.graphics.clear();
         this.graphics.beginFill(0x000FF0, 0.2);
         let now = this.game.time.now;
@@ -190,8 +192,7 @@ runningGame.prototype = {
             }
         }
 
-        // this.game.debug.cameraInfo(this.game.camera, 32, 32); // debug for Camera TODO remove at the end!
-
+        // Render the map
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
                 let cell = this.game.map.getCell(x, y);
@@ -200,6 +201,8 @@ runningGame.prototype = {
                 }
             }
         }
+
+        // Now flush the graphics
         this.graphics.endFill();
     },
 
@@ -219,7 +222,7 @@ runningGame.prototype = {
             this.updateMoney(towerInitialCost, false);
             this.game.tilemap.putTile(1, x, y);
             this.moneyEffect(x, y, towerInitialCost);
-            if (current_tile.covered){
+            if (current_tile.covered) {
                 this.game.map.coverAt(x, y);
                 this.game.map.updateCoverage(this.game.map.towers.length - 1);
             }
