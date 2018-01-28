@@ -7,7 +7,6 @@ let runningGame = function () {
     this.texts = [];
     this.colorBuild = 0x9FFA3B;
     this.colorFail = 0xFF003B;
-    this.rabbit = null;
 };
 
 
@@ -26,7 +25,6 @@ runningGame.prototype = {
         this.game.tilemap = this.game.add.tilemap('generatedMap', cellSize, cellSize, generatedMap.width, generatedMap.height);
         this.game.tilemap.addTilesetImage('Map', 'tiles');
         this.game.tilelayer = this.game.tilemap.createLayer(0);
-
 
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {

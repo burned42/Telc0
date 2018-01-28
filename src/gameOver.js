@@ -3,7 +3,7 @@ let gameOver = function () {
 };
 
 gameOver.prototype = {
-    create: function() {
+    create: function () {
         this.game.add.image(this.game.width / 2 - 400, this.game.height / 2 - 300, 'startBg');
 
         let endGame = this.game.add.emitter(this.game.world.centerX, this.world.centerY, 10);
@@ -15,14 +15,20 @@ gameOver.prototype = {
         endGame.start(false, 3000, 10);
         endGame.emitX = this.game.width * 0.5;
         endGame.emitY = this.game.height * 0.5;
-        this.game.add.tween(endGame).to( { emitX: 800-64 }, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0, Number.MAX_VALUE, true);
-        this.game.add.tween(endGame).to( { emitY: 200 }, 4000, Phaser.Easing.Sinusoidal.InOut, true, 0, Number.MAX_VALUE, true);
+        this.game.add.tween(endGame).to({emitX: 800 - 64}, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0, Number.MAX_VALUE, true);
+        this.game.add.tween(endGame).to({emitY: 200}, 4000, Phaser.Easing.Sinusoidal.InOut, true, 0, Number.MAX_VALUE, true);
 
-        let gameOverLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 - 232, 'Game Over', {font: '48px Arial', fill: '#000000'});
+        let gameOverLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 - 232, 'Game Over', {
+            font: '48px Arial',
+            fill: '#000000'
+        });
         gameOverLabel.anchor.setTo(0.5, 0);
-        let scoreLable = this.game.add.text(this.game.width / 2, this.game.height / 2 + 96, 'Score: ' + score + '%', {font: '32px Arial', fill: '#000000'});
+        let scoreLable = this.game.add.text(this.game.width / 2, this.game.height / 2 + 96, 'Score: ' + score + '%', {
+            font: '32px Arial',
+            fill: '#000000'
+        });
         scoreLable.anchor.setTo(0.5, 0);
-        let buttonMenuPos = this.game.add.button(this.game.width / 2, this.game.height / 2 +144, 'buttonMenu', this.playGame, this);
+        let buttonMenuPos = this.game.add.button(this.game.width / 2, this.game.height / 2 + 144, 'buttonMenu', this.playGame, this);
         buttonMenuPos.anchor.setTo(0.5, 0);
 
         this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
