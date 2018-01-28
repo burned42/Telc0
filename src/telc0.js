@@ -9,6 +9,8 @@ let mapHeight;
 let mapWidth;
 let viewport;
 
+let coverRadius = 2; // note: real radius -1
+
 let birdspeed = 2;
 let numOfBirds = 20;
 
