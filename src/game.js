@@ -51,7 +51,7 @@ runningGame.prototype = {
                 let cell = this.game.map.getCell(x, y);
 
                 if (cell.isDuck()){
-                    let duck = this.game.add.sprite(x*128, y*128, '-1');
+                    let duck = this.game.add.sprite(x*128, y*128, 'swimmingDuck');
                     duck.animations.add('swim');
                     duck.animations.play('swim', 4, true);
                 }
