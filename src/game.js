@@ -97,9 +97,10 @@ runningGame.prototype = {
 
         // Add the score and money text
         score = 0;
-        let playTimeRaw = this.game.time.totalElapsedSeconds() / 60.0;
-        timeGameStartedAt = playTimeRaw;
-        playTime = precisionRound(playTimeRaw, 2);
+        let timePlayedRaw = this.game.time.totalElapsedSeconds() / 60.0;
+        timeGameStartedAt = timePlayedRaw;
+        let timePlayedMin = precisionRound(timePlayedRaw, 0);
+        let timePlayedSec = precisionRound(timePlayedRaw, 2) * 100 % 100;
 
         this.bar = this.game.add.graphics();
         this.bar.beginFill(0x0c0c0c, 0.2);
@@ -113,7 +114,7 @@ runningGame.prototype = {
         this.scoreText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
         this.scoreText.fixedToCamera = true;
 
-        this.timeText = this.game.add.text(30, 90, playTime + " Min" + " ", {font: "bold 19px Arial", fill: "#edff70"});
+        this.timeText = this.game.add.text(30, 90, timePlayedMin + ":" + timePlayedSec + " Min" + " ", {font: "bold 19px Arial", fill: "#edff70"});
         this.timeText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
         this.timeText.fixedToCamera = true;
 
@@ -229,9 +230,11 @@ runningGame.prototype = {
         }
 
         // Update playTime
-        let playTimeRaw = (this.game.time.totalElapsedSeconds() / 60.0) - timeGameStartedAt;
-        playTime = precisionRound(playTimeRaw, 2);
-        this.timeText.setText(playTime + " Min" + " ");
+        let timePlayedRaw = (this.game.time.totalElapsedSeconds() / 60.0) - timeGameStartedAt;
+        let timePlayedMin = precisionRound(timePlayedRaw, 0);
+        let timePlayedSec = precisionRound(timePlayedRaw, 2) * 100 % 100;
+        timePlayedSec = precisionRound(timePlayedSec, 0);
+        this.timeText.setText(timePlayedMin + ":" + timePlayedSec + " Min" + " ");
     },
 
     render: function () {
