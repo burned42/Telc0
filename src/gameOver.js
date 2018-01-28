@@ -20,12 +20,12 @@ gameOver.prototype = {
 
         let gameOverLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 - 232, 'Game Over', {
             font: '48px Arial',
-            fill: '#000000'
+            fill: '#909296'
         });
         gameOverLabel.anchor.setTo(0.5, 0);
         let scoreLable = this.game.add.text(this.game.width / 2, this.game.height / 2 + 96, 'Score: ' + score + '%', {
             font: '32px Arial',
-            fill: '#000000'
+            fill: '#909296'
         });
         scoreLable.anchor.setTo(0.5, 0);
         let buttonMenuPos = this.game.add.button(this.game.width / 2, this.game.height / 2 + 144, 'buttonMenu', this.playGame, this);
