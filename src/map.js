@@ -112,13 +112,13 @@ Map.prototype.buildTower = function (x, y) {
     tower.posX = x;
     tower.posY = y;
     this.map[y][x] = tower;
-    this.towers.push({x:x, y:y})
+    this.towers.push({x: x, y: y})
 };
 
 Map.prototype.buildBaseTower = function (x, y) {
     let tower = new BaseTowerCell();
     this.map[y][x] = tower;
-    this.towers.push({x:x, y:y});
+    this.towers.push({x: x, y: y});
 };
 
 Map.prototype.buildStreet = function (x, y, streettype) {
@@ -248,34 +248,34 @@ Map.prototype.getMapAsCsv = function () {
 };
 
 Map.prototype.isConnectedToNetwork = function (x, y) {
-    return this.getCell(x,y).covered;
+    return this.getCell(x, y).covered;
 };
 
 Map.prototype.updateCoverage = function (input) {
-    if (input < 0 || input>=this.towers.length){
+    if (input < 0 || input >= this.towers.length) {
         return
     }
     let t = this.towers[input];
-    if (t === null){
-        return this.updateCoverage(input-1);
+    if (t === null) {
+        return this.updateCoverage(input - 1);
     }
     for (let i = t.x - coverRadius; i <= t.x + coverRadius; i++) {
         if (i >= 0 && i < this.width) {
             for (let j = t.y - coverRadius; j <= t.y + coverRadius; j++) {
                 if (j >= 0 && j < this.height) {
                     //if something in our reach is a connected tower, cover at our position (connect US)
-                    let cell = this.getCell(i,j);
-                    if (this.isConnectedToNetwork(i, j) && cell.isTower()){
+                    let cell = this.getCell(i, j);
+                    if (this.isConnectedToNetwork(i, j) && cell.isTower()) {
                         this.coverAt(i, j);
                         this.coverAt(t.x, t.y);
-                        return this.updateCoverage(input-1);
+                        return this.updateCoverage(input - 1);
                     }
                 }
             }
         }
     }
     // return ;
-    return this.updateCoverage(input-1);
+    return this.updateCoverage(input - 1);
 };
 
 

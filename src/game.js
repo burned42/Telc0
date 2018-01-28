@@ -62,8 +62,8 @@ runningGame.prototype = {
 
         // Create the markers for the tile under the cursor
         marker = game.add.graphics();
-    	marker.lineStyle(2, 0x00ff00, 1);
-    	marker.drawRect(0, 0, cellSize, cellSize);
+        marker.lineStyle(2, 0x00ff00, 1);
+        marker.drawRect(0, 0, cellSize, cellSize);
 
         // Create the start position
         let start = this.getBaseTower();
@@ -160,7 +160,7 @@ runningGame.prototype = {
             this.game.state.start('gameOver');
         }
 
-	    // Update the marker position
+        // Update the marker position
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
 
@@ -169,7 +169,7 @@ runningGame.prototype = {
 
         // Update the marker color
         let current_tile = this.game.map.getCell(x, y);
- 
+
         if (current_tile.isBlocked()) {
             marker.lineStyle(2, 0xff0000, 1);
         } else {
@@ -217,7 +217,7 @@ runningGame.prototype = {
             this.updateMoney(towerInitialCost, false);
             this.game.tilemap.putTile(1, x, y);
             this.moneyEffect(x, y, towerInitialCost);
-            if (current_tile.covered){
+            if (current_tile.covered) {
                 this.game.map.coverAt(x, y);
                 this.game.map.updateCoverage(this.game.map.towers.length - 1);
             }
