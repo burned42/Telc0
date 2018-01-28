@@ -249,14 +249,14 @@ runningGame.prototype = {
     build_tower: function () {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
-        let current_tile = this.game.map.getCell(x, y);
+        let currentTile = this.game.map.getCell(x, y);
 
-        if (current_tile.isEmpty() && !current_tile.isBlocked()) {
+        if (currentTile.isEmpty() && !currentTile.isBlocked()) {
             this.game.map.buildTower(x, y);
             this.updateMoney(towerInitialCost, false);
             this.game.tilemap.putTile(1, x, y);
             this.moneyEffect(x, y, towerInitialCost);
-            if (current_tile.covered) {
+            if (currentTile.covered) {
                 this.game.map.coverAt(x, y);
                 this.game.map.updateCoverage(this.game.map.towers.length - 1);
             }
