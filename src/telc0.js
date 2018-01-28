@@ -23,10 +23,10 @@ let lastBillingRun;
 
 let startMoney = 1000;
 let money = startMoney;
-let towerInitialCost = -200;
-let towerMaintenanceCost = -100;
-let houseInitialRevenue = 300;
-let housePeriodicRevenue = 50;
+let towerInitialCost = -500;
+let towerMaintenanceCost = -200;
+let houseInitialRevenue = 200;
+let housePeriodicRevenue = 75;
 let billingIntervalSeconds = 10;
 
 let countCoveredHouses = 0;
