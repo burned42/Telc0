@@ -76,7 +76,7 @@ runningGame.prototype = {
 
         // Create the start position
         let start = this.getBaseTower();
-        this.game.camera.x = start.x * cellSize - this.camera.width / 2; //= start.x * cellSize - cellSize / 2;
+        this.game.camera.x = start.x * cellSize - this.camera.width / 2;
         this.game.camera.y = start.y * cellSize - this.camera.height / 2;
 
         // Add Cursor and other Keys
