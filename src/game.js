@@ -108,6 +108,11 @@ runningGame.prototype = {
         this.scoreText = this.game.add.text(30, 60, score + " %" + " ", {font: "bold 19px Arial", fill: "#edff70"});
         this.scoreText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
         this.scoreText.fixedToCamera = true;
+
+        // there may be houses in reach of the base tower
+        let revenue = this.calculateInitialHouseRevenue();
+        this.updateMoney(revenue);
+        this.calculateCoverage();
     },
 
     update: function () {
