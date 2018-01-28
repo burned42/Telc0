@@ -362,29 +362,22 @@ runningGame.prototype = {
         // Let the Birds fly
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
-            if (aktbird.angle === 0 || aktbird.angle === -180) {
+            if (aktbird.angle === 0) {
                 aktbird.y -= birdSpeed;
             } else if (aktbird.angle === 90) {
                 aktbird.x += birdSpeed;
-            } else if (aktbird.angle === 180) {
+            } else if (aktbird.angle === 180 || aktbird.angle === -180) {
                 aktbird.y += birdSpeed;
             } else if (aktbird.angle === -90) {
                 aktbird.x -= birdSpeed;
             }
 
             // Change rotation sometimes
-            if (Math.random() > 0.98) {
+            if (Math.random() > 0.99) {
                 if (Math.random() > 0.5) {
                     aktbird.angle += 90;
                 } else {
                     aktbird.angle -= 90;
-                }
-
-                if (aktbird.angle >= 180) {
-                    aktbird.angle = 180;
-                }
-                if (aktbird.angle <= -180) {
-                    aktbird.angle = -180;
                 }
             }
 
