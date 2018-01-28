@@ -90,6 +90,8 @@ runningGame.prototype = {
         this.miniMapContainer = this.game.make.sprite(this.game.width - 150, this.game.height - 150, this.miniMap);
         this.graphics = this.game.add.graphics(0, 0);
         this.game.stage.addChild(this.miniMapContainer);
+
+        countCoveredHouses = 0;
     },
 
     update: function () {
@@ -311,13 +313,11 @@ runningGame.prototype = {
     },
 
     calculate_coverage: function () {
-        // rebuild with coveredHouses array (maybe)?
-        for (let x = 0; x < this.game.map.width; x++) {
-            for (let y = 0; y < this.game.map.height; y++) {
-                let cell = this.game.map.getCell(x, y);
-                if (cell.paidFor) {
-                   countCoveredHouses++;
-                }
+        for (let i = 0; i < this.game.map.houses.length; i++) {
+            let houses = this.game.map.houses[i];
+            let cell = this.game.map.getCell(houses.x, houses.y);
+            if (cell.isHouse() && cell.paidFor) {
+                countCoveredHouses++;
             }
         }
 
