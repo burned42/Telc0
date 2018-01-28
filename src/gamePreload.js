@@ -3,8 +3,8 @@ let gamePreload = function () {
 
 gamePreload.prototype = {
     preload: function () {
-        this.game.add.image(0, 0, 'startBg');
-        let loadingBar = this.add.sprite((this.game.width - 512) / 2, 420, 'loading');
+        this.game.add.image(this.game.width / 2 - 400, this.game.height / 2 - 300, 'startBg');
+        let loadingBar = this.add.sprite((this.game.width - 512) / 2, this.game.height / 2 + 104, 'loading');
         loadingBar.anchor.setTo(0, 0);
         this.load.setPreloadSprite(loadingBar);
 
@@ -17,6 +17,7 @@ gamePreload.prototype = {
         this.game.load.image('greenGrass', 'assets/images/green_grass.png');
         this.game.load.image('greenGrassRabbit', 'assets/images/green_grass_rabbit.png');
         this.game.load.spritesheet('greenGrassRabbitMoving', 'assets/images/tilemap_rabbit.png', 128, 128, 3);
+        this.game.load.spritesheet('swimmingDuck', 'assets/images/tilemap_duck.png', 128, 128, 9);
         this.game.load.image('houseBig', 'assets/images/house_big.png');
         this.game.load.image('houseSmall', 'assets/images/house_small.png');
         this.game.load.image('lake', 'assets/images/lake.png');
@@ -27,6 +28,7 @@ gamePreload.prototype = {
         this.game.load.image('telc0Logo', 'assets/images/telc0_logo.png');
         this.game.load.image('tiles', 'assets/images/tilemap.png');
         this.game.load.image('tower', 'assets/images/tower.png');
+        this.game.load.image('stars', 'assets/images/stars.png');
 
         this.game.load.audio('cashBad', 'assets/sounds/cashbad.mp3');
         this.game.load.audio('cashGood', 'assets/sounds/cashgood.mp3');

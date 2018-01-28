@@ -47,7 +47,16 @@ runningGame.prototype = {
         // let rabbit1 = this.game.add.sprite(0, 0, 'rabbit');
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
-                if (this.game.map.getCell(x, y).isRabbit()){
+
+                let cell = this.game.map.getCell(x, y);
+
+                if (cell.isDuck()){
+                    let duck = this.game.add.sprite(x*128, y*128, '-1');
+                    duck.animations.add('swim');
+                    duck.animations.play('swim', 4, true);
+                }
+
+                else if (cell.isRabbit()){
                     let rabbit = this.game.add.sprite(x*128, y*128, 'greenGrassRabbitMoving');
                     rabbit.animations.add('hop');
                     rabbit.animations.play('hop', 3, true);
@@ -78,7 +87,6 @@ runningGame.prototype = {
         this.cashBad = this.game.add.audio('cashBad');
 
         this.gameAudio = this.game.add.audio('backgroundTheme', 1, true).play();
-
 
         lastmaintenance = this.game.time.now;
 
@@ -321,5 +329,11 @@ runningGame.prototype = {
         if (countCoveredHouses === this.game.map.houses.length) {
             this.game.state.start('gameOver');
         }
-    }
+    },
+
 };
+
+
+function handleAnimated(sprite, pointer) {
+    sprite.alpha(1);
+}

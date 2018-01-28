@@ -279,6 +279,10 @@ function Cell() {
 
     this.isRabbit = function () {
        return this.type === 4;
+    };
+
+    this.isDuck = function () {
+        return this.type === 3;
     }
 }
 
