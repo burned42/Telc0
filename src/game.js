@@ -28,29 +28,19 @@ runningGame.prototype = {
         this.game.tilelayer = this.game.tilemap.createLayer(0);
 
 
-        // The rabbits are no static tiles, they move and are in fact a spritesheet (tileid is 4)
-        // let rabbits = this.game.add.group();
-        // rabbits.enableBody = true;
-        // this.game.tilemap.createFromObjects('generatedMap', 4, 'greenGrassRabbitMoving', 0, true, false, rabbits);
-        // rabbits.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3], 10, true);
-        // rabbits.callAll('animations.play', 'animations', 'spin');
-
-        // graphics.lineStyle(2, 0xffd900, 1);
-
-        // let rabbit1 = this.game.add.sprite(0, 0, 'rabbit');
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
 
                 let cell = this.game.map.getCell(x, y);
 
                 if (cell.isDuck()){
-                    let duck = this.game.add.sprite(x*128, y*128, 'swimmingDuck');
+                    let duck = this.game.add.sprite(x*cellSize, y*cellSize, 'swimmingDuck');
                     duck.animations.add('swim');
                     duck.animations.play('swim', 4, true);
                 }
 
                 else if (cell.isRabbit()){
-                    let rabbit = this.game.add.sprite(x*128, y*128, 'greenGrassRabbitMoving');
+                    let rabbit = this.game.add.sprite(x*cellSize, y*cellSize, 'greenGrassRabbitMoving');
                     rabbit.animations.add('hop');
                     rabbit.animations.play('hop', 3, true);
                     rabbit.inputEnabled = true;
@@ -338,7 +328,3 @@ runningGame.prototype = {
 
 };
 
-
-function handleAnimated(sprite, pointer) {
-    sprite.alpha(1);
-}
