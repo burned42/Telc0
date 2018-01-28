@@ -17,13 +17,13 @@ let numOfNature = 50;
 let numOfBirds = 20;
 let birdSpeed = 2;
 
-// covergae radius of towers
+// coverage radius of towers
 let coverRadius = 2; // note: real radius -1
 
 // money config
 let startMoney = 2000;
 let money = startMoney;
-let towerInitialCost = -400;
+let towerInitialCost = -350;
 let towerMaintenanceCost = -150;
 let houseInitialRevenue = 200;
 let housePeriodicRevenue = 75;
