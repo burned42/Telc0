@@ -248,19 +248,7 @@ Map.prototype.getMapAsCsv = function () {
 };
 
 Map.prototype.isConnectedToNetwork = function (x, y) {
-    for (let i = x - coverRadius; i <= x + coverRadius; i++) {
-        if (i >= 0 && i < this.width) {
-            for (let j = y - coverRadius; j <= y + coverRadius; j++) {
-                if (j >= 0 && j < this.height) {
-                    // I am connected, if at least one of my neighbours is covered
-                    let neigh = this.getCell(i, j);
-                    if(neigh.covered){
-                        return true;
-                    }
-                }
-            }
-        }
-    }
+    return this.getCell(x,y).covered;
 };
 
 Map.prototype.updateCoverage = function (input) {
