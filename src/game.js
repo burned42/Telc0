@@ -168,10 +168,11 @@ runningGame.prototype = {
         marker.y = y * cellSize;
 
         // Update the marker color
-        let current_tile = this.game.map.getCell(x, y);
-
-        if (current_tile.isBlocked()) {
+        let currentTile = this.game.map.getCell(x, y);
+        if (currentTile.isBlocked()) {
             marker.lineStyle(2, 0xff0000, 1);
+        } else if (currentTile.covered === false) {
+            marker.lineStyle(2, 0xffff00, 1);
         } else {
             marker.lineStyle(2, 0x00ff00, 1);
         }
