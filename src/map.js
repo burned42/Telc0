@@ -274,7 +274,7 @@ Map.prototype.updateCoverage = function (input) {
             }
         }
     }
-    // return ;
+
     return this.updateCoverage(input - 1);
 };
 
@@ -350,8 +350,7 @@ function HouseCell() {
 
 function TowerCell() {
     Cell.call(this);
-    this.posX = null;
-    this.posY = null;
+
     this.type = 1;
 }
 
