@@ -68,13 +68,25 @@ runningGame.prototype = {
             aktbird.animations.play('fly', 10, true);
             this.game.birds.push(aktbird);
         }
-        // let rabbit1 = this.game.add.sprite(0, 0, 'rabbit');
+
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
-                if (this.game.map.getCell(x, y).isRabbit()){
+                let cell = this.game.map.getCell(x, y);
+
+                if (cell.isDuck() === true){
+                    let duck = this.game.add.sprite(x*128, y*128, '-1');
+                    duck.animations.add('swim');
+                    duck.animations.play('swim', 9, true);
+                }
+
+                if (cell.isRabbit() === true){
                     let rabbit = this.game.add.sprite(x*128, y*128, 'greenGrassRabbitMoving');
                     rabbit.animations.add('hop');
                     rabbit.animations.play('hop', 3, true);
+                    rabbit.inputEnabled = true;
+                    rabbit.events.onInputDown.add(function (s) {
+                        s.destroy();
+                    });
                 }
             }
         }
@@ -317,5 +329,11 @@ runningGame.prototype = {
         if (countCoveredHouses === this.game.map.houses.length) {
             this.game.state.start('gameOver');
         }
-    }
+    },
+
 };
+
+
+function handleAnimated(sprite, pointer) {
+    sprite.alpha(1);
+}
