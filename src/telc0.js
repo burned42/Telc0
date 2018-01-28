@@ -21,7 +21,7 @@ let scoretext;
 let bar;
 let lastBillingRun;
 
-let startMoney = 1000;
+let startMoney = 2000;
 let money = startMoney;
 let towerInitialCost = -500;
 let towerMaintenanceCost = -200;
