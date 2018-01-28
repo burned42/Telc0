@@ -15,6 +15,7 @@ let numOfBirds = 20;
 let numofroads = 5;
 
 let moneytext;
+let scoretext;
 let bar;
 let lastmaintenance;
 let timenow;
@@ -28,6 +29,7 @@ let maintenanceinterval = 10 * 1000; // secends * milliseconds
 let maintenancecost = -100;
 
 let countCoveredHouses = 0;
+let score;
 
 //main game functions for each game step
 window.onload = function () {
