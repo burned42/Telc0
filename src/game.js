@@ -414,7 +414,7 @@ runningGame.prototype = {
     },
 
     calculateCoverage: function () {
-        countCoveredHouses = 0;
+        let countCoveredHouses = 0;
         for (let i = 0; i < this.game.map.houses.length; i++) {
             let houses = this.game.map.houses[i];
             let cell = this.game.map.getCell(houses.x, houses.y);

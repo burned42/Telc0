@@ -1,4 +1,4 @@
-//global game settings (letiables)
+// global game settings
 let game;
 let cellSize = 128;
 let mapRows = 32;
@@ -17,6 +17,7 @@ let numOfNature = 50;
 let numOfBirds = 20;
 let birdSpeed = 2;
 
+// covergae radius of towers
 let coverRadius = 2; // note: real radius -1
 
 // money config
@@ -28,7 +29,6 @@ let houseInitialRevenue = 200;
 let housePeriodicRevenue = 75;
 let billingIntervalSeconds = 5;
 
-let countCoveredHouses = 0;
 let score;
 let bar;
 
