@@ -346,13 +346,13 @@ runningGame.prototype = {
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
             if (aktbird.angle === 0 || aktbird.angle === -180) {
-                aktbird.y -= birdspeed;
+                aktbird.y -= birdSpeed;
             } else if (aktbird.angle === 90) {
-                aktbird.x += birdspeed;
+                aktbird.x += birdSpeed;
             } else if (aktbird.angle === 180) {
-                aktbird.y += birdspeed;
+                aktbird.y += birdSpeed;
             } else if (aktbird.angle === -90) {
-                aktbird.x -= birdspeed;
+                aktbird.x -= birdSpeed;
             }
 
             // Change rotation sometimes
@@ -382,7 +382,6 @@ runningGame.prototype = {
             } else if (aktbird.y > this.game.world.height) {
                 aktbird.angle = 0;
             }
-            console.log("Bird angle: " + aktbird.angle);
         }
     },
 
