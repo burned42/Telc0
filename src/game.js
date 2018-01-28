@@ -160,7 +160,7 @@ runningGame.prototype = {
             this.game.state.start('gameOver');
         }
 
-	// Update the marker position
+	    // Update the marker position
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
 
