@@ -9,7 +9,6 @@ let mapHeight;
 let mapWidth;
 let viewport;
 
-
 let birdspeed = 2;
 let numOfBirds = 20;
 
