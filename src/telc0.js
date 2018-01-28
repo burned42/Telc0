@@ -27,7 +27,7 @@ let towerInitialCost = -500;
 let towerMaintenanceCost = -200;
 let houseInitialRevenue = 200;
 let housePeriodicRevenue = 75;
-let billingIntervalSeconds = 10;
+let billingIntervalSeconds = 5;
 
 let countCoveredHouses = 0;
 let score;
