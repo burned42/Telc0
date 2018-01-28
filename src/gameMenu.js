@@ -16,17 +16,14 @@ gameMenu.prototype = {
 
         this.background = this.game.add.graphics();
         this.background.beginFill(0x000000, 0.4);
-        this.background.drawRect(this.game.width / 2 - 300, this.game.height / 2 - 300, 600, 400)
+        this.background.drawRect(this.game.width / 2 - 300, this.game.height / 2 - 300, 600, 400);
         this.background.visible = false;
 
 
-        let credits = "Sounds from freesound.org:\n" +
-            "Cash Register by kiddpark\nhttps://freesound.org/people/kiddpark/\n" +
+        let credits = "Cash Register by kiddpark\nhttps://freesound.org/people/kiddpark/\n" +
             "\n" +
-            "Sounds from soundbible.com:\n" +
             "Cha Ching Register Sound by Muska666\nhttp://soundbible.com/1997-Cha-Ching-Register.html\n" +
             "\n" +
-            "Background Theme:\n" +
             "\"Pixelland\" by Kevin MacLeod\nhttps://incompetech.com\n" +
             "\n" +
             "License: Creative Commons: By Attribution 3.0\nhttp://creativecommons.org/licenses/by/3.0/";
