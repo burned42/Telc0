@@ -1,13 +1,13 @@
 You need to give every Citizen Internet Connectivity. The best Internet. Your Internet!
 
-You start with $2.000
-Every radio tower costs $1.000
-Every small house which gets internet brings you $50
-Every big House which gets internet brings you $100
-A simple internet tower has a round coverage of 5 tiles
+You start with $1.000
+Every radio tower costs $500
+Every house which gets internet brings you $200
+A simple internet tower has a squared range of 2 tiles in every direction
 
-Every tower costs $100 maintenance per 10 seconds
+Every tower costs $200 maintenance per 10 seconds
+In the same time every house pays you $75
 
-The game is over when you have no money left
+The game is over when you have no money left or when the 5 minute game counter is over
 
-Your goal is to reach a coverage of at least 80% of houses
+Your goal is to bring internet to all houses!
