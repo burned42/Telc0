@@ -60,6 +60,10 @@ runningGame.prototype = {
                     let rabbit = this.game.add.sprite(x*128, y*128, 'greenGrassRabbitMoving');
                     rabbit.animations.add('hop');
                     rabbit.animations.play('hop', 3, true);
+                    rabbit.inputEnabled = true;
+                    rabbit.events.onInputDown.add(function (s) {
+                        s.destroy();
+                    });
                 }
             }
         }
