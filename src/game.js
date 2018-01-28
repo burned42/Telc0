@@ -59,9 +59,9 @@ runningGame.prototype = {
             this.game.birds.push(bird);
         }
 
-        let start = this.findBaseTower();
-        this.game.camera.x = start.x * cellSize - cellSize/ 2;
-        this.game.camera.y = start.y * cellSize - cellSize / 2;
+        let start = this.getBaseTower();
+        this.game.camera.x = start.x * cellSize - this.camera.width / 2; //= start.x * cellSize - cellSize / 2;
+        this.game.camera.y = start.y * cellSize - this.camera.height / 2;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
 
@@ -140,7 +140,8 @@ runningGame.prototype = {
             }
         }
 
-        // this.game.debug.cameraInfo(this.game.camera, 32, 32);
+        // this.game.debug.cameraInfo(this.game.camera, 32, 32); // debug for Camera TODO remove at the end!
+
         for (let x = 0; x < this.game.map.width; x++){
             for (let y = 0; y < this.game.map.height; y++){
                 let cell = this.game.map.getCell(x, y);
@@ -186,7 +187,7 @@ runningGame.prototype = {
         }
     },
 
-    findBaseTower: function () {
+    getBaseTower: function () {
         for (let i = 0; i < this.game.map.towers.length; i++) {
             let tower = this.game.map.towers[i];
             let cell = this.game.map.getCell(tower.x, tower.y);
