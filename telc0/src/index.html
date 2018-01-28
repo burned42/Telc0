@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Telc0</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.10.0/phaser.min.js"></script>
+    <script type="text/javascript" src="src/game.js"></script>
+    <script type="text/javascript" src="src/telc0.js"></script>
+    <script type="text/javascript" src="src/gameBoot.js"></script>
+    <script type="text/javascript" src="src/gamePreload.js"></script>
+    <script type="text/javascript" src="src/gameMenu.js"></script>
+    <script type="text/javascript" src="src/gameOver.js"></script>
+    <script type="text/javascript" src="src/util.js"></script>
+    <script type="text/javascript" src="src/map.js"></script>
+    <!--shortcut icon does not work; fix needed! -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
+</head>
+<body>
+    <div id="container" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;'">
+        <div id="game"></div>
+        <div id="credits" style="display: none;">
+            <a onclick="start()">zurück</a>
+            <h2 style="margin: 0; padding: 0;">Credits</h2>
+            Sounds from freesound.org:<br>
+            - Cash Register by kiddpark ( <a href="https://freesound.org/people/kiddpark/">https://freesound.org/people/kiddpark/</a> )<br>
+            <br>
+            Sounds from soundbible.com:<br>
+            - Cha Ching Register Sound by Muska666 ( <a href="http://soundbible.com/1997-Cha-Ching-Register.html">http://soundbible.com/1997-Cha-Ching-Register.html</a> )<br>
+            <br>
+            Background Theme:<br>
+            - "Pixelland" by Kevin MacLeod (incompetech.com)<br>
+            <br>
+            License: Creative Commons: By Attribution 3.0 (<a href="http://creativecommons.org/licenses/by/3.0/">http://creativecommons.org/licenses/by/3.0/</a> )
+
+
+            <script type="text/javascript">
+                function start() {
+                    location.reload();
+                }
+            </script>
+        </div>
+    </div>
+</body>
+</html>

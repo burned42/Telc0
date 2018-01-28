@@ -8,6 +8,8 @@ let runningGame = function () {
     this.texts = [];
     this.colorBuild = 0x9FFA3B;
     this.colorFail = 0xFF003B;
+    this.moneyText = null;
+    this.scoreText = null;
 };
 
 runningGame.prototype = {
@@ -31,16 +33,13 @@ runningGame.prototype = {
         // Create Animated Tiles in Map
         for (let x = 0; x < this.game.map.width; x++) {
             for (let y = 0; y < this.game.map.height; y++) {
-
                 let cell = this.game.map.getCell(x, y);
 
                 if (cell.isDuck()) {
                     let duck = this.game.add.sprite(x * cellSize, y * cellSize, 'swimmingDuck');
                     duck.animations.add('swim');
                     duck.animations.play('swim', (Math.random() * 3 + 2), true);
-                }
-
-                else if (cell.isRabbit()) {
+                } else if (cell.isRabbit()) {
                     let rabbit = this.game.add.sprite(x * cellSize, y * cellSize, 'greenGrassRabbitMoving');
                     rabbit.animations.add('hop');
                     rabbit.animations.play('hop', (Math.random() * 3 + 2), true);
@@ -99,15 +98,15 @@ runningGame.prototype = {
 
         this.bar = this.game.add.graphics();
         this.bar.beginFill(0x0c0c0c, 0.2);
-        moneytext = this.game.add.text(30, 30, "$ " + money + " ", {font: "bold 19px Arial", fill: "#edff70"});
-        moneytext.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
+        this.moneyText = this.game.add.text(30, 30, "$ " + money + " ", {font: "bold 19px Arial", fill: "#edff70"});
+        this.moneyText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
         this.bar.drawRect(0, 20, 150, 70);
         this.bar.fixedToCamera = true;
-        moneytext.fixedToCamera = true;
+        this.moneyText.fixedToCamera = true;
 
-        scoretext = this.game.add.text(30, 60, score + " %" + " ", {font: "bold 19px Arial", fill: "#edff70"});
-        scoretext.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
-        scoretext.fixedToCamera = true;
+        this.scoreText = this.game.add.text(30, 60, score + " %" + " ", {font: "bold 19px Arial", fill: "#edff70"});
+        this.scoreText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
+        this.scoreText.fixedToCamera = true;
     },
 
     update: function () {
@@ -128,6 +127,43 @@ runningGame.prototype = {
             this.game.camera.x += 15;
         }
 
+        // Move with mouse at screen edges
+        if (this.game.input.activePointer.position.x < (viewport.w * 0.25)) {
+            this.game.camera.x -= Phaser.Math.mapLinear(
+                this.game.input.activePointer.position.x,
+                0,
+                viewport.w * 0.25,
+                15,
+                1
+            );
+        } else if (this.game.input.activePointer.position.x > (viewport.w * 0.75)) {
+            this.game.camera.x += Phaser.Math.mapLinear(
+                this.game.input.activePointer.position.x,
+                viewport.w,
+                viewport.w * 0.75,
+                15,
+                1
+            );
+        }
+
+        if (this.game.input.activePointer.position.y < (viewport.h * 0.25)) {
+            this.game.camera.y -= Phaser.Math.mapLinear(
+                this.game.input.activePointer.position.y,
+                0,
+                viewport.h * 0.25,
+                15,
+                1
+            );
+        } else if (this.game.input.activePointer.position.y > (viewport.h * 0.75)) {
+            this.game.camera.y += Phaser.Math.mapLinear(
+                this.game.input.activePointer.position.y,
+                viewport.h,
+                viewport.h * 0.75,
+                15,
+                1
+            );
+        }
+
         // Drag&Drop
         if (this.game.input.activePointer.isDown) {
             if (this.game.origDragPoint) {
@@ -140,7 +176,7 @@ runningGame.prototype = {
         }
 
         // Build Tower
-        this.game.input.onTap.addOnce(this.build_tower, this);
+        this.game.input.onTap.addOnce(this.buildTower, this);
 
         // Update minimap
         let miniMapViewportX = this.game.camera.x * 150 / this.game.world.width;
@@ -152,7 +188,7 @@ runningGame.prototype = {
         this.miniMap.update();
 
         // Let the world live!
-        this.animate_world();
+        this.animateWorld();
 
         // Pay the rent
         this.periodicBilling();
@@ -212,18 +248,17 @@ runningGame.prototype = {
         this.miniMap.destroy();
     },
 
-    build_tower: function () {
+    buildTower: function () {
         let x = this.game.tilelayer.getTileX(this.game.input.activePointer.worldX);
         let y = this.game.tilelayer.getTileY(this.game.input.activePointer.worldY);
-        let current_tile = this.game.map.getCell(x, y);
+        let currentTile = this.game.map.getCell(x, y);
 
-
-        if (current_tile.isEmpty() && !current_tile.isBlocked()) {
+        if (currentTile.isEmpty() && !currentTile.isBlocked()) {
             this.game.map.buildTower(x, y);
             this.updateMoney(towerInitialCost, false);
             this.game.tilemap.putTile(1, x, y);
             this.moneyEffect(x, y, towerInitialCost);
-            if (current_tile.covered) {
+            if (currentTile.covered) {
                 this.game.map.coverAt(x, y);
                 this.game.map.updateCoverage(this.game.map.towers.length - 1);
             }
@@ -232,10 +267,9 @@ runningGame.prototype = {
 
             this.calculateCoverage();
 
-            this.flash_build_success();
-        }
-        else {
-            this.flash_build_fails();
+            this.flashBuildSuccess();
+        } else {
+            this.flashBuildFails();
         }
     },
 
@@ -303,72 +337,70 @@ runningGame.prototype = {
             }
         }
         money += value;
-        moneytext.setText("$ " + money + " ");
+        this.moneyText.setText("$ " + money + " ");
     },
 
-    animate_world: function () {
+    animateWorld: function () {
         // Let the Birds fly
         for (let i = 0; i < this.game.birds.length; i++) {
             let aktbird = this.game.birds[i];
-            if (aktbird.rotation === 0) {
+            if (aktbird.angle === 0) {
                 aktbird.y -= birdspeed;
-            }
-            if (aktbird.rotation === 90) {
+            } else if (aktbird.angle === 90) {
                 aktbird.x += birdspeed;
-            }
-            if (aktbird.rotation === 180) {
+            } else if (aktbird.angle === 180) {
                 aktbird.y += birdspeed;
-            }
-            if (aktbird.rotation === 270) {
+            } else if (aktbird.angle === 270) {
                 aktbird.x -= birdspeed;
             }
 
             // Change rotation sometimes
             if (Math.random() > 0.98) {
-                aktbird.rotation += 90;
+                if (Math.random() > 0.5) {
+                    aktbird.angle += 90;
+                } else {
+                    aktbird.angle -= 90;
+                }
 
-                if (aktbird.rotation === 360) {
-                    aktbird.rotation = 0;
+                if (aktbird.angle >= 360 || aktbird.angle <= 0) {
+                    aktbird.angle = 0;
                 }
             }
 
             // Rotate them when at the end of map
             if (aktbird.x < 0) {
-                aktbird.rotation = 90;
+                aktbird.angle = 90;
+            } else if (aktbird.x > this.game.world.width) {
+                aktbird.angle = 270;
             }
             if (aktbird.y < 0) {
-                aktbird.rotation = 180;
-            }
-            if (aktbird.x > this.game.world.width) {
-                aktbird.rotation = 270;
-            }
-            if (aktbird.y > this.game.world.height) {
-                aktbird.rotation = 0;
+                aktbird.angle = 180;
+            } else if (aktbird.y > this.game.world.height) {
+                aktbird.angle = 0;
             }
         }
     },
 
-    flash_build_success: function () {
+    flashBuildSuccess: function () {
         this.game.camera.flash(this.colorBuild, 200);
     },
 
-
-    flash_build_fails: function () {
+    flashBuildFails: function () {
         this.game.camera.flash(this.colorFail, 200);
     },
 
     moneyEffect: function (x, y, value) {
-        let fontconfig = {antialias: false, font: "bold 16pt Arial"};
+        let fontConfig = {antialias: false, font: "bold 16pt Arial"};
         if (value >= 0) {
             // color green
-            fontconfig.fill = "#00ff00";
+            fontConfig.fill = "#00ff00";
         } else {
             // color red
-            fontconfig.fill = "#ff0000";
+            fontConfig.fill = "#ff0000";
         }
         let effectX = (x * cellSize) + (cellSize / 4);
         let effectY = (y * cellSize) + (cellSize / 2);
-        let text = this.game.add.text(effectX, effectY, "$ " + value + " ", fontconfig);
+        let text = this.game.add.text(effectX, effectY, "$ " + value + " ", fontConfig);
         text.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
         text.birth = this.game.time.now;
 
@@ -388,7 +420,7 @@ runningGame.prototype = {
         }
 
         score = 100 / this.game.map.houses.length * countCoveredHouses;
-        scoretext.setText(score + " % ");
+        this.scoreText.setText(score + " % ");
 
         if (countCoveredHouses === this.game.map.houses.length) {
             this.game.state.start('gameOver');

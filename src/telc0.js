@@ -16,18 +16,16 @@ let numOfBirds = 20;
 
 let numofroads = 5;
 
-let moneytext;
-let scoretext;
 let bar;
 let lastBillingRun;
 
-let startMoney = 1000;
+let startMoney = 2000;
 let money = startMoney;
-let towerInitialCost = -500;
+let towerInitialCost = -400;
 let towerMaintenanceCost = -200;
 let houseInitialRevenue = 200;
 let housePeriodicRevenue = 75;
-let billingIntervalSeconds = 10;
+let billingIntervalSeconds = 5;
 
 let countCoveredHouses = 0;
 let score;
