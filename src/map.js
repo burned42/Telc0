@@ -1,9 +1,9 @@
-function Map(width, height, houseCount, blockedCount) {
+function Map(width, height, houseCount, natureCount) {
     this.connecetTowers = [];
     this.width = width;
     this.height = height;
     this.houseCount = houseCount;
-    this.blockedCount = blockedCount;
+    this.natureCount = natureCount;
     this.map = [];
     this.towers = [];
     this.houses = [];
@@ -68,8 +68,8 @@ Map.prototype.generateMap = function () {
         }
     }
 
-    // spawn random blocked tiles
-    for (let i = 0; i < this.blockedCount; i++) {
+    // spawn random nature tiles
+    for (let i = 0; i < this.natureCount; i++) {
         let j = 0;
         let x, y;
         do {
@@ -79,7 +79,7 @@ Map.prototype.generateMap = function () {
         } while (j < 1000 && this.getCell(x, y).isEmpty() === false);
 
         if (this.getCell(x, y).isEmpty()) {
-            this.buildBlocked(x, y);
+            this.buildNature(x, y);
         }
     }
 
@@ -189,8 +189,8 @@ Map.prototype.buildHouse = function (x, y) {
     this.houses.push({x: x, y: y});
 };
 
-Map.prototype.buildBlocked = function (x, y) {
-    this.map[y][x] = new BlockCell();
+Map.prototype.buildNature = function (x, y) {
+    this.map[y][x] = new NatureCell();
 };
 
 Map.prototype.getMapAsCsv = function () {
@@ -283,7 +283,7 @@ function Cell() {
     this.empty = [0, 4, 9];
     this.tower = [1, 10];
     this.house = [2, 5];
-    this.blocked = [3, 6, 7, 8, 11];
+    this.nature = [3, 11];
     this.street = [6, 7, 8, 12, 13];
     this.covered = false;
     this.type = null;
@@ -309,7 +309,12 @@ function Cell() {
     };
 
     this.isBlocked = function () {
-        return this.blocked.includes(this.type);
+        return (
+            this.tower.includes(this.type)
+            || this.house.includes(this.type)
+            || this.nature.includes(this.type)
+            || this.street.includes(this.type)
+        );
     };
 
     this.isStreet = function () {
@@ -362,10 +367,9 @@ function BaseTowerCell() {
     this.type = 10;
 }
 
-function BlockCell() {
+function NatureCell() {
     Cell.call(this);
 
-    do {
-        this.type = this.blocked[getRandomInt(0, this.blocked.length)];
-    } while (this.street.includes(this.type));
+    let natureTiles = this.nature;
+    this.type = natureTiles[Math.floor(Math.random() * natureTiles.length)];
 }
