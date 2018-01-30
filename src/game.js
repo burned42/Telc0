@@ -92,6 +92,7 @@ runningGame.prototype = {
         this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
         this.miniMap = this.game.make.bitmapData(150, 150);
         this.miniMapContainer = this.game.make.sprite(this.game.width - 150, this.game.height - 150, this.miniMap);
+        this.miniMapContainer.alpha = 0.5;
         this.graphics = this.game.add.graphics(0, 0);
         this.game.stage.addChild(this.miniMapContainer);
 
