@@ -89,7 +89,6 @@ runningGame.prototype = {
         this.lastBillingRun = this.game.time.now;
 
         // Add the Minimap
-        this.stage = this.game.make.bitmapData(this.game.world.width, this.game.world.height);
         this.miniMap = this.game.make.bitmapData(150, 150);
         this.miniMapContainer = this.game.make.sprite(this.game.width - 150, this.game.height - 150, this.miniMap);
         this.graphics = this.game.add.graphics(0, 0);
@@ -196,10 +195,11 @@ runningGame.prototype = {
         // Update minimap
         let miniMapViewportX = this.game.camera.x * 150 / this.game.world.width;
         let miniMapViewportY = this.game.camera.y * 150 / this.game.world.height;
-        this.stage.drawFull(this.game.world);
+        let miniMapViewportWidth = this.camera.width / this.game.world.width * 150;
+        let miniMapViewportHeight = this.camera.height / this.game.world.height * 150;
+
         this.miniMap.rect(0, 0, this.miniMap.width, this.miniMap.height, '#000000');
-        this.miniMap.copy(this.stage, 0, 0, this.stage.width, this.stage.height, 2 + miniMapViewportX, 2 + miniMapViewportY, this.miniMap.width - 4, this.miniMap.height - 4);
-        this.stage.clear();
+        this.miniMap.rect(2 + miniMapViewportX, 2 + miniMapViewportY, miniMapViewportWidth, miniMapViewportHeight, '#ffffff');
         this.miniMap.update();
 
         // Let the world live!
