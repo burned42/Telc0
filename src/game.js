@@ -115,7 +115,7 @@ runningGame.prototype = {
         this.scoreText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
         this.scoreText.fixedToCamera = true;
 
-        this.timeText = this.game.add.text(30, 90, timePlayedMin + ":" + timePlayedSec + " Min" + " ", {font: "bold 19px Arial", fill: "#edff70"});
+        this.timeText = this.game.add.text(30, 90, timePlayedMin + ":" + ('0' + timePlayedSec).slice(-2) + " Min" + " ", {font: "bold 19px Arial", fill: "#edff70"});
         this.timeText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 2);
         this.timeText.fixedToCamera = true;
 
@@ -236,7 +236,7 @@ runningGame.prototype = {
         let timePlayedMin = Math.floor(timePlayedRaw);
         let timePlayedSec = timePlayedRaw * 60 % 60;
         timePlayedSec = Math.floor(timePlayedSec);
-        this.timeText.setText(timePlayedMin + ":" + timePlayedSec + " min." + " ");
+        this.timeText.setText(timePlayedMin + ":" + ('0' + timePlayedSec).slice(-2) + " min." + " ");
     },
 
     render: function () {
