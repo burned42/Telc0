@@ -233,9 +233,9 @@ runningGame.prototype = {
         // Update playTime
         let timePlayedRaw = (this.game.time.totalElapsedSeconds() / 60.0) - timeGameStartedAt;
         let timePlayedMin = precisionRound(timePlayedRaw, 0);
-        let timePlayedSec = precisionRound(timePlayedRaw, 2) * 60 % 60;
+        let timePlayedSec = timePlayedRaw * 60 % 60;
         timePlayedSec = precisionRound(timePlayedSec, 0);
-        this.timeText.setText(timePlayedMin + ":" + timePlayedSec + " Min" + " ");
+        this.timeText.setText(timePlayedMin + ":" + timePlayedSec + " min." + " ");
     },
 
     render: function () {
