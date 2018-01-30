@@ -99,8 +99,9 @@ runningGame.prototype = {
         score = 0;
         let timePlayedRaw = this.game.time.totalElapsedSeconds() / 60.0;
         timeGameStartedAt = timePlayedRaw;
-        let timePlayedMin = precisionRound(timePlayedRaw, 0);
-        let timePlayedSec = precisionRound(timePlayedRaw, 2) * 100 % 100;
+        let timePlayedMin = Math.floor(timePlayedRaw);
+        let timePlayedSec = timePlayedRaw * 60 % 60;
+        timePlayedSec = Math.floor(timePlayedSec);
 
         this.bar = this.game.add.graphics();
         this.bar.beginFill(0x0c0c0c, 0.2);
@@ -232,9 +233,9 @@ runningGame.prototype = {
 
         // Update playTime
         let timePlayedRaw = (this.game.time.totalElapsedSeconds() / 60.0) - timeGameStartedAt;
-        let timePlayedMin = precisionRound(timePlayedRaw, 0);
+        let timePlayedMin = Math.floor(timePlayedRaw);
         let timePlayedSec = timePlayedRaw * 60 % 60;
-        timePlayedSec = precisionRound(timePlayedSec, 0);
+        timePlayedSec = Math.floor(timePlayedSec);
         this.timeText.setText(timePlayedMin + ":" + timePlayedSec + " min." + " ");
     },
 

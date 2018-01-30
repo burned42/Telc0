@@ -29,9 +29,9 @@ gameOver.prototype = {
         });
         scoreLabel.anchor.setTo(0.5, 0);
         let timePlayedRaw = (this.game.time.totalElapsedSeconds() / 60.0) - timeGameStartedAt;
-        let timePlayedMin = precisionRound(timePlayedRaw, 0);
-        let timePlayedSec = precisionRound(timePlayedRaw, 2) * 100 % 100;
-        timePlayedSec = precisionRound(timePlayedSec, 0);
+        let timePlayedMin = Math.floor(timePlayedRaw);
+        let timePlayedSec = timePlayedRaw * 60 % 60;
+        timePlayedSec = Math.floor(timePlayedSec);
         let timeLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 136, 'Time: ' + timePlayedMin + ":" + timePlayedSec + ' Min', {
             font: '32px Arial',
             fill: '#909296'
