@@ -40,8 +40,8 @@ gameOver.prototype = {
         let buttonMenuPos = this.game.add.button(this.game.width / 2, this.game.height / 2 + 184, 'buttonMenu', this.playGame, this);
         buttonMenuPos.anchor.setTo(0.5, 0);
 
-        let totalScore = Math.floor(score * 100 / this.game.time.totalElapsedSeconds() - timeGameStartedAt);
-        let scoreLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 200, 'Score: ' + totalScore, {
+        let totalScore = Math.floor(score * 10 / (this.game.time.totalElapsedSeconds() - timeGameStartedAt));
+        let scoreLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 240, 'Score: ' + totalScore, {
            font: '32px Arial',
            fill: '#909296'
         });
