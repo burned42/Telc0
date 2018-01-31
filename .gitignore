@@ -1,5 +1,4 @@
 .idea/
-makefile
-telc*
-!src/telc0.js
-zipfiles
+/makefile
+/telc*
+/zipfiles
