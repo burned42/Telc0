@@ -23,11 +23,11 @@ gameOver.prototype = {
             fill: '#909296'
         });
         gameOverLabel.anchor.setTo(0.5, 0);
-        let scoreLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 96, 'Score: ' + score + '%', {
+        let coverageLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 96, 'Coverage: ' + score + '%', {
             font: '32px Arial',
             fill: '#909296'
         });
-        scoreLabel.anchor.setTo(0.5, 0);
+        coverageLabel.anchor.setTo(0.5, 0);
         let timePlayedRaw = (this.game.time.totalElapsedSeconds() / 60.0) - timeGameStartedAt;
         let timePlayedMin = Math.floor(timePlayedRaw);
         let timePlayedSec = timePlayedRaw * 60 % 60;
@@ -39,6 +39,13 @@ gameOver.prototype = {
         timeLabel.anchor.setTo(0.5, 0);
         let buttonMenuPos = this.game.add.button(this.game.width / 2, this.game.height / 2 + 184, 'buttonMenu', this.playGame, this);
         buttonMenuPos.anchor.setTo(0.5, 0);
+
+        let totalScore = score * 100 / this.game.totalElapsedSeconds() - timeGameStartedAt;
+        let scoreLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 200, 'Score: ' + totalScore, {
+           font: '32px Arial',
+           fill: '#909296'
+        });
+        scoreLabel.anchor.setTo(0.5, 0);
 
         this.space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
