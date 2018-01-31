@@ -32,7 +32,7 @@ gameOver.prototype = {
         let timePlayedMin = Math.floor(timePlayedRaw);
         let timePlayedSec = timePlayedRaw * 60 % 60;
         timePlayedSec = Math.floor(timePlayedSec);
-        let timeLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 136, 'Time: ' + timePlayedMin + ":" + ('0' + timePlayedSec).slice(-2) + ' Min', {
+        let timeLabel = this.game.add.text(this.game.width / 2, this.game.height / 2 + 136, 'Time: ' + timePlayedMin + ":" + ('0' + timePlayedSec).slice(-2) + ' min', {
             font: '32px Arial',
             fill: '#909296'
         });
