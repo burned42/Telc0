@@ -26,7 +26,9 @@ gameMenu.prototype = {
             "\n" +
             "\"Pixelland\" by Kevin MacLeod\nhttps://incompetech.com\n" +
             "\n" +
-            "License: Creative Commons: By Attribution 3.0\nhttp://creativecommons.org/licenses/by/3.0/";
+            "License: Creative Commons: By Attribution 3.0\nhttp://creativecommons.org/licenses/by/3.0/\n" + 
+            "\n" + 
+            'Github Repository: https://github.com/burned42/Telc0';
         let creditStyle = {font: "bold 19px Arial", fill: "#edff70"};
         this.creditText = this.game.add.text(this.game.width / 2 - 285, this.game.height / 2 - 285, credits, creditStyle);
         this.creditText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
